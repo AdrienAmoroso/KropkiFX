@@ -2,6 +2,7 @@ package com.kropkigame.view;
 
 import com.kropkigame.controller.GameController;
 import com.kropkigame.model.KropkiConstants;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 
 public class GameBoardPanel extends GridPane {
@@ -11,13 +12,14 @@ public class GameBoardPanel extends GridPane {
     public GameBoardPanel() {
         cells = new Cell[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
         this.setGridLinesVisible(true);
+        this.setAlignment(Pos.CENTER);
 
         initializeBoard();
+        attachEventHandlers();
     }
 
     public void setController(GameController controller) {
         this.controller = controller;
-        attachEventHandlers(); // Assuming you'd want to attach events after setting the controller
     }
 
     private void initializeBoard() {
@@ -40,6 +42,13 @@ public class GameBoardPanel extends GridPane {
     private void attachEventHandlers() {
         // If you need to attach specific events to cells that involve the controller
         // you would do it here. E.g. handling the selection logic.
+    }
+
+    @Override
+    public void resize(double width, double height) {
+        super.resize(width, height);
+        double cellSize = Math.min(width / KropkiConstants.GRID_SIZE, height / KropkiConstants.GRID_SIZE);
+        this.setPrefSize(cellSize * KropkiConstants.GRID_SIZE, cellSize * KropkiConstants.GRID_SIZE);
     }
 
     // ... Other methods for the GameBoardPanel
