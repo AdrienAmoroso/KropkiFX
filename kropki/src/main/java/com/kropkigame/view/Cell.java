@@ -1,6 +1,8 @@
 package com.kropkigame.view;
 
 import com.kropkigame.model.CellStatus;
+import com.kropkigame.model.KropkiConstants;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -22,8 +24,8 @@ public class Cell extends Pane {
     public Cell(int row, int col) {
         this.row = row;
         this.col = col;
-        this.setPrefWidth(40); // Adjust size as needed.
-        this.setPrefHeight(40);
+        this.setPrefWidth(KropkiConstants.CELL_SIZE); // Adjust size as needed.
+        this.setPrefHeight(KropkiConstants.CELL_SIZE);
 
         textDisplay = new Text();
         textDisplay.setLayoutX(this.getPrefWidth() / 2);
