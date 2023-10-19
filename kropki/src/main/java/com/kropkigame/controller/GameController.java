@@ -7,6 +7,7 @@ import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
 public class GameController {
@@ -30,10 +31,25 @@ public class GameController {
             }
         }
 
+        for (int i = 1; i <= KropkiConstants.GRID_SIZE; i++) {
+            final int number = i;
+            Button numberButton = (Button) view.lookup("#numberButton" + number);
+            if (numberButton != null) {
+                numberButton.setOnAction(event -> handleNumberButtonClicked(number));
+            }
+        }
+
         // TODO: Attach event handlers for the number buttons/choices below the grid
     }
 
-    private void handleCellSelected(MouseEvent event, Cell cell) {
+    public void handleNumberButtonClicked(int number) {
+        if (selectedCell != null) {
+            selectedCell.setNumber(number);
+            // ... additional logic if needed
+        }
+    }
+
+    public void handleCellSelected(MouseEvent event, Cell cell) {
         if (selectedCell != null) {
             // Reset the style of the previously selected cell (you can adjust the style as
             // desired)
@@ -122,6 +138,14 @@ public class GameController {
             view.getCell(row, i).setStyle(null);
             view.getCell(i, col).setStyle(null);
         }
+    }
+
+    public Cell getSelectedCell() {
+        return selectedCell;
+    }
+
+    public void setSelectedCell(Cell cell) {
+        this.selectedCell = cell;
     }
 
 }

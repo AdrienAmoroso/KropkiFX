@@ -1,6 +1,7 @@
 package com.kropkigame.view;
 
 import com.kropkigame.model.CellStatus;
+import com.kropkigame.controller.GameController;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -10,6 +11,7 @@ public class Cell extends Pane {
     private int number; // The correct number for this cell.
     private CellStatus status;
     private Text textDisplay;
+    private GameController controller;
 
     public Text getTextDisplay() {
         return this.textDisplay;
@@ -19,7 +21,7 @@ public class Cell extends Pane {
         this.textDisplay = textDisplay;
     }
 
-    public Cell(int row, int col) {
+    public Cell(int row, int col, GameController controller) {
         this.row = row;
         this.col = col;
         this.setPrefWidth(40); // Adjust size as needed.
@@ -28,17 +30,20 @@ public class Cell extends Pane {
         textDisplay = new Text();
         textDisplay.setLayoutX(this.getPrefWidth() / 2);
         textDisplay.setLayoutY(this.getPrefHeight() / 2);
+        this.controller = controller;
 
         this.getChildren().add(textDisplay);
         // TODO : add a background color to the cell
 
         // Event listener for selection
         this.setOnMouseClicked(event -> {
-            // Clear previous selection if any
-            // For now, we'll set a background color. Later, you can refine the selection
-            // indication.
+            if (controller != null) {
+                if (controller.getSelectedCell() != null) {
+                    controller.getSelectedCell().setStyle(null);
+                }
+                controller.setSelectedCell(this);
+            }
             this.setStyle("-fx-background-color: lightblue;");
-            // TODO: Handle the interaction with the list of numbers below the grid.
         });
     }
 
