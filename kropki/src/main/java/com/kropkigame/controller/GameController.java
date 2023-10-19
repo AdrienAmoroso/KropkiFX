@@ -7,75 +7,64 @@ import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
 
 import javafx.scene.control.Alert;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 public class GameController {
     private Puzzle model;
     private GameBoardPanel view;
+    private Cell selectedCell; // To track which cell is currently selected
 
     public GameController(Puzzle model, GameBoardPanel view) {
         this.model = model;
         this.view = view;
 
-        setupGameBoard();
         attachEventHandlers();
     }
 
-    private void setupGameBoard() {
-        // Since no numbers are given initially, there's no need to pre-populate any
-        // cells.
-        // Instead, we just ensure all cells are editable and empty, which is handled by
-        // the GameBoardPanel's initialization.
-    }
-
     private void attachEventHandlers() {
-        // Attach event handlers for each cell
+        // Attach mouse click event handlers for each cell
         for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
             for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
                 Cell cell = view.getCell(row, col);
-                cell.addEventHandler(KeyEvent.KEY_TYPED, event -> handleKeyTyped(event, cell));
-
+                cell.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> handleCellSelected(event, cell));
             }
         }
+
+        // TODO: Attach event handlers for the number buttons/choices below the grid
     }
 
-    private void handleKeyTyped(KeyEvent event, Cell cell) {
-        // Ensure the input is a character (KEY_RELEASED can fire for non-character
-        // keys)
-        if (!event.getCode().isDigitKey()) {
-            return;
+    private void handleCellSelected(MouseEvent event, Cell cell) {
+        if (selectedCell != null) {
+            // Reset the style of the previously selected cell (you can adjust the style as
+            // desired)
+            selectedCell.setStyle(null);
         }
 
-        String input = event.getCharacter();
-        int number;
-        if (!Character.isDigit(input.charAt(0)))
-            return;
+        cell.setStyle("-fx-border-color: blue;"); // Highlight the selected cell
+        selectedCell = cell; // Set the current cell as the selected cell
 
-        try {
-            number = Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            cell.setText(""); // Clear the cell if non-number is entered
-            return;
+        // TODO: When a number is chosen from the list/buttons below, call a method to
+        // set the number to this selected cell
+    }
+
+    public void handleNumberChosen(int number) {
+        if (selectedCell == null) {
+            return; // No cell is selected
         }
 
-        // Validate the number based on Kropki game logic
-        // Validate the number based on Kropki game logic
-        if (isValidMove(cell.getRow(), cell.getCol(), number)) {
-            cell.setText(String.valueOf(number));
-            cell.setStatus(CellStatus.CORRECT_GUESS);
-            resetHighlight(cell.getRow(), cell.getCol()); // Reset previous highlights
-            System.out.println("Is Valide");
-            // TODO: If all cells are filled correctly, declare win
+        if (isValidMove(selectedCell.getRow(), selectedCell.getCol(), number)) {
+            selectedCell.setNumber(number);
+            selectedCell.setStatus(CellStatus.CORRECT_GUESS);
+            resetHighlight(selectedCell.getRow(), selectedCell.getCol());
         } else {
-            cell.setStatus(CellStatus.WRONG_GUESS);
+            selectedCell.setStatus(CellStatus.WRONG_GUESS);
             showErrorMessage("Invalid Move!");
-            highlightRow(cell.getRow());
-            highlightColumn(cell.getCol());
-            System.out.println("Is False");
+            highlightRow(selectedCell.getRow());
+            highlightColumn(selectedCell.getCol());
         }
-
-        event.consume(); // Consume the event
     }
+
+    // ... [Rest of your methods remain unchanged] ...
 
     private boolean isValidMove(int row, int col, int number) {
         // Check row

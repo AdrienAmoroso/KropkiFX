@@ -4,17 +4,11 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}", 
-            "vmArgs": "--module-path \"C:\\javafx-sdk-21\\lib\" --add-modules javafx.controls,javafx.fxml"       
-        },
-        {
-            "type": "java",
             "name": "Main",
             "request": "launch",
-            "mainClass": "com.kropkigame.Main",
-            "projectName": "kropki"
-        }
+            "mainClass": "com.kropkigame.Main", 
+            "projectName": "kropki",
+            "vmArgs": "--module-path C:\\javafx-sdk-21\\lib --add-modules javafx.controls,javafx.fxml"       
+        },
     ]
 }
