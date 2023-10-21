@@ -1,4 +1,4 @@
-package com.kropkigame;
+package com.kropkigame.main;
 
 import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.GameBoardPanel;

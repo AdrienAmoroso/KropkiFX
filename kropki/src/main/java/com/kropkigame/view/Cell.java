@@ -1,9 +1,16 @@
 package com.kropkigame.view;
 
+import com.kropkigame.controller.GameController;
 import com.kropkigame.model.CellStatus;
 import com.kropkigame.model.KropkiConstants;
 
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class Cell extends Pane {
@@ -27,6 +34,8 @@ public class Cell extends Pane {
         this.col = col;
         this.setPrefWidth(KropkiConstants.CELL_SIZE); // Adjust size as needed.
         this.setPrefHeight(KropkiConstants.CELL_SIZE);
+        //this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
 
         textDisplay = new Text();
         textDisplay.setLayoutX(this.getPrefWidth() / 2);
