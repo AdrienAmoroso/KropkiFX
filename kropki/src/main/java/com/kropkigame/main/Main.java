@@ -19,7 +19,7 @@ public class Main extends Application {
         GameController controller = new GameController(model, view);
         view.setController(controller);
 
-        Scene scene = new Scene(view, 500, 600); // Adjust size as needed.
+        Scene scene = new Scene(view, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT); // Adjust size as needed.
 
         primaryStage.setTitle("Kropki Game");
         primaryStage.setScene(scene);
