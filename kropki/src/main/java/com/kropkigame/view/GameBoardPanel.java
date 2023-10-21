@@ -4,13 +4,20 @@ import com.kropkigame.controller.GameController;
 import com.kropkigame.model.KropkiConstants;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 
 public class GameBoardPanel extends GridPane {
     private Cell[][] cells;
     private GameController controller;
+    private HBox numberBar;
 
     public GameBoardPanel() {
+        super();
         cells = new Cell[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
+        numberBar = new HBox(10);
+
         this.setGridLinesVisible(true);
         this.setAlignment(Pos.CENTER);
 
@@ -25,10 +32,17 @@ public class GameBoardPanel extends GridPane {
     private void initializeBoard() {
         for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
             for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
-                cells[row][col] = new Cell(row, col);
-                this.add(cells[row][col], col, row); // Adding to the GridPane
+                cells[row][col] = new Cell(row, col, controller);
+                gridPane.add(cells[row][col], col, row);
             }
         }
+        return gridPane;
+    }
+
+    private void initializeBoard() {
+        // It seems the board is already initialized in createGridPane(), so this method
+        // might be redundant.
+        // You can decide to remove or modify this method based on your needs.
     }
 
     public Cell getCell(int row, int col) {
