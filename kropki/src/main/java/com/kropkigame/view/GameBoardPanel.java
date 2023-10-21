@@ -29,7 +29,6 @@ public class GameBoardPanel extends GridPane {
 
     public void setController(GameController controller) {
         this.controller = controller;
-        initializeBoard();
     }
 
     private void initializeNumberBar() {
@@ -70,12 +69,6 @@ public class GameBoardPanel extends GridPane {
             }
         }
         return gridPane;
-    }
-
-    private void initializeBoard() {
-        // It seems the board is already initialized in createGridPane(), so this method
-        // might be redundant.
-        // You can decide to remove or modify this method based on your needs.
     }
 
     public Cell getCell(int row, int col) {

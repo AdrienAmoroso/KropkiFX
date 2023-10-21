@@ -80,8 +80,6 @@ public class GameController {
         }
     }
 
-    // ... [Rest of your methods remain unchanged] ...
-
     private boolean isValidMove(int row, int col, int number) {
         // Check row
         for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
@@ -94,17 +92,6 @@ public class GameController {
         for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
             if (view.getCell(i, col).getNumber() == number) {
                 return false;
-            }
-        }
-
-        // Check 2x2 box
-        int boxStartRow = row - row % 2; // For 4x4, 2 is the size of the small box. For 9x9, you'd use 3.
-        int boxStartCol = col - col % 2;
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                if (view.getCell(boxStartRow + i, boxStartCol + j).getNumber() == number) {
-                    return false;
-                }
             }
         }
 

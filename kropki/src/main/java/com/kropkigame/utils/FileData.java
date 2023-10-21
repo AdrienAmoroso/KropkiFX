@@ -1,74 +1,82 @@
 package com.kropkigame.utils;
 
-import com.kropkigame.model.KropkiConstants;
-import com.kropkigame.view.Cell;
-import com.kropkigame.view.GameBoardPanel;
+import com.kropkigame.model.Puzzle;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileData {
-    public static GameBoardPanel createGridFromFile(String filePath) throws FileNotFoundException {
-        int[][] grid = new int[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
-        boolean[][] isGiven = new boolean[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
-        File file = new File(filePath);
-        Scanner scanner = new Scanner(file);
 
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (line.startsWith("Grille")) {
-                for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
-                    line = scanner.nextLine();
-                    String[] numbers = line.split(" ");
-                    for (int j = 0; j < KropkiConstants.GRID_SIZE; j++) {
-                        grid[i][j] = Integer.parseInt(numbers[j]);
-                    }
+        public static Puzzle createGridFromFile(String filePath) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            List<String> gridLines = new ArrayList<>();
+            List<String> blackDotLines = new ArrayList<>();
+            List<String> whiteDotLines = new ArrayList<>();
+            
+            boolean readingGrid = true;
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.equals("Points noirs :")) {
+                    readingGrid = false;
+                    continue;
+                } else if (line.equals("Points blancs :")) {
+                    readingGrid = false;
+                    continue;
                 }
-            } else if (line.startsWith("Points noirs")) {
-                while (scanner.hasNextLine()) {
-                    line = scanner.nextLine();
-                    if (line.startsWith("Points blancs")) {
-                        break;
-                    }
-                    String[] points = line.split(" - ");
-                    String[] point1 = points[0].split(",");
-                    String[] point2 = points[1].split(",");
-                    int row1 = Integer.parseInt(point1[0].substring(1)) - 1;
-                    int col1 = Integer.parseInt(point1[1].substring(0, point1[1].length() - 1)) - 1;
-                    int row2 = Integer.parseInt(point2[0].substring(1)) - 1;
-                    int col2 = Integer.parseInt(point2[1].substring(0, point2[1].length() - 1)) - 1;
-                    if (row1 == row2) {
-                        if (col1 < col2) {
-                            grid[row1][col1 + 1] = grid[row1][col2] + 1;
-                            isGiven[row1][col1 + 1] = true;
-                        } else {
-                            grid[row1][col2 + 1] = grid[row1][col1] + 1;
-                            isGiven[row1][col2 + 1] = true;
-                        }
-                    } else {
-                        if (row1 < row2) {
-                            grid[row1 + 1][col1] = grid[row2][col1] + 1;
-                            isGiven[row1 + 1][col1] = true;
-                        } else {
-                            grid[row2 + 1][col1] = grid[row1][col1] + 1;
-                            isGiven[row2 + 1][col1] = true;
-                        }
+                
+                if (readingGrid) {
+                    gridLines.add(line);
+                } else if (line.contains("-")) {
+                    if (line.contains("noirs")) {
+                        blackDotLines.add(line);
+                    } else if (line.contains("blancs")) {
+                        whiteDotLines.add(line);
                     }
                 }
             }
-        }
 
-        scanner.close();
+            reader.close();
 
-        GameBoardPanel gameBoardPanel = new GameBoardPanel();
-        for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
-            for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
-                Cell cell = gameBoardPanel.getCell(row, col);
-                cell.setNumber(grid[row][col]);
+            // Parse the grid values and create the puzzle
+            int gridSize = gridLines.size();
+            int[][] numbers = new int[gridSize][gridSize];
+
+            for (int i = 0; i < gridSize; i++) {
+                String[] values = gridLines.get(i).split(" ");
+                for (int j = 0; j < gridSize; j++) {
+                    numbers[i][j] = Integer.parseInt(values[j]);
+                }
             }
-        }
 
-        return gameBoardPanel;
+            Puzzle puzzle = new Puzzle(numbers);
+
+            // Process black dots and white dots
+            processBlackDots(puzzle, blackDotLines);
+            processWhiteDots(puzzle, whiteDotLines);
+
+            return puzzle;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
+    private static void processBlackDots(Puzzle puzzle, List<String> dotLines) {
+        for (String line : dotLines) {
+            // Parse the line and add black dots to the corresponding cells
+            // For example, parse (1,1) - (1,2) and add a black dot between those cells
+        }
+    }
+
+    private static void processWhiteDots(Puzzle puzzle, List<String> dotLines) {
+        for (String line : dotLines) {
+            // Parse the line and add white dots to the corresponding cells
+            // For example, parse (1,3) - (1,4) and add a white dot between those cells
+        }
+    }
+
 }
