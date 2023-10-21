@@ -1,7 +1,11 @@
 package com.kropkigame.main;
 
-import com.kropkigame.model.Puzzle;
+import com.kropkigame.model.*;
+import com.kropkigame.utils.FileData;
 import com.kropkigame.view.GameBoardPanel;
+
+import java.io.IOException;
+
 import com.kropkigame.controller.GameController;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -22,7 +26,8 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        System.out.println((FileData.parseKropkiGrid(KropkiConstants.FILE_PATH)));
         launch(args);
     }
 }
