@@ -4,13 +4,7 @@ import com.kropkigame.controller.GameController;
 import com.kropkigame.model.CellStatus;
 import com.kropkigame.model.KropkiConstants;
 
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class Cell extends Pane {
@@ -43,7 +37,6 @@ public class Cell extends Pane {
         this.controller = controller;
 
         this.getChildren().add(textDisplay);
-        // TODO : add a background color to the cell
 
         // Event listener for selection
         this.setOnMouseClicked(event -> {
@@ -88,11 +81,5 @@ public class Cell extends Pane {
 
     public void setStatus(CellStatus status) {
         this.status = status;
-    }
-
-    public boolean isValid() {
-        // TODO: Check if the number entered is valid according to the rules of the
-        // Kropki game
-        return false;
     }
 }
