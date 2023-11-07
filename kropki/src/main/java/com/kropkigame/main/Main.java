@@ -9,7 +9,6 @@ import java.io.IOException;
 import com.kropkigame.controller.GameController;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -18,15 +17,13 @@ public class Main extends Application {
         primaryStage.setTitle("Kropki Game");
         
         Puzzle model = new Puzzle();
-        GameController gameController = new GameController(model, new GameBoardPanel());
+        GameBoardPanel view = new GameBoardPanel();
+        GameController gameController = new GameController(model, view);
 
         // Initialise le jeu
         gameController.startGame();
 
-        BorderPane root = new BorderPane();
-        root.setCenter(gameController.getView());
-
-        Scene scene = new Scene(root, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
+        Scene scene = new Scene(view, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
 
         primaryStage.setScene(scene);
 

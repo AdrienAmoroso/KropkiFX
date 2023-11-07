@@ -1,34 +1,48 @@
 package com.kropkigame.view;
 
 import com.kropkigame.model.KropkiConstants;
+
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
-public class GameBoardPanel extends GridPane {
+public class GameBoardPanel extends BorderPane {
     private Cell[][] cells;
     private HBox numberBar;
     private GridPane gridPane;
+    private StackPane stackPane;
 
     public GameBoardPanel() {
-        super();
         this.cells = new Cell[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
         this.gridPane = createGridPane();
-        this.numberBar = new HBox(10);
+        this.numberBar = createNumberBar();
 
-        this.setAlignment(Pos.CENTER);
-        initializeNumberBar();
-        this.add(gridPane, 0, 0);
-        this.add(numberBar, 0, 1, 2, 1);
-
+        this.setCenter(gridPane);
+        this.setBottom(numberBar);
     }
 
-    private void initializeNumberBar() {
+    private GridPane createGridPane() {
+        this.gridPane = new GridPane();
+        gridPane.setGridLinesVisible(true);
+        gridPane.setAlignment(Pos.CENTER);
+
+        for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
+            for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
+                cells[row][col] = new Cell(row, col);
+                gridPane.add(cells[row][col], col, row);
+            }
+        }
+        return gridPane;
+    }
+
+    private HBox createNumberBar() {
+        this.numberBar = new HBox(10);
         // Create a label for the number bar
-        Label label = new Label("Select a number:");
-        label.setStyle("-fx-font-size: 14pt; -fx-font-weight: bold;");
+        //Label label = new Label("Select a number:");
+        //label.setStyle("-fx-font-size: 14pt; -fx-font-weight: bold;");
 
         // Create a button for each number
         for (int j = 1; j <= KropkiConstants.GRID_SIZE; j++) {
@@ -48,20 +62,9 @@ public class GameBoardPanel extends GridPane {
         numberBar.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-padding: 10px;");
 
         // Add the label and the number buttons to the number bar
-        numberBar.getChildren().add(0, label);
-    }
+        //numberBar.getChildren().add(0, label);
 
-    private GridPane createGridPane() {
-        GridPane gridPane = new GridPane();
-        for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
-            for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
-                cells[row][col] = new Cell(row, col);
-                gridPane.add(cells[row][col], col, row);
-                gridPane.setGridLinesVisible(true);
-                gridPane.setAlignment(Pos.CENTER);
-            }
-        }
-        return gridPane;
+        return numberBar;
     }
 
     public Cell getCell(int row, int col) {
@@ -82,5 +85,9 @@ public class GameBoardPanel extends GridPane {
 
     public GridPane getGridPane() {
         return this.gridPane;
+    }
+
+    public HBox getNumberBar() {
+        return this.numberBar;
     }
 }

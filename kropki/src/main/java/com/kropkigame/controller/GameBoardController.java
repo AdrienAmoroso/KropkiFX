@@ -9,7 +9,6 @@ import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
 
 import javafx.application.Platform;
-import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -95,6 +94,8 @@ public class GameBoardController {
         Platform.runLater(() -> {
             double gridWidth = view.getGridPane().getWidth();
             double gridHeight = view.getGridPane().getHeight();
+
+            double radius = 5; // Définissez la taille du point
             
             System.out.println("gridWidth: " + gridWidth + " gridHeight: " + gridHeight);
 
@@ -117,7 +118,6 @@ public class GameBoardController {
 
                 System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
                 System.out.println("centerX: " + centerX + " centerY: " + centerY);
-                double radius = 5; // Définissez la taille du point
 
                 Circle point = new Circle(centerX, centerY, radius);
 
@@ -125,8 +125,8 @@ public class GameBoardController {
                     point.setFill(Color.BLACK); // Couleur de remplissage du point
                     point.setStroke(Color.BLACK); // Couleur de la bordure du point
                 } else if (edgePoint.getType().equals("white")) {
-                    point.setFill(Color.WHITE); // Couleur de remplissage du point
-                    point.setStroke(Color.BLACK); // Couleur de la bordure du point
+                    point.setFill(Color.WHITE);
+                    point.setStroke(Color.BLACK);
                 }
 
                 // Ajoutez le cercle au panneau ou à la vue

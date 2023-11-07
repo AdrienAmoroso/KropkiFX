@@ -1,7 +1,6 @@
 package com.kropkigame.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Puzzle {
     private int[][] numbers;
