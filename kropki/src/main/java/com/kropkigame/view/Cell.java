@@ -1,7 +1,5 @@
 package com.kropkigame.view;
 
-import com.kropkigame.controller.GameController;
-import com.kropkigame.model.CellStatus;
 import com.kropkigame.model.KropkiConstants;
 
 import javafx.scene.layout.Pane;
@@ -11,9 +9,7 @@ public class Cell extends Pane {
     private int row;
     private int col;
     private int number; // The correct number for this cell.
-    private CellStatus status;
     private Text textDisplay;
-    private GameController controller;
 
     public Text getTextDisplay() {
         return this.textDisplay;
@@ -23,31 +19,17 @@ public class Cell extends Pane {
         this.textDisplay = textDisplay;
     }
 
-    public Cell(int row, int col, GameController controller) {
+    public Cell(int row, int col) {
         this.row = row;
         this.col = col;
-        this.setPrefWidth(KropkiConstants.CELL_SIZE); // Adjust size as needed.
-        this.setPrefHeight(KropkiConstants.CELL_SIZE);
-        //this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-
+        this.setPrefWidth(KropkiConstants.CELL_SIZE);
+        this.setPrefHeight(KropkiConstants.CELL_SIZE); 
 
         textDisplay = new Text();
         textDisplay.setLayoutX(this.getPrefWidth() / 2);
         textDisplay.setLayoutY(this.getPrefHeight() / 2);
-        this.controller = controller;
 
         this.getChildren().add(textDisplay);
-
-        // Event listener for selection
-        this.setOnMouseClicked(event -> {
-            if (controller != null) {
-                if (controller.getSelectedCell() != null) {
-                    controller.getSelectedCell().setStyle(null);
-                }
-                controller.setSelectedCell(this);
-            }
-            this.setStyle("-fx-background-color: lightblue;");
-        });
     }
 
     public int getRow() {
@@ -73,13 +55,5 @@ public class Cell extends Pane {
     public void setNumber(int number) {
         this.number = number;
         textDisplay.setText(String.valueOf(number));
-    }
-
-    public CellStatus getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(CellStatus status) {
-        this.status = status;
     }
 }

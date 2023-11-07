@@ -1,6 +1,5 @@
 package com.kropkigame.view;
 
-import com.kropkigame.controller.GameController;
 import com.kropkigame.model.KropkiConstants;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Pos;
@@ -10,25 +9,20 @@ import javafx.scene.layout.HBox;
 
 public class GameBoardPanel extends GridPane {
     private Cell[][] cells;
-    private GameController controller;
     private HBox numberBar;
+    private GridPane gridPane;
 
     public GameBoardPanel() {
         super();
-        cells = new Cell[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
-        GridPane gridPane = createGridPane();
-        numberBar = new HBox(10);
+        this.cells = new Cell[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
+        this.gridPane = createGridPane();
+        this.numberBar = new HBox(10);
 
-        //this.setGridLinesVisible(true);
         this.setAlignment(Pos.CENTER);
         initializeNumberBar();
         this.add(gridPane, 0, 0);
         this.add(numberBar, 0, 1, 2, 1);
 
-    }
-
-    public void setController(GameController controller) {
-        this.controller = controller;
     }
 
     private void initializeNumberBar() {
@@ -41,7 +35,6 @@ public class GameBoardPanel extends GridPane {
             final int number = j;
             Button numberButton = new Button(String.valueOf(number));
             numberButton.setId("numberButton" + number); // Set ID for easier lookup
-            numberButton.setOnAction(event -> controller.handleNumberButtonClicked(number));
             numberButton.setStyle("-fx-font-size: 14pt; -fx-pref-width: 50px; -fx-pref-height: 50px;");
 
             // Add the button to the number bar
@@ -62,7 +55,7 @@ public class GameBoardPanel extends GridPane {
         GridPane gridPane = new GridPane();
         for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
             for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
-                cells[row][col] = new Cell(row, col, controller);
+                cells[row][col] = new Cell(row, col);
                 gridPane.add(cells[row][col], col, row);
                 gridPane.setGridLinesVisible(true);
                 gridPane.setAlignment(Pos.CENTER);
@@ -72,10 +65,22 @@ public class GameBoardPanel extends GridPane {
     }
 
     public Cell getCell(int row, int col) {
-        if (row >= 0 && row < KropkiConstants.GRID_SIZE && col >= 0 && col < KropkiConstants.GRID_SIZE) {
-            return cells[row][col];
-        } else {
+        if (row < 0 || row >= KropkiConstants.GRID_SIZE || col < 0 || col >= KropkiConstants.GRID_SIZE) {
             throw new IllegalArgumentException("Invalid row or column index");
         }
+
+        for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
+            for (int j = 0; j < KropkiConstants.GRID_SIZE; j++) {
+                if (cells[i][j].getRow() == row && cells[i][j].getCol() == col) {
+                    return cells[i][j];
+                }
+            }
+        }
+        
+        return null;
+    }
+
+    public GridPane getGridPane() {
+        return this.gridPane;
     }
 }

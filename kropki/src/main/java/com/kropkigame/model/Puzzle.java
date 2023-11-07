@@ -1,7 +1,11 @@
 package com.kropkigame.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Puzzle {
     private int[][] numbers;
+    private ArrayList<EdgePoint> edgePoints;
 
     public Puzzle() {
         // Initialize an empty Kropki grid problem:
@@ -13,6 +17,9 @@ public class Puzzle {
                 numbers[i][j] = 0;
             }
         }
+
+        // Initialize an empty list of edge points
+        this.edgePoints = new ArrayList<EdgePoint>();
     }
 
     public Puzzle(int[][] numbers) {
@@ -20,9 +27,13 @@ public class Puzzle {
     }
 
     public int getNumber(int row, int col) {
+        if (row < 0 || row >= KropkiConstants.GRID_SIZE || col < 0 || col >= KropkiConstants.GRID_SIZE) {
+            throw new IndexOutOfBoundsException("Les indices ne doivent pas dépasser la taille de la grille.");
+        }
+        
         return this.numbers[row][col];
     }
-
+    
     public int[][] getNumbers() {
         int[][] numbersList = this.numbers.clone();
         return numbersList;
@@ -30,6 +41,20 @@ public class Puzzle {
 
     public void setNumbers(int[][] numbers) {
         this.numbers = numbers;
+    }
+
+    public ArrayList<EdgePoint> getEdgePoints() {
+        return this.edgePoints;
+    }
+
+    public void setEdgePoints(ArrayList<EdgePoint> edgePoints) {
+        this.edgePoints = edgePoints;
+    }
+
+    public void addEdgePoint(EdgePoint edgePoint) {
+        if (!edgePoints.contains(edgePoint)) {
+            edgePoints.add(edgePoint);
+        }
     }
 
     @Override
