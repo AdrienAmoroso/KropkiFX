@@ -19,9 +19,14 @@ public class GameBoardPanel extends BorderPane {
         this.cells = new Cell[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
         this.gridPane = createGridPane();
         this.numberBar = createNumberBar();
+        this.stackPane = new StackPane();
 
         this.setCenter(gridPane);
         this.setBottom(numberBar);
+
+        this.stackPane.getChildren().add(this.gridPane);
+
+        this.setCenter(stackPane);
     }
 
     private GridPane createGridPane() {
@@ -65,8 +70,8 @@ public class GameBoardPanel extends BorderPane {
         //numberBar.getChildren().add(0, label);
 
         return numberBar;
-    }
-
+    }  
+    
     public Cell getCell(int row, int col) {
         if (row < 0 || row >= KropkiConstants.GRID_SIZE || col < 0 || col >= KropkiConstants.GRID_SIZE) {
             throw new IllegalArgumentException("Invalid row or column index");
@@ -89,5 +94,9 @@ public class GameBoardPanel extends BorderPane {
 
     public HBox getNumberBar() {
         return this.numberBar;
+    }
+
+    public StackPane getStackPane() {
+        return this.stackPane;
     }
 }

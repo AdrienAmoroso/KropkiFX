@@ -9,6 +9,7 @@ import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
 
 import javafx.application.Platform;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -100,21 +101,29 @@ public class GameBoardController {
             System.out.println("gridWidth: " + gridWidth + " gridHeight: " + gridHeight);
 
             for (EdgePoint edgePoint : edgePoints) {
-                int sourceRow = edgePoint.getSourceRow();
-                int sourceCol = edgePoint.getSourceCol();
-                int targetRow = edgePoint.getTargetRow();
-                int targetCol = edgePoint.getTargetCol();
+                int sourceRow = edgePoint.getSourceRow()-1;
+                int sourceCol = edgePoint.getSourceCol()-1;
+                int targetRow = edgePoint.getTargetRow()-1;
+                int targetCol = edgePoint.getTargetCol()-1;
 
                 Cell sourceCell = view.getCell(sourceRow, sourceCol);
                 Cell targetCell = view.getCell(targetRow, targetCol);
 
-                double x1 = (sourceCell.getCol()) * (gridWidth / KropkiConstants.GRID_SIZE);
-                double y1 = (sourceCell.getRow()) * (gridHeight / KropkiConstants.GRID_SIZE);
-                double x2 = (targetCell.getCol()) * (gridWidth / KropkiConstants.GRID_SIZE);
-                double y2 = (targetCell.getRow()) * (gridHeight / KropkiConstants.GRID_SIZE);
+                Bounds sourceBounds = sourceCell.localToScene(sourceCell.getBoundsInLocal());
+                Bounds targetBounds = targetCell.localToScene(targetCell.getBoundsInLocal());
 
+                System.out.println("sourceBounds: " + sourceBounds);
+                System.out.println("targetBounds: " + targetBounds);
+
+                double x1 = (sourceBounds.getMinX() + sourceBounds.getMaxX()) / 2;
+                double y1 = (sourceBounds.getMinY() + sourceBounds.getMaxY()) / 2;
+                double x2 = (targetBounds.getMinX() + targetBounds.getMaxX()) / 2;
+                double y2 = (targetBounds.getMinY() + targetBounds.getMaxY()) / 2;
+
+                // Supposons que 'cell' est votre instance de Cell
                 double centerX = (x1 + x2) / 2;
                 double centerY = (y1 + y2) / 2;
+
 
                 System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
                 System.out.println("centerX: " + centerX + " centerY: " + centerY);
@@ -129,8 +138,8 @@ public class GameBoardController {
                     point.setStroke(Color.BLACK);
                 }
 
-                // Ajoutez le cercle au panneau ou à la vue
-                view.getGridPane().getChildren().add(point);
+                // Ajoutez le cercle à la vue
+                view.getChildren().add(point);
             }
         });
     }
