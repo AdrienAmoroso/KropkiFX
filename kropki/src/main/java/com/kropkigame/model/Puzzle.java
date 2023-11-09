@@ -23,6 +23,12 @@ public class Puzzle {
 
     public Puzzle(int[][] numbers) {
         this.numbers = numbers;
+        this.edgePoints = new ArrayList<EdgePoint>();
+    }
+
+    public Puzzle(int[][] numbers, ArrayList<EdgePoint> edgePoints) {
+        this.numbers = numbers;
+        this.edgePoints = edgePoints;
     }
 
     public int getNumber(int row, int col) {
@@ -58,7 +64,7 @@ public class Puzzle {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder("Puzzle Numbers:\n");
         for (int row = 0; row < this.numbers.length; row++) {
             for (int col = 0; col < this.numbers[0].length; col++) {
                 builder.append(this.numbers[row][col]);
@@ -68,6 +74,12 @@ public class Puzzle {
             }
             builder.append("\n");
         }
+
+        builder.append("Edge Points:\n");
+        for (EdgePoint edgePoint : this.edgePoints) {
+            builder.append(edgePoint.toString()).append("\n");
+        }
+
         return builder.toString();
     }
 }

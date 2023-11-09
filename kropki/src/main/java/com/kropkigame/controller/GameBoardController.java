@@ -70,15 +70,6 @@ public class GameBoardController {
                 numberButton.setOnAction(event -> handleNumberButtonClicked(number));
             }
         }
-
-        // Ajoute des points à la liste edgePoints de la classe Puzzle
-        EdgePoint edgePoint1 = new EdgePoint(1, 1, 1, 2, "white");
-        EdgePoint edgePoint2 = new EdgePoint(2, 2, 3, 2, "black");
-        model.addEdgePoint(edgePoint1);
-        model.addEdgePoint(edgePoint2);
-
-        // Affiche les points à l'écran
-        drawEdgePoints(model.getEdgePoints());
     }
 
     public void handleNumberButtonClicked(int number) {
@@ -93,13 +84,8 @@ public class GameBoardController {
 
     public void drawEdgePoints(ArrayList<EdgePoint> edgePoints) {
         Platform.runLater(() -> {
-            double gridWidth = view.getGridPane().getWidth();
-            double gridHeight = view.getGridPane().getHeight();
-
             double radius = 5; // Définissez la taille du point
             
-            System.out.println("gridWidth: " + gridWidth + " gridHeight: " + gridHeight);
-
             for (EdgePoint edgePoint : edgePoints) {
                 int sourceRow = edgePoint.getSourceRow()-1;
                 int sourceCol = edgePoint.getSourceCol()-1;
@@ -112,9 +98,6 @@ public class GameBoardController {
                 Bounds sourceBounds = sourceCell.localToScene(sourceCell.getBoundsInLocal());
                 Bounds targetBounds = targetCell.localToScene(targetCell.getBoundsInLocal());
 
-                System.out.println("sourceBounds: " + sourceBounds);
-                System.out.println("targetBounds: " + targetBounds);
-
                 double x1 = (sourceBounds.getMinX() + sourceBounds.getMaxX()) / 2;
                 double y1 = (sourceBounds.getMinY() + sourceBounds.getMaxY()) / 2;
                 double x2 = (targetBounds.getMinX() + targetBounds.getMaxX()) / 2;
@@ -123,10 +106,6 @@ public class GameBoardController {
                 // Supposons que 'cell' est votre instance de Cell
                 double centerX = (x1 + x2) / 2;
                 double centerY = (y1 + y2) / 2;
-
-
-                System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
-                System.out.println("centerX: " + centerX + " centerY: " + centerY);
 
                 Circle point = new Circle(centerX, centerY, radius);
 

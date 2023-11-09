@@ -16,12 +16,16 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Kropki Game");
         
-        Puzzle model = new Puzzle();
+        Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH);
         GameBoardPanel view = new GameBoardPanel();
         GameController gameController = new GameController(model, view);
 
         // Initialise le jeu
         gameController.startGame();
+        gameController.getGameBoardController().drawEdgePoints(model.getEdgePoints());
+
+        System.out.println((model));
+
 
         Scene scene = new Scene(view, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
 
@@ -31,7 +35,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println((FileData.parseKropkiGrid(KropkiConstants.FILE_PATH)));
         launch(args);
     }
 }
