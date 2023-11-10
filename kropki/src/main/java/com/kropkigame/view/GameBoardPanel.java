@@ -7,26 +7,19 @@ import javafx.scene.layout.GridPane;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 
 public class GameBoardPanel extends BorderPane {
     private Cell[][] cells;
     private HBox numberBar;
     private GridPane gridPane;
-    private StackPane stackPane;
 
     public GameBoardPanel() {
         this.cells = new Cell[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
         this.gridPane = createGridPane();
         this.numberBar = createNumberBar();
-        this.stackPane = new StackPane();
 
         this.setCenter(gridPane);
         this.setBottom(numberBar);
-
-        this.stackPane.getChildren().add(this.gridPane);
-
-        this.setCenter(stackPane);
     }
 
     private GridPane createGridPane() {
@@ -94,9 +87,5 @@ public class GameBoardPanel extends BorderPane {
 
     public HBox getNumberBar() {
         return this.numberBar;
-    }
-
-    public StackPane getStackPane() {
-        return this.stackPane;
     }
 }

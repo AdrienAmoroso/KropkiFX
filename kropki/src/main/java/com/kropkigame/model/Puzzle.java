@@ -62,6 +62,30 @@ public class Puzzle {
         }
     }
 
+    public boolean existsBlackEdgePoint(int sourceRow, int sourceCol, int targetRow, int targetCol) {
+        for (EdgePoint edgePoint : edgePoints) {
+            if (edgePoint.getType().equals("black")) {
+                if (edgePoint.getSourceRow() == sourceRow && edgePoint.getSourceCol() == sourceCol
+                        && edgePoint.getTargetRow() == targetRow && edgePoint.getTargetCol() == targetCol) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean existsWhiteEdgePoint(int sourceRow, int sourceCol, int targetRow, int targetCol) {
+        for (EdgePoint edgePoint : edgePoints) {
+            if (edgePoint.getType().equals("white")) {
+                if (edgePoint.getSourceRow() == sourceRow && edgePoint.getSourceCol() == sourceCol
+                        && edgePoint.getTargetRow() == targetRow && edgePoint.getTargetCol() == targetCol) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Puzzle Numbers:\n");

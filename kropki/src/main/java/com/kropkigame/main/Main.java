@@ -26,10 +26,11 @@ public class Main extends Application {
 
         System.out.println((model));
 
-
         Scene scene = new Scene(view, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
 
         primaryStage.setScene(scene);
+
+        gameController.getGameBoardController().addResizeListener(primaryStage);
 
         primaryStage.show();
     }

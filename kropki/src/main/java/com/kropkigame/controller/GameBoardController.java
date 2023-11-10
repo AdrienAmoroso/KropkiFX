@@ -9,11 +9,13 @@ import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 public class GameBoardController {
     private Puzzle model;
@@ -84,7 +86,8 @@ public class GameBoardController {
 
     public void drawEdgePoints(ArrayList<EdgePoint> edgePoints) {
         Platform.runLater(() -> {
-            double radius = 5; // Définissez la taille du point
+            double radius = 5; // Définit la taille du point
+            clearEdgePoints(); // Efface les anciens points
             
             for (EdgePoint edgePoint : edgePoints) {
                 int sourceRow = edgePoint.getSourceRow()-1;
@@ -103,7 +106,6 @@ public class GameBoardController {
                 double x2 = (targetBounds.getMinX() + targetBounds.getMaxX()) / 2;
                 double y2 = (targetBounds.getMinY() + targetBounds.getMaxY()) / 2;
 
-                // Supposons que 'cell' est votre instance de Cell
                 double centerX = (x1 + x2) / 2;
                 double centerY = (y1 + y2) / 2;
 
@@ -122,8 +124,6 @@ public class GameBoardController {
             }
         });
     }
-
-    
 
     public void updateGameBoard() {
         for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
@@ -147,5 +147,22 @@ public class GameBoardController {
         // Update the view to reflect the reset game
         initializeGameBoard();
     }
+
+    public void addResizeListener(Stage stage) {
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> {
+            // Redessinez les points lorsqu'il y a un changement de taille de la scène
+            drawEdgePoints(model.getEdgePoints());
+        };
+
+        // Ajoutez des écouteurs pour la largeur et la hauteur de la scène
+        stage.widthProperty().addListener(stageSizeListener);
+        stage.heightProperty().addListener(stageSizeListener);
+    }
+
+    public void clearEdgePoints() {
+        // Supprimez tous les cercles de la vue
+        view.getChildren().removeIf(node -> node instanceof Circle);
+    }    
+
 }
 

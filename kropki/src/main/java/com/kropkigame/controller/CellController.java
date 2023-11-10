@@ -1,5 +1,6 @@
 package com.kropkigame.controller;
 
+import com.kropkigame.model.EdgePoint;
 import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.Cell;
@@ -73,13 +74,133 @@ public class CellController {
         selectedCell = cell; // Set the current cell as the selected cell
     }
 
-    public void setNumber(Cell cell, int number) {
-        cell.setNumber(number);
-    }
-
     public void handleNumberButtonClicked(int number) {
         if (selectedCell != null) {
             selectedCell.setNumber(number);
+            checkKropkiSudokuRules(selectedCell);
         }
+    }
+
+    public boolean checkKropkiSudokuRules(Cell cell) {
+        int row = cell.getRow();
+        int col = cell.getCol();
+        int number = cell.getNumber();
+    
+        if (number != 0) { // On vérifie uniquement si la cellule a un nombre différent de 0
+            if (!checkNumberInRow(row, number)) {
+                highlightRow(cell);
+            }
+    
+            if (!checkNumberInCol(col, number)) {
+                highlightCol(cell);
+            }
+    
+            if (!checkBlackDotRule(row, col, number) || !checkWhiteDotRule(row, col, number)) {
+                dotError(cell);
+            }
+        }
+    
+        return true;
+    }
+
+    private boolean checkNumberInRow(int row, int number) {
+        for (int j = 0; j < KropkiConstants.GRID_SIZE; j++) {
+            if (view.getCell(row, j).getNumber() == number && number != 0 && view.getCell(row, j).getNumber() != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkNumberInCol(int col, int number) {
+        for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
+            if (view.getCell(i, col).getNumber() == number && number != 0 && view.getCell(i, col).getNumber() != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkBlackDotRule(int row, int col, int number) {
+        boolean ruleChecked = false;
+
+        if (number != 0) {
+            for (EdgePoint edgePoint : model.getEdgePoints()) {
+                if (edgePoint.getType().equals("black")) {
+                    if (edgePoint.getSourceRow() == row && edgePoint.getSourceCol() == col) {
+                        Cell otherCell = view.getCell(edgePoint.getTargetRow(), edgePoint.getTargetCol());
+                        int otherNumber = otherCell.getNumber();
+    
+                        if (otherNumber != 0 && (number == otherNumber * 2 || otherNumber == number * 2)) {
+                            ruleChecked = true;
+                        }
+                    }
+    
+                    if (edgePoint.getTargetRow() == row && edgePoint.getTargetCol() == col) {
+                        Cell otherCell = view.getCell(edgePoint.getSourceRow(), edgePoint.getSourceCol());
+                        int otherNumber = otherCell.getNumber();
+    
+                        if (otherNumber != 0 && (number == otherNumber * 2 || otherNumber == number * 2)) {
+                            ruleChecked = true;
+                        }
+                    }
+                }
+            
+            }
+        }
+    
+        return ruleChecked;
+    }
+    
+    private boolean checkWhiteDotRule(int row, int col, int number) {
+        boolean ruleChecked = false;
+
+        if (number != 0) {
+            for (EdgePoint edgePoint : model.getEdgePoints()) {
+                if (edgePoint.getType().equals("white")) {
+                    if (edgePoint.getSourceRow() == row && edgePoint.getSourceCol() == col) {
+                        Cell otherCell = view.getCell(edgePoint.getTargetRow(), edgePoint.getTargetCol());
+                        int otherNumber = otherCell.getNumber();
+    
+                        if (otherNumber != 0 && (Math.abs(number - otherNumber) != 1)) {
+                            ruleChecked = true;
+                        }
+                    }
+    
+                    if (edgePoint.getTargetRow() == row && edgePoint.getTargetCol() == col) {
+                        Cell otherCell = view.getCell(edgePoint.getSourceRow(), edgePoint.getSourceCol());
+                        int otherNumber = otherCell.getNumber();
+    
+                        if (otherNumber != 0 && (Math.abs(number - otherNumber) != 1)) {
+                            ruleChecked = true;
+                        }
+                    }
+                }
+            }
+        }
+    
+        return ruleChecked;
+    }
+
+    private void highlightRow(Cell cell) {
+        int row = cell.getRow();
+        
+        for (int j = 0; j < KropkiConstants.GRID_SIZE; j++) {
+            Cell adjacentCell = view.getCell(row, j);
+            adjacentCell.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        }
+    }
+
+    private void highlightCol(Cell cell) {
+        int col = cell.getCol();
+        
+        for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
+            Cell adjacentCell = view.getCell(i, col);
+            adjacentCell.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        }
+    }
+
+    private void dotError(Cell cell) {
+        cell.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
     }
 }
