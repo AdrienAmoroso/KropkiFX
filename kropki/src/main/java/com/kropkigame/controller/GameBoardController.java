@@ -56,9 +56,8 @@ public class GameBoardController {
         for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
             for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
                 Cell cell = view.getCell(row, col);
-                // Configure the cell's appearance and properties based on the model
-                int number = model.getNumber(row, col);
-                cell.setNumber(number);
+                // Configure the cell's appearance and properties
+                cell.setNumber(0);
                 cell.getTextDisplay().setText("");
                 cell.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> handleCellSelection(event, cell));
             }
