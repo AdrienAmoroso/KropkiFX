@@ -59,7 +59,7 @@ public class CellController {
             selectedCell.setNumber(number);
         }
 
-        updateGameBoard();
+        //updateGameBoard();
     }
 
     public void updateGameBoard() {

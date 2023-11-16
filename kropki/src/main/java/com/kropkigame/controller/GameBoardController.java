@@ -11,6 +11,8 @@ import com.kropkigame.view.GameBoardPanel;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Bounds;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -76,6 +78,14 @@ public class GameBoardController {
     public void handleNumberButtonClicked(int number) {
         // Delegate number button click to the CellController
         cellController.handleNumberButtonClicked(number);
+        
+        if (isGridFull()) {
+            if (checkGameStatus()) {
+                showVictoryMessage();
+            } else {
+                showIncorrectGridMessage();
+            }
+        }
     }
 
     public void handleCellSelection(MouseEvent event, Cell cell) {
@@ -124,7 +134,7 @@ public class GameBoardController {
         });
     }
 
-    public void updateGameBoard() {
+    /*public void updateGameBoard() {
         for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
             for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
                 Cell cell = view.getCell(row, col);
@@ -134,13 +144,38 @@ public class GameBoardController {
                 // Add any other update logic here
             }
         }
+    }*/
+
+    public boolean checkGameStatus() {
+        for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
+            for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
+                Cell cell = view.getCell(row, col);
+                int number = cell.getNumber();
+    
+                if (number != model.getNumber(row, col)) {
+                    return false; // Si une cellule ne correspond pas, la partie n'est pas gagnée
+                }
+            }
+        }
+    
+        return true; // Toutes les cellules correspondent, la partie est gagnée
     }
 
-    public void checkGameStatus() {
-        // Implement the logic to check if the game is over based on the rules
-        // Update the view with the game status (victory, defeat, etc.)
+    public boolean isGridFull() {
+        for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
+            for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
+                Cell cell = view.getCell(row, col);
+                int number = cell.getNumber();
+    
+                if (number == 0) {
+                    return false; // Si une cellule est vide, la grille n'est pas pleine
+                }
+            }
+        }
+    
+        return true; // Toutes les cellules sont remplies, la grille est pleine
     }
-
+    
     public void resetGame() {
         // Reset the model to start a new game
         // Update the view to reflect the reset game
@@ -163,5 +198,24 @@ public class GameBoardController {
         view.getChildren().removeIf(node -> node instanceof Circle);
     }    
 
+    public void showVictoryMessage() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+
+        alert.setTitle("Victoire !");
+        alert.setHeaderText(null);
+        alert.setContentText("Félicitations ! Vous avez résolu le puzzle.");
+
+        alert.showAndWait();
+    }
+
+    public void showIncorrectGridMessage() {
+        Alert alert = new Alert(AlertType.ERROR);
+
+        alert.setTitle("Incorrect !");
+        alert.setHeaderText(null);
+        alert.setContentText("Le puzzle n'est pas résolu.");
+
+        alert.showAndWait();
+    }
 }
 

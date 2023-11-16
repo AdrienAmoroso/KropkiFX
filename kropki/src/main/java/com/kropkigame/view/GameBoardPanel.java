@@ -38,16 +38,13 @@ public class GameBoardPanel extends BorderPane {
 
     private HBox createNumberBar() {
         this.numberBar = new HBox(10);
-        // Create a label for the number bar
-        //Label label = new Label("Select a number:");
-        //label.setStyle("-fx-font-size: 14pt; -fx-font-weight: bold;");
 
         // Create a button for each number
         for (int j = 1; j <= KropkiConstants.GRID_SIZE; j++) {
             final int number = j;
             Button numberButton = new Button(String.valueOf(number));
             numberButton.setId("numberButton" + number); // Set ID for easier lookup
-            numberButton.setStyle("-fx-font-size: 14pt; -fx-pref-width: 50px; -fx-pref-height: 50px;");
+            numberButton.setStyle(KropkiConstants.NUMBER_BUTTON_STYLE);
 
             // Add the button to the number bar
             numberBar.getChildren().add(numberButton);
@@ -58,9 +55,6 @@ public class GameBoardPanel extends BorderPane {
 
         // Set a border around the number bar
         numberBar.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-padding: 10px;");
-
-        // Add the label and the number buttons to the number bar
-        //numberBar.getChildren().add(0, label);
 
         return numberBar;
     }  

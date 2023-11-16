@@ -26,8 +26,8 @@ public class Cell extends Pane {
         this.setPrefHeight(KropkiConstants.CELL_SIZE); 
 
         textDisplay = new Text();
-        textDisplay.setLayoutX(this.getPrefWidth() / 2);
-        textDisplay.setLayoutY(this.getPrefHeight() / 2);
+        /*textDisplay.setLayoutX(this.getPrefWidth() / 2);
+        textDisplay.setLayoutY(this.getPrefHeight() / 2);*/
 
         this.getChildren().add(textDisplay);
     }
@@ -55,5 +55,11 @@ public class Cell extends Pane {
     public void setNumber(int number) {
         this.number = number;
         textDisplay.setText(String.valueOf(number));
+        textDisplay.setStyle(KropkiConstants.CELL_TEXT_STYLE);
+
+        // Centrer le Text dans le Pane
+        double x = (this.getPrefWidth() - textDisplay.getBoundsInLocal().getWidth()) / 2;
+        double y = (this.getPrefHeight() - textDisplay.getBoundsInLocal().getHeight()) / 2;
+        textDisplay.relocate(x, y);
     }
 }
