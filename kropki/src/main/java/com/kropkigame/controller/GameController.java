@@ -41,10 +41,10 @@ public class GameController {
         this.gameBoardController = gameBoardController;
     }
 
-    public GameController() {
+    public GameController(int gridSize) {
         // Initialise le jeu en créant les instances nécessaires
         this.model = new Puzzle();
-        this.view = new GameBoardPanel();
+        this.view = new GameBoardPanel(gridSize);
         this.cellController = new CellController(model, view);
         this.gameBoardController = new GameBoardController(model, view, cellController);
     }

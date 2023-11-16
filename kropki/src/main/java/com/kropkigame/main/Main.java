@@ -16,8 +16,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Kropki Game");
         
-        Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH);
-        GameBoardPanel view = new GameBoardPanel();
+        Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH_4x4);
+        int gridSize = model.getGridSize();
+
+        GameBoardPanel view = new GameBoardPanel(gridSize);
         GameController gameController = new GameController(model, view);
 
         // Initialise le jeu

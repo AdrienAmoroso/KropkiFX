@@ -26,9 +26,6 @@ public class Cell extends Pane {
         this.setPrefHeight(KropkiConstants.CELL_SIZE); 
 
         textDisplay = new Text();
-        /*textDisplay.setLayoutX(this.getPrefWidth() / 2);
-        textDisplay.setLayoutY(this.getPrefHeight() / 2);*/
-
         this.getChildren().add(textDisplay);
     }
 

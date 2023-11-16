@@ -90,7 +90,7 @@ public class FileData {
                 return null;
             }
 
-            Puzzle puzzle = new Puzzle(grid);
+            Puzzle puzzle = new Puzzle(grid, gridSize);
             puzzle.setEdgePoints(edgePoints);
             return puzzle;
 

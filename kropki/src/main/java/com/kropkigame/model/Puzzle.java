@@ -2,17 +2,19 @@ package com.kropkigame.model;
 
 import java.util.ArrayList;
 
-public class Puzzle {
+public class Puzzle implements KropkiConstants {
     private int[][] numbers;
+    private int gridSize;
     private ArrayList<EdgePoint> edgePoints;
 
     public Puzzle() {
         // Initialize an empty Kropki grid problem:
-        this.numbers = new int[KropkiConstants.GRID_SIZE][KropkiConstants.GRID_SIZE];
+        this.gridSize = 4;
+        this.numbers = new int[gridSize][gridSize];
         
         // Setting the numbers to all zeros
-        for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
-            for (int j = 0; j < KropkiConstants.GRID_SIZE; j++) {
+        for (int i = 0; i < this.gridSize; i++) {
+            for (int j = 0; j < this.gridSize; j++) {
                 numbers[i][j] = 0;
             }
         }
@@ -21,18 +23,20 @@ public class Puzzle {
         this.edgePoints = new ArrayList<EdgePoint>();
     }
 
-    public Puzzle(int[][] numbers) {
+    public Puzzle(int[][] numbers, int gridSize) {
+        this.gridSize = gridSize;
         this.numbers = numbers;
         this.edgePoints = new ArrayList<EdgePoint>();
     }
 
-    public Puzzle(int[][] numbers, ArrayList<EdgePoint> edgePoints) {
+    public Puzzle(int[][] numbers, int gridSize, ArrayList<EdgePoint> edgePoints) {
+        this.gridSize = gridSize;
         this.numbers = numbers;
         this.edgePoints = edgePoints;
     }
 
     public int getNumber(int row, int col) {
-        if (row < 0 || row >= KropkiConstants.GRID_SIZE || col < 0 || col >= KropkiConstants.GRID_SIZE) {
+        if (row < 0 || row >= this.gridSize || col < 0 || col >= this.gridSize) {
             throw new IndexOutOfBoundsException("Les indices ne doivent pas dépasser la taille de la grille.");
         }
         
@@ -46,6 +50,14 @@ public class Puzzle {
 
     public void setNumbers(int[][] numbers) {
         this.numbers = numbers;
+    }
+
+    public int getGridSize() {
+        return this.gridSize;
+    }
+
+    public void setGridSize(int gridSize) {
+        this.gridSize = gridSize;
     }
 
     public ArrayList<EdgePoint> getEdgePoints() {
@@ -88,7 +100,7 @@ public class Puzzle {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("Puzzle Numbers:\n");
+        StringBuilder builder = new StringBuilder("Puzzle (" + gridSize + "x" + gridSize + ") Numbers:\n");
         for (int row = 0; row < this.numbers.length; row++) {
             for (int col = 0; col < this.numbers[0].length; col++) {
                 builder.append(this.numbers[row][col]);

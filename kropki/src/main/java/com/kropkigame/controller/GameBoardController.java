@@ -3,7 +3,6 @@ package com.kropkigame.controller;
 import java.util.*;
 
 import com.kropkigame.model.EdgePoint;
-import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
@@ -55,8 +54,8 @@ public class GameBoardController {
     }
 
     public void initializeGameBoard() {
-        for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
-            for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
+        for (int row = 0; row < model.getGridSize(); row++) {
+            for (int col = 0; col < model.getGridSize(); col++) {
                 Cell cell = view.getCell(row, col);
                 // Configure the cell's appearance and properties
                 cell.setNumber(0);
@@ -65,7 +64,7 @@ public class GameBoardController {
             }
         }
 
-        for (int i = 1; i <= KropkiConstants.GRID_SIZE; i++) {
+        for (int i = 1; i <= model.getGridSize(); i++) {
             final int number = i;
             Button numberButton = (Button) view.lookup("#numberButton" + number);
             if (numberButton != null) {
@@ -135,8 +134,8 @@ public class GameBoardController {
     }
 
     /*public void updateGameBoard() {
-        for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
-            for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
+        for (int row = 0; row < model.getGridSize(); row++) {
+            for (int col = 0; col < model.getGridSize(); col++) {
                 Cell cell = view.getCell(row, col);
                 // Update the cell's appearance based on the model
                 int number = model.getNumber(row, col);
@@ -147,8 +146,8 @@ public class GameBoardController {
     }*/
 
     public boolean checkGameStatus() {
-        for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
-            for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
+        for (int row = 0; row < model.getGridSize(); row++) {
+            for (int col = 0; col < model.getGridSize(); col++) {
                 Cell cell = view.getCell(row, col);
                 int number = cell.getNumber();
     
@@ -162,8 +161,8 @@ public class GameBoardController {
     }
 
     public boolean isGridFull() {
-        for (int row = 0; row < KropkiConstants.GRID_SIZE; row++) {
-            for (int col = 0; col < KropkiConstants.GRID_SIZE; col++) {
+        for (int row = 0; row < model.getGridSize(); row++) {
+            for (int col = 0; col < model.getGridSize(); col++) {
                 Cell cell = view.getCell(row, col);
                 int number = cell.getNumber();
     

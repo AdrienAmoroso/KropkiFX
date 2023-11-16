@@ -1,7 +1,6 @@
 package com.kropkigame.controller;
 
 import com.kropkigame.model.EdgePoint;
-import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
@@ -96,7 +95,7 @@ public class CellController {
         boolean ruleChecked = false;
 
         if (number != 0) {
-            for (int j = 0; j < KropkiConstants.GRID_SIZE; j++) {
+            for (int j = 0; j < model.getGridSize(); j++) {
                 if (view.getCell(row, j).getNumber() == number && j != col) {
                     ruleChecked = true;  
                     break;          
@@ -111,7 +110,7 @@ public class CellController {
         boolean ruleChecked = false;
 
         if (number != 0) {
-            for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
+            for (int i = 0; i < model.getGridSize(); i++) {
                 if (view.getCell(i, col).getNumber() == number && i != row) {
                     ruleChecked = true;
                     break;
@@ -188,13 +187,13 @@ public class CellController {
     }
 
     private void highlightRow(int row) {
-        for (int j = 0; j < KropkiConstants.GRID_SIZE; j++) {
+        for (int j = 0; j < model.getGridSize(); j++) {
             highlightCellBorders(view.getCell(row, j));
         }
     }
     
     private void highlightCol(int col) {
-        for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
+        for (int i = 0; i < model.getGridSize(); i++) {
             highlightCellBorders(view.getCell(i, col));
         }
     }
@@ -227,8 +226,8 @@ public class CellController {
     }
 
     private void resetCellBorders() {
-        for (int i = 0; i < KropkiConstants.GRID_SIZE; i++) {
-            for (int j = 0; j < KropkiConstants.GRID_SIZE; j++) {
+        for (int i = 0; i < model.getGridSize(); i++) {
+            for (int j = 0; j < model.getGridSize(); j++) {
                 view.getCell(i, j).setStyle(null);
             }
         }
