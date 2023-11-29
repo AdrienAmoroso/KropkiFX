@@ -26,7 +26,7 @@ public class Main extends Application {
         GameBoardPanel view = new GameBoardPanel(gridSize);
         GameController gameController = new GameController(model, view);
 
-        // Initialise le jeu
+        // Initialize the game
         gameController.startGame();
         gameController.getGameBoardController().drawEdgePoints(model.getEdgePoints());
 
