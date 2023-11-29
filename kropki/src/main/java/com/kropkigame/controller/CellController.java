@@ -7,41 +7,78 @@ import com.kropkigame.view.GameBoardPanel;
 
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Represents the controller for each Cell in the grid.
+ */
 public class CellController {
     private Cell selectedCell; // To track which cell is currently selected
     private Puzzle model;
     private GameBoardPanel view;
 
+    /**
+     * Returns the currently selected cell.
+     * @return the currently selected cell.
+     */
     public Cell getSelectedCell() {
         return this.selectedCell;
     }
 
+    /**
+     * Sets the currently selected cell.
+     * @param selectedCell
+     */
     public void setSelectedCell(Cell selectedCell) {
         this.selectedCell = selectedCell;
     }
 
+    /**
+     * Returns the model.
+     * @return the model.
+     */
     public Puzzle getModel() {
         return this.model;
     }
 
+    /**
+     * Sets the model.
+     * @param model
+     */
     public void setModel(Puzzle model) {
         this.model = model;
     }
 
+    /**
+     * Returns the view.
+     * @return the view.
+     */
     public GameBoardPanel getView() {
         return this.view;
     }
 
+    /**
+     * Sets the view.
+     * @param view
+     */
     public void setView(GameBoardPanel view) {
         this.view = view;
     }
 
+    /**
+     * Constructs a cell controller with the specified model and view.
+     * @param model the model.
+     * @param view the view.
+     */
     public CellController(Puzzle model, GameBoardPanel view) {
         this.model = model;
         this.view = view;
         this.selectedCell = null;
     }
 
+    /**
+     * Handles the event when a cell is selected.
+     * @param event the mouse event.
+     * @param cell the cell that was selected.
+     */
     public void handleCellSelected(MouseEvent event, Cell cell) { 
         if (selectedCell != null) {
             // Reset the style of the previously selected cell (you can adjust the style as
@@ -53,6 +90,10 @@ public class CellController {
         selectedCell = cell; // Set the current cell as the selected cell
     }
 
+    /**
+     * Handles the event when a number button is clicked.
+     * @param number the number that was clicked.
+     */
     public void handleNumberButtonClicked(int number) {
         if (selectedCell != null) {
             selectedCell.setNumber(number);
@@ -61,6 +102,9 @@ public class CellController {
         //updateGameBoard();
     }
 
+    /**
+     * Updates the game board to highlight cells that violate the rules.
+     */
     public void updateGameBoard() {
         if (selectedCell != null) {
             int row = selectedCell.getRow();
@@ -91,6 +135,13 @@ public class CellController {
         }
     }
 
+    /**
+     * Checks if the number of the specified cell is already in the row.
+     * @param row
+     * @param col
+     * @param number
+     * @return true if the number is already in the row, false otherwise.
+     */
     private boolean checkNumberInRow(int row, int col, int number) {
         boolean ruleChecked = false;
 
@@ -106,6 +157,13 @@ public class CellController {
         return ruleChecked;
     }
 
+    /**
+     * Checks if the number of the specified cell is already in the column.
+     * @param row
+     * @param col
+     * @param number
+     * @return true if the number is already in the column, false otherwise.
+     */
     private boolean checkNumberInCol(int row, int col, int number) {
         boolean ruleChecked = false;
 
@@ -121,6 +179,13 @@ public class CellController {
         return ruleChecked;
     }
 
+    /**
+     * Checks if the black dot rule is violated.
+     * @param row
+     * @param col
+     * @param number
+     * @return true if the black dot rule is violated, false otherwise.
+     */
     private boolean checkBlackDotRule(int row, int col, int number) {
         boolean ruleChecked = false;
 
@@ -154,6 +219,13 @@ public class CellController {
         return ruleChecked;
     }
     
+    /**
+     * Checks if the white dot rule is violated.
+     * @param row
+     * @param col
+     * @param number
+     * @return true if the white dot rule is violated, false otherwise.
+     */
     private boolean checkWhiteDotRule(int row, int col, int number) {
         boolean ruleChecked = false;
 
@@ -186,18 +258,31 @@ public class CellController {
         return ruleChecked;
     }
 
+    /**
+     * Highlights the specified row.
+     * @param row
+     */
     private void highlightRow(int row) {
         for (int j = 0; j < model.getGridSize(); j++) {
             highlightCellBorders(view.getCell(row, j));
         }
     }
     
+    /**
+     * Highlights the specified column.
+     * @param col
+     */
     private void highlightCol(int col) {
         for (int i = 0; i < model.getGridSize(); i++) {
             highlightCellBorders(view.getCell(i, col));
         }
     }
 
+    /**
+     * Highlights the cells connected to the specified cell by the specified dot type.
+     * @param cell
+     * @param dotType
+     */
     private void highlightConnectedCellsByDot(Cell cell, String dotType) {
         int row = cell.getRow();
         int col = cell.getCol();
@@ -217,14 +302,25 @@ public class CellController {
         }
     }
 
+    /**
+     * Highlights the borders of the specified cell.
+     * @param cell
+     */
     private void highlightCellBorders(Cell cell) {
         cell.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
     }
 
+    /**
+     * Highlights the specified cell.
+     * @param cell
+     */
     private void highlightSelection(Cell cell) {
         cell.setStyle("-fx-border-color: grey; -fx-border-width: 1px; -fx-background-color: lightblue;");
     }
 
+    /**
+     * Resets the borders of all cells.
+     */
     private void resetCellBorders() {
         for (int i = 0; i < model.getGridSize(); i++) {
             for (int j = 0; j < model.getGridSize(); j++) {

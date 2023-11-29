@@ -11,12 +11,16 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The main class of the Kropki Game application.
+ * This class extends the Application class and is responsible for starting the game.
+ */
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Kropki Game");
         
-        Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH_4x4);
+        Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH_6x6);
         int gridSize = model.getGridSize();
 
         GameBoardPanel view = new GameBoardPanel(gridSize);

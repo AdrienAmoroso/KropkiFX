@@ -9,12 +9,19 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
+/**
+ * Represents the game board panel, which contains the grid of cells and the number bar.
+ */
 public class GameBoardPanel extends BorderPane {
     private Cell[][] cells;
     private int gridSize;
     private HBox numberBar;
     private GridPane gridPane;
 
+    /**
+     * Constructs a game board panel with the specified grid size.
+     * @param gridSize the size of the grid.
+     */
     public GameBoardPanel(int gridSize) {
         this.gridSize = gridSize;
         this.cells = new Cell[gridSize][gridSize];
@@ -25,6 +32,11 @@ public class GameBoardPanel extends BorderPane {
         this.setBottom(numberBar);
     }
 
+    /**
+     * Creates the grid pane.
+     * @param gridSize
+     * @return the grid pane.
+     */
     private GridPane createGridPane(int gridSize) {
         this.gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
@@ -39,6 +51,11 @@ public class GameBoardPanel extends BorderPane {
         return gridPane;
     }
 
+    /**
+     * Creates the number bar.
+     * @param gridSize
+     * @return the number bar.
+     */
     private HBox createNumberBar(int gridSize) {
         this.numberBar = new HBox(10);
 
@@ -46,7 +63,7 @@ public class GameBoardPanel extends BorderPane {
         for (int j = 1; j <= gridSize; j++) {
             final int number = j;
             Button numberButton = new Button(String.valueOf(number));
-            numberButton.setId("numberButton" + number); // Set ID for easier lookup
+            numberButton.setId("numberButton" + number);
             numberButton.setStyle(KropkiConstants.NUMBER_BUTTON_STYLE);
             numberButton.setMaxWidth(Double.MAX_VALUE);
 
@@ -65,6 +82,12 @@ public class GameBoardPanel extends BorderPane {
         return numberBar;
     }  
     
+    /**
+     * Returns the cell at the specified row and column.
+     * @param row the row of the cell.
+     * @param col the column of the cell.
+     * @return the cell at the specified row and column.
+     */
     public Cell getCell(int row, int col) {
         if (row < 0 || row >= gridSize || col < 0 || col >= gridSize) {
             throw new IllegalArgumentException("Invalid row or column index");
@@ -81,10 +104,18 @@ public class GameBoardPanel extends BorderPane {
         return null;
     }
 
+    /**
+     * Returns the grid pane.
+     * @return the grid pane.
+     */
     public GridPane getGridPane() {
         return this.gridPane;
     }
 
+    /**
+     * Returns the number bar.
+     * @return the number bar.
+     */
     public HBox getNumberBar() {
         return this.numberBar;
     }

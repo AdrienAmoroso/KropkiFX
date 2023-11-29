@@ -18,41 +18,78 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+/**
+ * The GameBoardController class is responsible for controlling the game board and handling user interactions.
+ * It manages the model, view, and cell controller of the game board.
+ */
 public class GameBoardController {
     private Puzzle model;
     private GameBoardPanel view;
     private CellController cellController;
 
+    /**
+     * Gets the model of the game board.
+     * @return the model of the game board.
+     */
     public Puzzle getModel() {
         return this.model;
     }
 
+    /**
+     * Sets the model of the game board.
+     * @param model the model of the game board.
+     */
     public void setModel(Puzzle model) {
         this.model = model;
     }
 
+    /**
+     * Gets the view of the game board.
+     * @return the view of the game board.
+     */
     public GameBoardPanel getView() {
         return this.view;
     }
 
+    /**
+     * Sets the view of the game board.
+     * @param view the view of the game board.
+     */
     public void setView(GameBoardPanel view) {
         this.view = view;
     }
 
+    /**
+     * Gets the cell controller of the game board.
+     * @return the cell controller of the game board.
+     */
     public CellController getCellController() {
         return this.cellController;
     }
 
+    /**
+     * Sets the cell controller of the game board.
+     * @param cellController the cell controller of the game board.
+     */
     public void setCellController(CellController cellController) {
         this.cellController = cellController;
     }
 
+    /**
+     * Constructs a game board controller with the specified model, view, and cell controller.
+     * @param model
+     * @param view
+     * @param cellController
+     */
     public GameBoardController(Puzzle model, GameBoardPanel view, CellController cellController) {
         this.model = model;
         this.view = view;
         this.cellController = cellController;
     }
 
+    /**
+     * Initializes the game board.
+     */
     public void initializeGameBoard() {
         for (int row = 0; row < model.getGridSize(); row++) {
             for (int col = 0; col < model.getGridSize(); col++) {
@@ -74,6 +111,10 @@ public class GameBoardController {
         }
     }
 
+    /**
+     * Handles the event when a number button is clicked.
+     * @param number
+     */
     public void handleNumberButtonClicked(int number) {
         // Delegate number button click to the CellController
         cellController.handleNumberButtonClicked(number);
@@ -87,15 +128,24 @@ public class GameBoardController {
         }
     }
 
+    /**
+     * Handles the event when a cell is selected.
+     * @param event
+     * @param cell
+     */
     public void handleCellSelection(MouseEvent event, Cell cell) {
         // Delegate cell selection to the CellController
         cellController.handleCellSelected(event, cell);
     }
 
+    /**
+     * Draws the edge points on the game board.
+     * @param edgePoints
+     */
     public void drawEdgePoints(ArrayList<EdgePoint> edgePoints) {
         Platform.runLater(() -> {
-            double radius = 5; // Définit la taille du point
-            clearEdgePoints(); // Efface les anciens points
+            double radius = 5; // Defines the dot size
+            clearEdgePoints(); // Clears the old dots
             
             for (EdgePoint edgePoint : edgePoints) {
                 int sourceRow = edgePoint.getSourceRow()-1;
@@ -120,14 +170,14 @@ public class GameBoardController {
                 Circle point = new Circle(centerX, centerY, radius);
 
                 if (edgePoint.getType().equals("black")) {
-                    point.setFill(Color.BLACK); // Couleur de remplissage du point
-                    point.setStroke(Color.BLACK); // Couleur de la bordure du point
+                    point.setFill(Color.BLACK); // Dot fill color
+                    point.setStroke(Color.BLACK); // Dot border color
                 } else if (edgePoint.getType().equals("white")) {
                     point.setFill(Color.WHITE);
                     point.setStroke(Color.BLACK);
                 }
 
-                // Ajoutez le cercle à la vue
+                // Add the Circle to the view
                 view.getChildren().add(point);
             }
         });
@@ -145,6 +195,10 @@ public class GameBoardController {
         }
     }*/
 
+    /**
+     * Checks if the game is won.
+     * @return true if the game is won, false otherwise.
+     */
     public boolean checkGameStatus() {
         for (int row = 0; row < model.getGridSize(); row++) {
             for (int col = 0; col < model.getGridSize(); col++) {
@@ -152,7 +206,7 @@ public class GameBoardController {
                 int number = cell.getNumber();
     
                 if (number != model.getNumber(row, col)) {
-                    return false; // Si une cellule ne correspond pas, la partie n'est pas gagnée
+                    return false; // If one cell does not match, the game is not won
                 }
             }
         }
@@ -160,6 +214,10 @@ public class GameBoardController {
         return true; // Toutes les cellules correspondent, la partie est gagnée
     }
 
+    /**
+     * Checks if the game board is fully filled by the user.
+     * @return true if the game board is full, false otherwise.
+     */
     public boolean isGridFull() {
         for (int row = 0; row < model.getGridSize(); row++) {
             for (int col = 0; col < model.getGridSize(); col++) {
@@ -175,28 +233,41 @@ public class GameBoardController {
         return true; // Toutes les cellules sont remplies, la grille est pleine
     }
     
+    /**
+     * Resets the game.
+     */
     public void resetGame() {
         // Reset the model to start a new game
         // Update the view to reflect the reset game
         initializeGameBoard();
     }
 
+    /**
+     * Adds a resize listener to the stage.
+     * @param stage
+     */
     public void addResizeListener(Stage stage) {
         ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> {
-            // Redessinez les points lorsqu'il y a un changement de taille de la scène
+            // Draw again the dots when the stage is resized
             drawEdgePoints(model.getEdgePoints());
         };
 
-        // Ajoutez des écouteurs pour la largeur et la hauteur de la scène
+        // Add listeners to the stage's width and height properties
         stage.widthProperty().addListener(stageSizeListener);
         stage.heightProperty().addListener(stageSizeListener);
     }
 
+    /**
+     * Clears the edge points from the game board.
+     */
     public void clearEdgePoints() {
-        // Supprimez tous les cercles de la vue
+        // Delete all the dots from the view
         view.getChildren().removeIf(node -> node instanceof Circle);
     }    
 
+    /**
+     * Shows a victory message when the grid is correct.
+     */
     public void showVictoryMessage() {
         Alert alert = new Alert(AlertType.INFORMATION);
 
@@ -207,6 +278,9 @@ public class GameBoardController {
         alert.showAndWait();
     }
 
+    /**
+     * Shows an incorrect grid message when the grid is incorrect.
+     */
     public void showIncorrectGridMessage() {
         Alert alert = new Alert(AlertType.ERROR);
 

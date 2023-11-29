@@ -10,8 +10,17 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class used for file manipulation.
+ */
 public class FileData {
 
+    /**
+     * Parses a Kropki grid from a file.
+     *
+     * @param fileName the name of the file containing the grid data
+     * @return a Puzzle object representing the grid
+     */
     public static Puzzle parseKropkiGrid(String fileName) {
         int[][] grid = null; // Grid size will be determined dynamically
         int gridSize = 0;
@@ -42,7 +51,7 @@ public class FileData {
                     continue;
                 }
 
-                // Utilisation d'une expression régulière pour rechercher les lignes contenant uniquement des chiffres
+                // Use a regular expression to search for lines containing numbers only
                 Pattern pattern = Pattern.compile("^(\\d+\\s+)+\\d+$");
                 Matcher matcher = pattern.matcher(line);
 
@@ -64,7 +73,7 @@ public class FileData {
                     }
                     row++;
                 } else {
-                    // Essayer de correspondre à un motif de points
+                    // Try to match the points writing format
                     pattern = Pattern.compile("\\((\\d+),(\\d+)\\)\\s*-\\s*\\((\\d+),(\\d+)\\)");
                     matcher = pattern.matcher(line);
 
