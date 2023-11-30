@@ -25,17 +25,6 @@ public class GameBoardPanel extends BorderPane {
      * @param gridSize the size of the grid.
      */
     public GameBoardPanel(int gridSize) {
-        /*this.gridSize = gridSize;
-        this.cells = new Cell[gridSize][gridSize];
-        this.gridPane = createGridPane(gridSize);
-        this.numberBar = createNumberBar(gridSize);
-        this.helpButton = createHelpButton();
-
-        this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
-        this.setCenter(gridPane);
-        this.setBottom(numberBar);
-        this.setTop(helpButton);*/
-
         this.gridSize = gridSize;
         this.cells = new Cell[gridSize][gridSize];
         this.gridPane = createGridPane(gridSize);
