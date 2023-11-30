@@ -2,8 +2,6 @@ package com.kropkigame.view;
 
 import com.kropkigame.model.KropkiConstants;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
@@ -11,17 +9,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
-import javafx.beans.value.ChangeListener;
 
-
-public class HelpButton extends GridPane {
+/**
+ * Represents the button to enable resolution help.
+ */
+public class HelpSwitch extends GridPane {
 
 Circle knob;
 Label lblDesc;
 
-BooleanProperty isOn;
+boolean isOn;
 
-public HelpButton() 
+/**
+ * Constructs a help button.
+ */
+public HelpSwitch() 
 {
     // Sizing
     ColumnConstraints colThird = new ColumnConstraints();
@@ -31,9 +33,6 @@ public HelpButton()
     setMaxWidth(95);
     setMinHeight(30);
     setMinWidth(95);
-    
-    // Property
-    isOn = new SimpleBooleanProperty(false);
     
     // Knob
     knob = new Circle(12.5);
@@ -48,18 +47,12 @@ public HelpButton()
     
     // Click
     setOnMouseClicked(e -> {
-        isOn.set(!isOn.get());
+        isOn = !isOn;
         paintSwitch();
     });
     
     paintSwitch();
 }
-
-/**
- * Adds a listener for when the toggle changes
- * @param listener
- */
-public void addListener(ChangeListener<Boolean> listener) { isOn.addListener(listener); }
 
 /**
  * Draws the switch
@@ -68,7 +61,7 @@ private void paintSwitch()
 {
     getChildren().clear();
     
-    if(isOn.get()) 
+    if(isOn) 
     {
         add(knob, 2, 0);
         lblDesc.setText("HELP ON"); // On
@@ -91,6 +84,17 @@ private void paintSwitch()
  * Sets the switch value
  * @param value
  */
- public void setValue(boolean value) { isOn.set(value); paintSwitch(); }
+ public void setValue(boolean value) {
+	isOn = value; 
+	paintSwitch(); 
+}
+
+/**
+ * Returns the switch value
+ * @return the switch value
+ */
+public boolean getValue() {
+	return isOn; 
+}
 
 }

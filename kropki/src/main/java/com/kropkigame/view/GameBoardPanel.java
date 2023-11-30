@@ -18,7 +18,7 @@ public class GameBoardPanel extends BorderPane {
     private int gridSize;
     private HBox numberBar;
     private GridPane gridPane;
-    private HelpButton helpButton;
+    private HelpSwitch helpSwitch;
 
     /**
      * Constructs a game board panel with the specified grid size.
@@ -29,12 +29,12 @@ public class GameBoardPanel extends BorderPane {
         this.cells = new Cell[gridSize][gridSize];
         this.gridPane = createGridPane(gridSize);
         this.numberBar = createNumberBar(gridSize);
-        this.helpButton = new HelpButton();
+        this.helpSwitch = new HelpSwitch();
 
         VBox contentVBox = new VBox(10);
         contentVBox.setAlignment(Pos.CENTER);
 
-        contentVBox.getChildren().addAll(helpButton, gridPane);
+        contentVBox.getChildren().addAll(helpSwitch, gridPane);
 
         this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
         this.setCenter(contentVBox);
@@ -141,8 +141,8 @@ public class GameBoardPanel extends BorderPane {
      * Returns the help button.
      * @return the help button.
      */
-    public HelpButton getHelpButton() {
-        return this.getHelpButton();
+    public HelpSwitch gethelpSwitch() {
+        return this.gethelpSwitch();
     }
 
 }
