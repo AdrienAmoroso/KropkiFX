@@ -20,7 +20,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Kropki Game");
         
-        Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH_6x6);
+        Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH_4x4);
         int gridSize = model.getGridSize();
 
         GameBoardPanel view = new GameBoardPanel(gridSize);

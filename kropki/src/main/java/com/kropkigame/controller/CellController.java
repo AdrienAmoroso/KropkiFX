@@ -1,6 +1,7 @@
 package com.kropkigame.controller;
 
 import com.kropkigame.model.EdgePoint;
+import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
@@ -83,7 +84,7 @@ public class CellController {
         if (selectedCell != null) {
             // Reset the style of the previously selected cell (you can adjust the style as
             // desired)
-            selectedCell.setStyle(null);
+            selectedCell.setStyle(KropkiConstants.CELL_BORDER_STYLE);
         }
 
         highlightSelection(cell); // Highlight the selected cell
@@ -315,7 +316,7 @@ public class CellController {
      * @param cell
      */
     private void highlightSelection(Cell cell) {
-        cell.setStyle("-fx-border-color: grey; -fx-border-width: 1px; -fx-background-color: lightblue;");
+        cell.setStyle("-fx-border-color: white; -fx-border-width: 1px; -fx-background-color: blue;");
     }
 
     /**

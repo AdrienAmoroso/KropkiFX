@@ -109,6 +109,7 @@ public class GameBoardController {
                 numberButton.setOnAction(event -> handleNumberButtonClicked(number));
             }
         }
+
     }
 
     /**
@@ -144,7 +145,7 @@ public class GameBoardController {
      */
     public void drawEdgePoints(ArrayList<EdgePoint> edgePoints) {
         Platform.runLater(() -> {
-            double radius = 5; // Defines the dot size
+            double radius = 7; // Defines the dot size
             clearEdgePoints(); // Clears the old dots
             
             for (EdgePoint edgePoint : edgePoints) {
@@ -171,7 +172,7 @@ public class GameBoardController {
 
                 if (edgePoint.getType().equals("black")) {
                     point.setFill(Color.BLACK); // Dot fill color
-                    point.setStroke(Color.BLACK); // Dot border color
+                    point.setStroke(Color.WHITE); // Dot border color
                 } else if (edgePoint.getType().equals("white")) {
                     point.setFill(Color.WHITE);
                     point.setStroke(Color.BLACK);

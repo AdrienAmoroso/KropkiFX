@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 /**
  * Represents the game board panel, which contains the grid of cells and the number bar.
@@ -17,18 +18,37 @@ public class GameBoardPanel extends BorderPane {
     private int gridSize;
     private HBox numberBar;
     private GridPane gridPane;
+    private HelpButton helpButton;
 
     /**
      * Constructs a game board panel with the specified grid size.
      * @param gridSize the size of the grid.
      */
     public GameBoardPanel(int gridSize) {
+        /*this.gridSize = gridSize;
+        this.cells = new Cell[gridSize][gridSize];
+        this.gridPane = createGridPane(gridSize);
+        this.numberBar = createNumberBar(gridSize);
+        this.helpButton = createHelpButton();
+
+        this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
+        this.setCenter(gridPane);
+        this.setBottom(numberBar);
+        this.setTop(helpButton);*/
+
         this.gridSize = gridSize;
         this.cells = new Cell[gridSize][gridSize];
         this.gridPane = createGridPane(gridSize);
         this.numberBar = createNumberBar(gridSize);
+        this.helpButton = new HelpButton();
 
-        this.setCenter(gridPane);
+        VBox contentVBox = new VBox(10);
+        contentVBox.setAlignment(Pos.CENTER);
+
+        contentVBox.getChildren().addAll(helpButton, gridPane);
+
+        this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
+        this.setCenter(contentVBox);
         this.setBottom(numberBar);
     }
 
@@ -77,10 +97,10 @@ public class GameBoardPanel extends BorderPane {
         numberBar.setSpacing(10);
 
         // Set a border around the number bar
-        numberBar.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-padding: 10px;");
+        numberBar.setStyle(KropkiConstants.NUMBER_BAR_STYLE);
 
         return numberBar;
-    }  
+    }
     
     /**
      * Returns the cell at the specified row and column.
@@ -119,4 +139,21 @@ public class GameBoardPanel extends BorderPane {
     public HBox getNumberBar() {
         return this.numberBar;
     }
+
+    /**
+     * Returns the grid size.
+     * @return the grid size.
+     */
+    public int getGridSize() {
+        return this.gridSize;
+    }
+
+    /**
+     * Returns the help button.
+     * @return the help button.
+     */
+    public HelpButton getHelpButton() {
+        return this.getHelpButton();
+    }
+
 }

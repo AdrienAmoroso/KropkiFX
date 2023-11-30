@@ -40,6 +40,7 @@ public class Cell extends Pane {
         this.col = col;
         this.setPrefWidth(KropkiConstants.CELL_SIZE);
         this.setPrefHeight(KropkiConstants.CELL_SIZE); 
+        this.setStyle(KropkiConstants.CELL_BORDER_STYLE);
 
         textDisplay = new Text();
         this.getChildren().add(textDisplay);
