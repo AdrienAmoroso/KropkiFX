@@ -17,6 +17,7 @@ public interface KropkiConstants {
             + "-fx-border-color: white;" // Border color of the game board
             + "-fx-border-width: 2px;"; // Border width of the game board
     String NUMBER_BAR_STYLE = "-fx-border-color: white; -fx-border-width: 2px; -fx-padding: 10px;"; // Style of the number bar
+    String HELP_TEXT_STYLE = "-fx-font-family: Helvetica; -fx-font-weight: bold;"; // Style of the help text
 
     /*** Paths to files containing the game grids ***/
     String FILE_PATH_4x4 = "kropki" + File.separator + "data" + File.separator + "kropki_4x4.txt";
