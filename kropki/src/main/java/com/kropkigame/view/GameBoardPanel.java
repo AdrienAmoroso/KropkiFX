@@ -48,7 +48,6 @@ public class GameBoardPanel extends BorderPane {
      */
     private GridPane createGridPane(int gridSize) {
         this.gridPane = new GridPane();
-        gridPane.setGridLinesVisible(true);
         gridPane.setAlignment(Pos.CENTER);
 
         for (int row = 0; row < gridSize; row++) {
@@ -141,8 +140,8 @@ public class GameBoardPanel extends BorderPane {
      * Returns the help button.
      * @return the help button.
      */
-    public HelpSwitch gethelpSwitch() {
-        return this.gethelpSwitch();
+    public HelpSwitch getHelpSwitch() {
+        return this.helpSwitch;
     }
 
 }

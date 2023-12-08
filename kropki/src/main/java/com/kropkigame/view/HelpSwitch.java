@@ -44,20 +44,12 @@ public HelpSwitch()
 	lblDesc.setStyle(KropkiConstants.HELP_TEXT_STYLE);
     lblDesc.setTextAlignment(TextAlignment.CENTER);
     GridPane.setHalignment(lblDesc, HPos.CENTER);
-    
-    // Click
-    setOnMouseClicked(e -> {
-        isOn = !isOn;
-        paintSwitch();
-    });
-    
-    paintSwitch();
 }
 
 /**
  * Draws the switch
  */
-private void paintSwitch() 
+public void paintSwitch() 
 {
     getChildren().clear();
     
