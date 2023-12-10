@@ -25,7 +25,8 @@ public class FirstMenu extends Parent {
         mainLayout.getStyleClass().add("main-layout");
 
         Label titleLabel = createTitleLabel("KROPKI");
-        Button playButton = createImageButton("PlayText", 150, 100, e -> sceneSwitcher.switchToGame());
+        Button playButton = createImageButton("PlayText", 150, 100, e -> sceneSwitcher.switchToDifficultySelection());
+
         Button homeButton = createImageButton("Home", 120, 70, e -> System.exit(0));
         Button starButton = createImageButton("Star", 120, 70, e -> sceneSwitcher.switchToGame());
 

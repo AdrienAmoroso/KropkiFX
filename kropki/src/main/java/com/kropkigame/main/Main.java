@@ -4,6 +4,7 @@ import com.kropkigame.controller.GameController;
 import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
 import com.kropkigame.utils.FileData;
+import com.kropkigame.view.DifficultySelectionMenu;
 import com.kropkigame.view.FirstMenu;
 import com.kropkigame.view.GameBoardPanel;
 import com.kropkigame.view.SceneSwitcher;
@@ -53,6 +54,25 @@ public class Main extends Application implements SceneSwitcher {
         gameController.getGameBoardController().addResizeListener(primaryStage);
         primaryStage.setScene(gameScene);
     }
+
+     @Override
+    public void switchToDifficultySelection() {
+        DifficultySelectionMenu difficultySelectionMenu = new DifficultySelectionMenu(this);
+
+        Scene difficultySelectionScene = new Scene(difficultySelectionMenu, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
+        difficultySelectionScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        primaryStage.setScene(difficultySelectionScene);
+    }
+    
+    @Override
+public void switchToFirstMenu() {
+    FirstMenu firstMenu = new FirstMenu(this);
+
+    Scene firstMenuScene = new Scene(firstMenu, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
+    firstMenuScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+    primaryStage.setScene(firstMenuScene);
+}
+
 
     public static void main(String[] args) {
         launch(args);
