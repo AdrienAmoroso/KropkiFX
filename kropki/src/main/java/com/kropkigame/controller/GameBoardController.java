@@ -243,20 +243,16 @@ public class GameBoardController {
         // Logique pour un point noir
         if (model.existsBlackEdgePoint(cellRow, cellCol, adjacentCellRow, adjacentCellCol) || model.existsBlackEdgePoint(adjacentCellRow, adjacentCellCol, cellRow, cellCol)) {
             if (currentValue == 1) {
-                System.out.println("2");
                 return 2;
             } else if (currentValue == gridSize) {
-                System.out.println(gridSize / 2);
                 return gridSize / 2;
             }
         }
         // Logique pour un point blanc
         else if (model.existsWhiteEdgePoint(cellRow, cellCol, adjacentCellRow, adjacentCellCol) || model.existsWhiteEdgePoint(adjacentCellRow, adjacentCellCol, cellRow, cellCol)) {
             if (currentValue == 1) {
-                System.out.println("2");
                 return 2;
             } else if (currentValue == gridSize) {
-                System.out.println(gridSize - 1);
                 return gridSize - 1;
             }
         }
