@@ -4,7 +4,7 @@ import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.GameBoardPanel;
 
 /**
- * Represents the game controller, which controls the game in general.
+ * Représente le contrôleur du jeu, qui contrôle le jeu en général.
  */
 public class GameController {
     private Puzzle model;
@@ -13,72 +13,72 @@ public class GameController {
     private GameBoardController gameBoardController;
 
     /**
-     * Gets the model of the game.
-     * @return the model of the game.
+     * Obtient le modèle du jeu.
+     * @return le modèle du jeu.
      */
     public Puzzle getModel() {
         return this.model;
     }
 
     /**
-     * Sets the model of the game.
-     * @param model the model of the game.
+     * Définit le modèle du jeu.
+     * @param model le modèle du jeu.
      */
     public void setModel(Puzzle model) {
         this.model = model;
     }
 
     /**
-     * Gets the view of the game.
-     * @return the view of the game.
+     * Obtient la vue du jeu.
+     * @return la vue du jeu.
      */
     public GameBoardPanel getView() {
         return this.view;
     }
 
     /**
-     * Sets the view of the game.
-     * @param view the view of the game.
+     * Définit la vue du jeu.
+     * @param view la vue du jeu.
      */
     public void setView(GameBoardPanel view) {
         this.view = view;
     }
 
     /**
-     * Gets the cell controller of the game.
-     * @return the cell controller of the game.
+     * Obtient le contrôleur de cellule du jeu.
+     * @return le contrôleur de cellule du jeu.
      */
     public CellController getCellController() {
         return this.cellController;
     }
 
     /**
-     * Sets the cell controller of the game.
-     * @param cellController the cell controller of the game.
+     * Définit le contrôleur de cellule du jeu.
+     * @param cellController le contrôleur de cellule du jeu.
      */
     public void setCellController(CellController cellController) {
         this.cellController = cellController;
     }
 
     /**
-     * Gets the game board controller of the game.
-     * @return the game board controller of the game.
+     * Obtient le contrôleur du plateau de jeu.
+     * @return le contrôleur du plateau de jeu.
      */
     public GameBoardController getGameBoardController() {
         return this.gameBoardController;
     }
 
     /**
-     * Sets the game board controller of the game.
-     * @param gameBoardController the game board controller of the game.
+     * Définit le contrôleur du plateau de jeu.
+     * @param gameBoardController le contrôleur du plateau de jeu.
      */
     public void setGameBoardController(GameBoardController gameBoardController) {
         this.gameBoardController = gameBoardController;
     }
 
     /**
-     * Constructs a game controller with the specified grid size.
-     * @param gridSize the grid size of the game.
+     * Construit un contrôleur de jeu avec la taille de grille spécifiée.
+     * @param gridSize la taille de la grille du jeu.
      */
     public GameController(int gridSize) {
         // Initialise le jeu en créant les instances nécessaires
@@ -89,9 +89,9 @@ public class GameController {
     }
 
     /**
-     * Constructs a game controller with the specified model and view.
-     * @param model the model of the game.
-     * @param view the view of the game.
+     * Construit un contrôleur de jeu avec le modèle et la vue spécifiés.
+     * @param model le modèle du jeu.
+     * @param view la vue du jeu.
      */
     public GameController(Puzzle model, GameBoardPanel view) {
         this.model = model;
@@ -101,34 +101,33 @@ public class GameController {
     }
 
     /**
-     * Starts the game.
+     * Démarre le jeu.
      */
     public void startGame() {
-        // Initialize the board game
+        // Initialise le plateau de jeu
         this.gameBoardController.initializeGameBoard();
-        // Displays the game board
-        // Other methods to start the game
+        // Affiche le plateau de jeu
+        // Autres méthodes pour démarrer le jeu
     }
 
     /**
-     * Ends the game.
-     * @param isVictory true if the player wins the game, false otherwise.
+     * Termine le jeu.
+     * @param isVictory vrai si le joueur gagne le jeu, faux sinon.
      */
     public void endGame(boolean isVictory) {
-        // Displays a message depending on whether the player wins or loses the game
+        // Affiche un message en fonction de si le joueur gagne ou perd le jeu
         if (isVictory) {
-            // Display the victory message
+            // Affiche le message de victoire
             System.out.println("Victoire !");
         } else {
-            // Display the defeat message
+            // Affiche le message de défaite
             System.out.println("Défaite !");
         }
 
-        // Offers
-        // Reset the game if the player chooses to play again
-        // Leaves the game if the player chooses to leave
+        // Propose
+        // Réinitialise le jeu si le joueur choisit de jouer à nouveau
+        // Quitte le jeu si le joueur choisit de partir
     }
 
-    // Other methods .
+    // Autres méthodes...
 }
-

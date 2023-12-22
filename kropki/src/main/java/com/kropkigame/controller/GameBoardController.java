@@ -3,6 +3,7 @@ package com.kropkigame.controller;
 import java.util.*;
 
 import com.kropkigame.model.EdgePoint;
+import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
@@ -19,8 +20,8 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 /**
- * The GameBoardController class is responsible for controlling the game board and handling user interactions.
- * It manages the model, view, and cell controller of the game board.
+ * La classe GameBoardController est responsable de contrôler le plateau de jeu et de gérer les interactions utilisateur.
+ * Elle gère le modèle, la vue et le contrôleur de cellule du plateau de jeu, notamment au niveau du respect des règles du jeu.
  */
 public class GameBoardController {
     private Puzzle model;
@@ -28,58 +29,58 @@ public class GameBoardController {
     private CellController cellController;
 
     /**
-     * Gets the model of the game board.
-     * @return the model of the game board.
+     * Obtient le modèle du plateau de jeu.
+     * @return le modèle du plateau de jeu.
      */
     public Puzzle getModel() {
         return this.model;
     }
 
     /**
-     * Sets the model of the game board.
-     * @param model the model of the game board.
+     * Définit le modèle du plateau de jeu.
+     * @param model le modèle du plateau de jeu.
      */
     public void setModel(Puzzle model) {
         this.model = model;
     }
 
     /**
-     * Gets the view of the game board.
-     * @return the view of the game board.
+     * Obtient la vue du plateau de jeu.
+     * @return la vue du plateau de jeu.
      */
     public GameBoardPanel getView() {
         return this.view;
     }
 
     /**
-     * Sets the view of the game board.
-     * @param view the view of the game board.
+     * Définit la vue du plateau de jeu.
+     * @param view la vue du plateau de jeu.
      */
     public void setView(GameBoardPanel view) {
         this.view = view;
     }
 
     /**
-     * Gets the cell controller of the game board.
-     * @return the cell controller of the game board.
+     * Obtient le contrôleur de cellule du plateau de jeu.
+     * @return le contrôleur de cellule du plateau de jeu.
      */
     public CellController getCellController() {
         return this.cellController;
     }
 
     /**
-     * Sets the cell controller of the game board.
-     * @param cellController the cell controller of the game board.
+     * Définit le contrôleur de cellule du plateau de jeu.
+     * @param cellController le contrôleur de cellule du plateau de jeu.
      */
     public void setCellController(CellController cellController) {
         this.cellController = cellController;
     }
 
     /**
-     * Constructs a game board controller with the specified model, view, and cell controller.
-     * @param model
-     * @param view
-     * @param cellController
+     * Construit un contrôleur de plateau de jeu avec le modèle, la vue et le contrôleur de cellule spécifiés.
+     * @param model le modèle du plateau de jeu.
+     * @param view la vue du plateau de jeu.
+     * @param cellController le contrôleur de cellule du plateau de jeu.
      */
     public GameBoardController(Puzzle model, GameBoardPanel view, CellController cellController) {
         this.model = model;
@@ -88,28 +89,31 @@ public class GameBoardController {
     }
 
     /**
-     * Initializes the game board.
+     * Initialise le plateau de jeu.
      */
     public void initializeGameBoard() {
+        // Parcours de chaque cellule du plateau de jeu
         for (int row = 0; row < model.getGridSize(); row++) {
             for (int col = 0; col < model.getGridSize(); col++) {
                 Cell cell = view.getCell(row, col);
-                // Configure the cell's appearance and properties
+                // Configuration de l'apparence et des propriétés de la cellule
                 cell.setNumber(0);
                 cell.getTextDisplay().setText("");
                 cell.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> handleCellSelection(event, cell));
             }
         }
 
+        // Parcours de chaque bouton de nombre
         for (int i = 1; i <= model.getGridSize(); i++) {
             final int number = i;
             Button numberButton = (Button) view.lookup("#numberButton" + number);
             if (numberButton != null) {
-                // Attach the event handler for button click to each number button
+                // Attachement du gestionnaire d'événements gérant le fait de rentrer un nombre dans la cellule sélectionnée (clic)
                 numberButton.setOnAction(event -> handleNumberButtonClicked(number));
             }
         }
 
+        // Configuration du switch d'aide
         view.getHelpSwitch().setOnMouseClicked(e -> {
             view.getHelpSwitch().setValue(!(view.getHelpSwitch().getValue()));
             view.getHelpSwitch().paintSwitch();
@@ -120,12 +124,13 @@ public class GameBoardController {
     }
 
     /**
-     * Handles the event when a number button is clicked.
-     * @param number
+     * Gère l'événement lorsqu'un bouton de numéro est cliqué.
+     * @param number le numéro du bouton cliqué.
      */
     public void handleNumberButtonClicked(int number) {
-        // Delegate number button click to the CellController
+        // Délégation du clic sur le bouton de nombre au CellController
         cellController.handleNumberButtonClicked(number);
+        highlightErrors();
         
         if (view.getHelpSwitch().getValue()) {
             provideHelp();
@@ -141,12 +146,12 @@ public class GameBoardController {
     }
 
     /**
-     * Handles the event when a cell is selected.
-     * @param event
-     * @param cell
+     * Gère l'événement lorsqu'une cellule est sélectionnée.
+     * @param event l'événement de sélection de la cellule.
+     * @param cell la cellule sélectionnée.
      */
     public void handleCellSelection(MouseEvent event, Cell cell) {
-        // Delegate cell selection to the CellController
+        // Délégation de la sélection de la cellule au CellController
         cellController.handleCellSelected(event, cell);
     }
 
@@ -161,7 +166,7 @@ public class GameBoardController {
         do {
             filledACell = false; // Réinitialiser pour chaque itération
     
-            // Obtenez la cellule sélectionnée par le joueur
+            // Obtenir la cellule sélectionnée par le joueur
             Cell selectedCell = cellController.getSelectedCell();
             if (selectedCell != null && selectedCell.getNumber() != 0) {
                 int selectedRow = selectedCell.getRow();
@@ -171,12 +176,12 @@ public class GameBoardController {
                 filledACell = fillAdjacentCellsBasedOnPoints(selectedRow, selectedCol);
             }
     
-            // Parcourir toutes les cellules pour la logique de determineMissingValue
+            // Parcourir toutes les cellules pour la logique de remplissage des lignes / colonnes
             for (int row = 0; row < gridSize; row++) {
                 for (int col = 0; col < gridSize; col++) {
                     Cell thisCell = view.getCell(row, col);
     
-                    // Si thisCell est vide, vérifiez si une valeur manquante peut être déterminée
+                    // Si thisCell est vide, vérifier si une valeur manquante peut être déterminée
                     if (thisCell.getNumber() == 0) {
                         int missingValue = determineMissingValue(row, col);
                         if (missingValue > 0) {
@@ -188,8 +193,6 @@ public class GameBoardController {
             }
         } while (filledACell); // Continuer tant qu'au moins une case est remplie à chaque itération
     }
-    
-    
     
     /**
      * Remplit les cellules adjacentes à la cellule spécifiée en fonction des points adjacents.
@@ -223,8 +226,6 @@ public class GameBoardController {
     
         return filled;
     }
-    
-    
 
     /**
      * Détermine la valeur d'une cellule en fonction des points adjacents.
@@ -295,15 +296,14 @@ public class GameBoardController {
         return 0; // Retourner 0 si aucune valeur déterminée
     }
 
-
     /**
-     * Draws the edge points on the game board.
+     * Dessine les points sur la grille de jeu.
      * @param edgePoints
      */
     public void drawEdgePoints(ArrayList<EdgePoint> edgePoints) {
         Platform.runLater(() -> {
-            double radius = 7; // Defines the dot size
-            clearEdgePoints(); // Clears the old dots
+            double radius = 7; // Définit la taille des points
+            clearEdgePoints(); // Efface les anciens points (cas de redimensionnement de la fenêtre)
             
             for (EdgePoint edgePoint : edgePoints) {
                 int sourceRow = edgePoint.getSourceRow()-1;
@@ -328,34 +328,22 @@ public class GameBoardController {
                 Circle point = new Circle(centerX, centerY, radius);
 
                 if (edgePoint.getType().equals("black")) {
-                    point.setFill(Color.BLACK); // Dot fill color
-                    point.setStroke(Color.WHITE); // Dot border color
+                    point.setFill(Color.BLACK); // Couleur de remplissage du point
+                    point.setStroke(Color.WHITE); // Couleur de bordure du point
                 } else if (edgePoint.getType().equals("white")) {
                     point.setFill(Color.WHITE);
                     point.setStroke(Color.BLACK);
                 }
 
-                // Add the Circle to the view
+                // Ajouter le point (objet Circle) à la vue
                 view.getChildren().add(point);
             }
         });
     }
 
-    /*public void updateGameBoard() {
-        for (int row = 0; row < model.getGridSize(); row++) {
-            for (int col = 0; col < model.getGridSize(); col++) {
-                Cell cell = view.getCell(row, col);
-                // Update the cell's appearance based on the model
-                int number = model.getNumber(row, col);
-                cell.setNumber(number);
-                // Add any other update logic here
-            }
-        }
-    }*/
-
     /**
-     * Checks if the game is won.
-     * @return true if the game is won, false otherwise.
+     * Vérifie si le jeu est gagné.
+     * @return vrai si le jeu est gagné, faux sinon.
      */
     public boolean checkGameStatus() {
         for (int row = 0; row < model.getGridSize(); row++) {
@@ -364,17 +352,17 @@ public class GameBoardController {
                 int number = cell.getNumber();
     
                 if (number != model.getNumber(row, col)) {
-                    return false; // If one cell does not match, the game is not won
+                    return false; // Si une cellule ne correspond pas, le jeu n'est pas gagné
                 }
             }
         }
     
-        return true; // Toutes les cellules correspondent, la partie est gagnée
+        return true; // Toutes les cellules correspondent, le jeu est gagné
     }
 
     /**
-     * Checks if the game board is fully filled by the user.
-     * @return true if the game board is full, false otherwise.
+     * Vérifie si la grille de jeu est entièrement remplie par l'utilisateur.
+     * @return vrai si le plateau de jeu est plein, faux sinon.
      */
     public boolean isGridFull() {
         for (int row = 0; row < model.getGridSize(); row++) {
@@ -388,43 +376,43 @@ public class GameBoardController {
             }
         }
     
-        return true; // Toutes les cellules sont remplies, la grille est pleine
+        return true; // Toutes les cellules sont remplies, la grile est pleine
     }
     
     /**
-     * Resets the game.
+     * Réinitialise le jeu.
      */
     public void resetGame() {
-        // Reset the model to start a new game
-        // Update the view to reflect the reset game
+        // Réinitialise le modèle pour commencer une nouvelle partie
+        // Met à jour la vue pour afficher le jeu réinitialisé
         initializeGameBoard();
     }
 
     /**
-     * Adds a resize listener to the stage.
-     * @param stage
+     * Ajoute un écouteur de redimensionnement à la scène.
+     * @param stage la scène à laquelle ajouter l'écouteur.
      */
     public void addResizeListener(Stage stage) {
         ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> {
-            // Draw again the dots when the stage is resized
+            // Dessine à nouveau les points lorsque la scène est redimensionnée
             drawEdgePoints(model.getEdgePoints());
         };
 
-        // Add listeners to the stage's width and height properties
+        // Ajoute des écouteurs aux propriétés de largeur et de hauteur de la scène
         stage.widthProperty().addListener(stageSizeListener);
         stage.heightProperty().addListener(stageSizeListener);
     }
 
     /**
-     * Clears the edge points from the game board.
+     * Efface les points du plateau de jeu.
      */
     public void clearEdgePoints() {
-        // Delete all the dots from the view
+        // Supprime tous les points de la vue
         view.getChildren().removeIf(node -> node instanceof Circle);
     }    
 
     /**
-     * Shows a victory message when the grid is correct.
+     * Affiche un message de victoire lorsque la grille est correcte.
      */
     public void showVictoryMessage() {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -437,7 +425,7 @@ public class GameBoardController {
     }
 
     /**
-     * Shows an incorrect grid message when the grid is incorrect.
+     * Affiche un message d'erreur lorsque la grille est incorrecte.
      */
     public void showIncorrectGridMessage() {
         Alert alert = new Alert(AlertType.ERROR);
@@ -447,6 +435,235 @@ public class GameBoardController {
         alert.setContentText("Le puzzle n'est pas résolu.");
 
         alert.showAndWait();
+    }
+
+    /**
+     * Vérifie les doublons et s'arrête à la première erreur trouvée.
+     *
+     * @param rowErrors Tableau pour stocker les erreurs de ligne.
+     * @param colErrors Tableau pour stocker les erreurs de colonne.
+     * @return true si une erreur est trouvée, false sinon.
+     */
+    private boolean checkForDuplicates(boolean[][] rowErrors, boolean[][] colErrors) {
+        int gridSize = model.getGridSize();
+        boolean foundError = false;
+
+        for (int i = 0; i < gridSize && !foundError; i++) {
+            Set<Integer> rowValues = new HashSet<>();
+            Set<Integer> colValues = new HashSet<>();
+            for (int j = 0; j < gridSize && !foundError; j++) {
+                int rowValue = view.getCell(i, j).getNumber();
+                int colValue = view.getCell(j, i).getNumber();
+
+                if (rowValue != 0 && !rowValues.add(rowValue)) {
+                    rowErrors[i][j] = true;
+                    foundError = true;
+                }
+                if (colValue != 0 && !colValues.add(colValue)) {
+                    colErrors[j][i] = true;
+                    foundError = true;
+                }
+            }
+        }
+        return foundError;
+    }
+
+    /**
+     * Vérifie les erreurs liées aux points noirs et blancs et s'arrête à la première erreur trouvée.
+     *
+     * @param pointErrors Tableau pour stocker les erreurs de points.
+     * @return true si une erreur est trouvée, false sinon.
+     */
+    private boolean checkForPointErrors(boolean[][] pointErrors) {
+        int gridSize = model.getGridSize();
+        boolean foundError = false;
+    
+        // Parcourir toutes les cellules de la grille
+        for (int row = 0; row < gridSize && !foundError; row++) {
+            for (int col = 0; col < gridSize && !foundError; col++) {
+                Cell cell = view.getCell(row, col);
+                int cellValue = cell.getNumber();
+    
+                // Parcourir les cellules adjacentes pour vérifier les règles de points noirs et blancs
+                for (int[] direction : new int[][]{{0, 1}, {1, 0}}) { // Représente les directions droite et bas
+                    int adjacentRow = row + direction[0];
+                    int adjacentCol = col + direction[1];
+    
+                    if (adjacentRow < gridSize && adjacentCol < gridSize) {
+                        Cell adjacentCell = view.getCell(adjacentRow, adjacentCol);
+                        int adjacentCellValue = adjacentCell.getNumber();
+    
+                        if (cellValue > 0 && adjacentCellValue > 0) {
+                            if (model.existsWhiteEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1)) {
+                                // Vérifier la règle du point blanc (les chiffres doivent être consécutifs)
+                                if (Math.abs(cellValue - adjacentCellValue) != 1) {
+                                    pointErrors[row][col] = true;
+                                    pointErrors[adjacentRow][adjacentCol] = true;
+                                    foundError = true;
+                                    break;
+                                }
+                            } else if (model.existsBlackEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1)) {
+                                // Vérifier la règle du point noir (un chiffre doit être le double de l'autre)
+                                if (!(cellValue == 2 * adjacentCellValue || adjacentCellValue == 2 * cellValue)) {
+                                    pointErrors[row][col] = true;
+                                    pointErrors[adjacentRow][adjacentCol] = true;
+                                    foundError = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return foundError;
+    }
+    
+    /**
+     * Met en évidence la première erreur trouvée dans la ligne ou la colonne entière.
+     *
+     * @param rowErrors Tableau pour stocker les erreurs de ligne.
+     * @param colErrors Tableau pour stocker les erreurs de colonne.
+     * @param pointErrors Tableau pour stocker les erreurs de points.
+     */
+    private void highlightFirstError(boolean[][] rowErrors, boolean[][] colErrors, boolean[][] pointErrors) {
+        int gridSize = model.getGridSize();
+        boolean errorHighlighted = false;
+    
+        // Vérifier et mettre en évidence les erreurs de doublons dans les lignes
+        for (int row = 0; row < gridSize && !errorHighlighted; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                if (rowErrors[row][col]) {
+                    // Mettre en évidence toute la ligne
+                    for (int c = 0; c < gridSize; c++) {
+
+                        if (view.getCell(row, c).equals(cellController.getSelectedCell())) {
+                            view.getCell(row, c).setStyle(KropkiConstants.CELL_ERROR_SELECTED_STYLE);
+                        } else {
+                            view.getCell(row, c).setStyle(KropkiConstants.CELL_ERROR_STYLE);
+                        }
+
+                        view.getCell(row, c).setIsError(true);
+                    }
+                    errorHighlighted = true; // Arrêter après avoir mis en évidence la première erreur
+                    break; // Sortir de la boucle dès la première erreur trouvée
+                }
+            }
+        }
+    
+        // Vérifier et mettre en évidence les erreurs de doublons dans les colonnes
+        for (int col = 0; col < gridSize && !errorHighlighted; col++) {
+            for (int row = 0; row < gridSize; row++) {
+                if (colErrors[row][col]) {
+                    // Mettre en évidence toute la colonne
+                    for (int r = 0; r < gridSize; r++) {
+
+                        if (view.getCell(r, col).equals(cellController.getSelectedCell())) {
+                            view.getCell(r, col).setStyle(KropkiConstants.CELL_ERROR_SELECTED_STYLE);
+                        } else {
+                            view.getCell(r, col).setStyle(KropkiConstants.CELL_ERROR_STYLE);
+                        }
+
+                        view.getCell(r, col).setIsError(true);
+                    }
+                    errorHighlighted = true; // Arrêter après avoir mis en évidence la première erreur
+                    break; // Sortir de la boucle dès la première erreur trouvée
+                }
+            }
+        }
+    
+        // Vérifier et mettre en évidence les erreurs de points
+        if (!errorHighlighted) {
+            for (int row = 0; row < gridSize && !errorHighlighted; row++) {
+                for (int col = 0; col < gridSize && !errorHighlighted; col++) {
+                    if (pointErrors[row][col]) {
+                        // Mettre en évidence les deux cellules séparées par un point
+                        view.getCell(row, col).setStyle(KropkiConstants.CELL_ERROR_STYLE);
+
+                        // Supposons que pointErrors contient déjà la paire de cellules erronées
+                        for (int[] direction : new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}) {
+                            int adjRow = row + direction[0];
+                            int adjCol = col + direction[1];
+                            if (adjRow >= 0 && adjRow < gridSize && adjCol >= 0 && adjCol < gridSize && pointErrors[adjRow][adjCol]) {
+
+                                if(view.getCell(adjRow, adjCol).equals(cellController.getSelectedCell())) {
+                                    view.getCell(adjRow, adjCol).setStyle(KropkiConstants.CELL_ERROR_SELECTED_STYLE);
+                                } else {
+                                    view.getCell(adjRow, adjCol).setStyle(KropkiConstants.CELL_ERROR_STYLE);
+                                }
+
+                                view.getCell(adjRow, adjCol).setIsError(true);
+                                errorHighlighted = true;
+                                break; // Sortir de la boucle dès la première erreur trouvée
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Appelée pour vérifier et mettre en évidence les erreurs.
+     */
+    public void highlightErrors() {
+        resetCellStyles(); // Réinitialiser les styles avant de marquer les erreurs
+
+        boolean[][] rowErrors = new boolean[model.getGridSize()][model.getGridSize()];
+        boolean[][] colErrors = new boolean[model.getGridSize()][model.getGridSize()];
+        boolean[][] pointErrors = new boolean[model.getGridSize()][model.getGridSize()];
+
+        boolean foundError = checkForDuplicates(rowErrors, colErrors);
+        if (!foundError) {
+            foundError = checkForPointErrors(pointErrors);
+        }
+
+        if (foundError) {
+            highlightFirstError(rowErrors, colErrors, pointErrors);
+        } else {
+            // S'il n'y a plus d'erreurs, réinitialiser l'état d'erreur de toutes les cellules
+            resetErrorState();
+        }
+    }
+
+    /**
+     * Réinitialise le style de toutes les cellules.
+     */
+    private void resetCellStyles() {
+        int gridSize = model.getGridSize();
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                Cell cell = view.getCell(row, col);
+
+                if (cell.equals(cellController.getSelectedCell())) {
+                    if (cell.getIsError()) {
+                        cell.setStyle(KropkiConstants.CELL_BORDER_STYLE);
+                    } else {
+                        cell.setStyle(KropkiConstants.CELL_ERROR_STYLE);
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Réinitialise l'état d'erreur de toutes les cellules.
+     */
+    private void resetErrorState() {
+        int gridSize = model.getGridSize();
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                Cell cell = view.getCell(row, col);
+
+                if (cell.equals(cellController.getSelectedCell())) {
+                    cell.setStyle(KropkiConstants.CELL_SELECTED_STYLE);
+                } else {
+                    cell.setStyle(KropkiConstants.CELL_BORDER_STYLE);
+                }
+
+                cell.setIsError(false);
+            }
+        }
     }
 }
 

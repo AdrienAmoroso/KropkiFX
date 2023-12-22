@@ -3,7 +3,7 @@ package com.kropkigame.model;
 import java.util.ArrayList;
 
 /**
- * Represents a Kropki puzzle.
+ * Représente un puzzle Kropki.
  */
 public class Puzzle implements KropkiConstants {
     private int[][] numbers;
@@ -11,29 +11,29 @@ public class Puzzle implements KropkiConstants {
     private ArrayList<EdgePoint> edgePoints;
 
     /**
-     * Constructs an empty Kropki puzzle with a default grid size of 4x4.
+     * Construit un puzzle Kropki vide avec une taille de grille par défaut de 4x4.
      */
     public Puzzle() {
-        // Initialize an empty Kropki grid problem:
+        // Initialise un problème de grille Kropki vide:
         this.gridSize = 4;
         this.numbers = new int[gridSize][gridSize];
         
-        // Setting the numbers to all zeros
+        // Met tous les nombres à zéro
         for (int i = 0; i < this.gridSize; i++) {
             for (int j = 0; j < this.gridSize; j++) {
                 numbers[i][j] = 0;
             }
         }
 
-        // Initialize an empty list of edge points
+        // Initialise une liste vide de points de bord
         this.edgePoints = new ArrayList<EdgePoint>();
     }
 
     /**
-     * Constructs a Kropki puzzle with the specified numbers and grid size.
+     * Construit un puzzle Kropki avec les nombres et la taille de grille spécifiés.
      * 
-     * @param numbers The numbers of the puzzle grid.
-     * @param gridSize The size of the puzzle grid.
+     * @param numbers Les nombres de la grille de puzzle.
+     * @param gridSize La taille de la grille de puzzle.
      */
     public Puzzle(int[][] numbers, int gridSize) {
         this.gridSize = gridSize;
@@ -42,11 +42,11 @@ public class Puzzle implements KropkiConstants {
     }
 
     /**
-     * Constructs a Kropki puzzle with the specified numbers, grid size, and edge points.
+     * Construit un puzzle Kropki avec les nombres, la taille de grille et les points de bord spécifiés.
      * 
-     * @param numbers The numbers of the puzzle grid.
-     * @param gridSize The size of the puzzle grid.
-     * @param edgePoints The edge points of the puzzle.
+     * @param numbers Les nombres de la grille de puzzle.
+     * @param gridSize La taille de la grille de puzzle.
+     * @param edgePoints Les points de bord du puzzle.
      */
     public Puzzle(int[][] numbers, int gridSize, ArrayList<EdgePoint> edgePoints) {
         this.gridSize = gridSize;
@@ -55,12 +55,12 @@ public class Puzzle implements KropkiConstants {
     }
 
     /**
-     * Gets the number at the specified row and column in the puzzle grid.
+     * Obtient le nombre à la ligne et à la colonne spécifiées dans la grille de puzzle.
      * 
-     * @param row The row index.
-     * @param col The column index.
-     * @return The number at the specified position.
-     * @throws IndexOutOfBoundsException if the row or column index is out of bounds.
+     * @param row L'indice de ligne.
+     * @param col L'indice de colonne.
+     * @return Le nombre à la position spécifiée.
+     * @throws IndexOutOfBoundsException si l'indice de ligne ou de colonne est hors limites.
      */
     public int getNumber(int row, int col) {
         if (row < 0 || row >= this.gridSize || col < 0 || col >= this.gridSize) {
@@ -71,9 +71,9 @@ public class Puzzle implements KropkiConstants {
     }
     
     /**
-     * Gets a copy of the numbers in the puzzle grid.
+     * Obtient une copie des nombres dans la grille de puzzle.
      * 
-     * @return A copy of the numbers in the puzzle grid.
+     * @return Une copie des nombres dans la grille de puzzle.
      */
     public int[][] getNumbers() {
         int[][] numbersList = this.numbers.clone();
@@ -81,54 +81,54 @@ public class Puzzle implements KropkiConstants {
     }
 
     /**
-     * Sets the numbers in the puzzle grid.
+     * Définit les nombres dans la grille de puzzle.
      * 
-     * @param numbers The numbers to set.
+     * @param numbers Les nombres à définir.
      */
     public void setNumbers(int[][] numbers) {
         this.numbers = numbers;
     }
 
     /**
-     * Gets the size of the puzzle grid.
+     * Obtient la taille de la grille de puzzle.
      * 
-     * @return The size of the puzzle grid.
+     * @return La taille de la grille de puzzle.
      */
     public int getGridSize() {
         return this.gridSize;
     }
 
     /**
-     * Sets the size of the puzzle grid.
+     * Définit la taille de la grille de puzzle.
      * 
-     * @param gridSize The size of the puzzle grid.
+     * @param gridSize La taille de la grille de puzzle.
      */
     public void setGridSize(int gridSize) {
         this.gridSize = gridSize;
     }
 
     /**
-     * Gets the edge points of the puzzle.
+     * Obtient les points du puzzle.
      * 
-     * @return The edge points of the puzzle.
+     * @return Les points du puzzle.
      */
     public ArrayList<EdgePoint> getEdgePoints() {
         return this.edgePoints;
     }
 
     /**
-     * Sets the edge points of the puzzle.
+     * Définit les points du puzzle.
      * 
-     * @param edgePoints The edge points to set.
+     * @param edgePoints Les points à définir.
      */
     public void setEdgePoints(ArrayList<EdgePoint> edgePoints) {
         this.edgePoints = edgePoints;
     }
 
     /**
-     * Adds an edge point to the puzzle.
+     * Ajoute un point au puzzle.
      * 
-     * @param edgePoint The edge point to add.
+     * @param edgePoint Le point de bord à ajouter.
      */
     public void addEdgePoint(EdgePoint edgePoint) {
         if (!edgePoints.contains(edgePoint)) {
@@ -137,13 +137,13 @@ public class Puzzle implements KropkiConstants {
     }
 
     /**
-     * Checks if a black edge point exists between the specified source and target positions.
+     * Vérifie si un point noir existe entre les cellules source et cible spécifiées.
      * 
-     * @param sourceRow The row index of the source position.
-     * @param sourceCol The column index of the source position.
-     * @param targetRow The row index of the target position.
-     * @param targetCol The column index of the target position.
-     * @return true if a black edge point exists, false otherwise.
+     * @param sourceRow L'indice de ligne de la position source.
+     * @param sourceCol L'indice de colonne de la position source.
+     * @param targetRow L'indice de ligne de la position cible.
+     * @param targetCol L'indice de colonne de la position cible.
+     * @return true si un point noir existe, false sinon.
      */
     public boolean existsBlackEdgePoint(int sourceRow, int sourceCol, int targetRow, int targetCol) {
         for (EdgePoint edgePoint : edgePoints) {
@@ -158,13 +158,13 @@ public class Puzzle implements KropkiConstants {
     }
 
     /**
-     * Checks if a white edge point exists between the specified source and target positions.
+     * Vérifie si un point blanc existe entre les cellules source et cible spécifiées.
      * 
-     * @param sourceRow The row index of the source position.
-     * @param sourceCol The column index of the source position.
-     * @param targetRow The row index of the target position.
-     * @param targetCol The column index of the target position.
-     * @return true if a white edge point exists, false otherwise.
+     * @param sourceRow L'indice de ligne de la position source.
+     * @param sourceCol L'indice de colonne de la position source.
+     * @param targetRow L'indice de ligne de la position cible.
+     * @param targetCol L'indice de colonne de la position cible.
+     * @return true si un point blanc existe, false sinon.
      */
     public boolean existsWhiteEdgePoint(int sourceRow, int sourceCol, int targetRow, int targetCol) {
         for (EdgePoint edgePoint : edgePoints) {
@@ -179,9 +179,9 @@ public class Puzzle implements KropkiConstants {
     }
 
     /**
-     * Returns a string representation of the puzzle.
+     * Retourne une représentation en chaîne de caractères du puzzle.
      * 
-     * @return A string representation of the puzzle.
+     * @return Une représentation en chaîne de caractères du puzzle.
      */
     @Override
     public String toString() {
