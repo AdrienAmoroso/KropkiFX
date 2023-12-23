@@ -463,30 +463,41 @@ public class GameBoardController {
      */
     private boolean checkForPointErrors(boolean[][] pointErrors) {
         int gridSize = model.getGridSize();
+        // Initialise une variable pour suivre si une erreur a été trouvée
         boolean foundError = false;
     
         for (int row = 0; row < gridSize && !foundError; row++) {
             for (int col = 0; col < gridSize && !foundError; col++) {
+                // Récupère la cellule actuelle et sa valeur
                 Cell cell = view.getCell(row, col);
                 int cellValue = cell.getNumber();
     
-                for (int[] direction : new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}) { // Directions droite, bas, gauche, haut
+                // Parcourt chaque direction à partir de la cellule actuelle (droite, bas, gauche, haut)
+                for (int[] direction : new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}) {
+                    // Calcule les coordonnées de la cellule adjacente
                     int adjacentRow = row + direction[0];
                     int adjacentCol = col + direction[1];
     
+                    // Vérifie si la cellule adjacente est dans la grille
                     if (adjacentRow >= 0 && adjacentRow < gridSize && adjacentCol >= 0 && adjacentCol < gridSize) {
+                        // Récupère la cellule adjacente et sa valeur
                         Cell adjacentCell = view.getCell(adjacentRow, adjacentCol);
                         int adjacentCellValue = adjacentCell.getNumber();
     
                         if (cellValue > 0 && adjacentCellValue > 0) {
+                            // Vérifie si un poibt blanc existe entre les deux cellules
                             if (model.existsWhiteEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1) || model.existsWhiteEdgePoint(adjacentRow + 1, adjacentCol + 1, row + 1, col + 1)) {
+                                // Si les valeurs des deux cellules ne sont pas consécutives, on signale l'erreur
                                 if (Math.abs(cellValue - adjacentCellValue) != 1) {
                                     pointErrors[row][col] = true;
                                     pointErrors[adjacentRow][adjacentCol] = true;
                                     foundError = true;
                                     break;
                                 }
-                            } else if (model.existsBlackEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1) || model.existsBlackEdgePoint(adjacentRow + 1, adjacentCol + 1, row + 1, col + 1)) {
+                            } 
+                            // Vérifie si un point noir existe entre les deux cellules
+                            else if (model.existsBlackEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1) || model.existsBlackEdgePoint(adjacentRow + 1, adjacentCol + 1, row + 1, col + 1)) {
+                                // Si la valeur de l'une des cellules n'est pas le double de l'autre, on signale l'erreur
                                 if (!(cellValue == 2 * adjacentCellValue || adjacentCellValue == 2 * cellValue)) {
                                     pointErrors[row][col] = true;
                                     pointErrors[adjacentRow][adjacentCol] = true;
@@ -499,6 +510,7 @@ public class GameBoardController {
                 }
             }
         }
+
         return foundError;
     }
     
@@ -560,10 +572,17 @@ public class GameBoardController {
         if (!errorHighlighted) {
             for (int row = 0; row < gridSize && !errorHighlighted; row++) {
                 for (int col = 0; col < gridSize && !errorHighlighted; col++) {
+
+                    // Si une erreur de point a été trouvée à cette position
                     if (pointErrors[row][col]) {
+
+                        // Parcourt chaque direction à partir de la cellule actuelle (droite, bas, gauche, haut)
                         for (int[] direction : new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}) {
+                            // Calcule les coordonnées de la cellule adjacente
                             int adjRow = row + direction[0];
                             int adjCol = col + direction[1];
+
+                            // Vérifie si la cellule adjacente est dans la grille et si une erreur liée aux points a été trouvée à cette position
                             if (adjRow >= 0 && adjRow < gridSize && adjCol >= 0 && adjCol < gridSize && pointErrors[adjRow][adjCol]) {
                                 Cell cell = view.getCell(row, col);
                                 Cell adjacentCell = view.getCell(adjRow, adjCol);
@@ -573,6 +592,7 @@ public class GameBoardController {
                                 } else {
                                     cell.setStyle(KropkiConstants.CELL_ERROR_STYLE);
                                 }
+
                                 cell.setIsError(true);
 
                                 if (adjacentCell.equals(cellController.getSelectedCell())) {
@@ -580,8 +600,10 @@ public class GameBoardController {
                                 } else {
                                     adjacentCell.setStyle(KropkiConstants.CELL_ERROR_STYLE);
                                 }
+                                
                                 adjacentCell.setIsError(true);
 
+                                // Indique qu'une erreur a été mise en évidence
                                 errorHighlighted = true;
                                 break;
                             }
