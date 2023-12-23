@@ -9,12 +9,10 @@ public interface KropkiConstants {
     int SCENE_WIDTH = 600; // Largeur de la scène
     int SCENE_HEIGHT = 800; // Hauteur de la scène
 
-    // "-fx-font-family: Helvetica; -fx-font-size: 14pt; -fx-pref-width: 50px; -fx-pref-height: 50px;"
-
     /*** Styles des composants de la vue ***/
     String NUMBER_BUTTON_STYLE = "-fx-background-color: #000000, linear-gradient(#7ebcea, #2f4b8f), linear-gradient(#426ab7, #263e75), "
             + "linear-gradient(#395cab, #223768); -fx-background-insets: 0,1,2,3; -fx-background-radius: 3,2,2,2; "
-            + "-fx-padding: 12 30 12 30; -fx-text-fill: white; -fx-font-size: 14pt; -fx-font-family: Helvetica; -fx-font-size: 14pt; "
+            + "-fx-padding: 12 30 12 30; -fx-text-fill: white; -fx-font-family: Helvetica; -fx-font-size: 14pt; "
             + "-fx-pref-width: 50px; -fx-pref-height: 50px; -fx-font-weight: bold; -fx-border-color: white; -fx-border-radius: 3"; // Style des boutons de sélection des nombres
 
     String CELL_TEXT_STYLE = "-fx-fill: white; -fx-font-family: Helvetica; -fx-font-size: 20pt; -fx-font-weight: bold;"; // Style de texte pour les cellules
