@@ -434,24 +434,28 @@ public class GameBoardController {
     private boolean checkForDuplicates(boolean[][] rowErrors, boolean[][] colErrors) {
         int gridSize = model.getGridSize();
         boolean foundError = false;
-
+    
         for (int i = 0; i < gridSize && !foundError; i++) {
+            // Crée des ensembles pour suivre les valeurs uniques dans la ligne et la colonne actuelles
             Set<Integer> rowValues = new HashSet<>();
             Set<Integer> colValues = new HashSet<>();
             for (int j = 0; j < gridSize && !foundError; j++) {
                 int rowValue = view.getCell(i, j).getNumber();
                 int colValue = view.getCell(j, i).getNumber();
-
+    
+                // Si la valeur de la ligne n'est pas 0 et qu'elle est déjà présente dans l'ensemble des valeurs de la ligne, on signale l'erreur
                 if (rowValue != 0 && !rowValues.add(rowValue)) {
                     rowErrors[i][j] = true;
                     foundError = true;
                 }
+                // Si la valeur de la colonne n'est pas 0 et qu'elle est déjà présente dans l'ensemble des valeurs de la colonne, on signale l'erreur
                 if (colValue != 0 && !colValues.add(colValue)) {
                     colErrors[j][i] = true;
                     foundError = true;
                 }
             }
         }
+        // Retourne si une erreur a été trouvée
         return foundError;
     }
 
@@ -600,7 +604,7 @@ public class GameBoardController {
                                 } else {
                                     adjacentCell.setStyle(KropkiConstants.CELL_ERROR_STYLE);
                                 }
-                                
+
                                 adjacentCell.setIsError(true);
 
                                 // Indique qu'une erreur a été mise en évidence
