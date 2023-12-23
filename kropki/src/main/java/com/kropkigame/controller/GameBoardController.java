@@ -465,32 +465,28 @@ public class GameBoardController {
         int gridSize = model.getGridSize();
         boolean foundError = false;
     
-        // Parcourir toutes les cellules de la grille
         for (int row = 0; row < gridSize && !foundError; row++) {
             for (int col = 0; col < gridSize && !foundError; col++) {
                 Cell cell = view.getCell(row, col);
                 int cellValue = cell.getNumber();
     
-                // Parcourir les cellules adjacentes pour vérifier les règles de points noirs et blancs
-                for (int[] direction : new int[][]{{0, 1}, {1, 0}}) { // Représente les directions droite et bas
+                for (int[] direction : new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}) { // Directions droite, bas, gauche, haut
                     int adjacentRow = row + direction[0];
                     int adjacentCol = col + direction[1];
     
-                    if (adjacentRow < gridSize && adjacentCol < gridSize) {
+                    if (adjacentRow >= 0 && adjacentRow < gridSize && adjacentCol >= 0 && adjacentCol < gridSize) {
                         Cell adjacentCell = view.getCell(adjacentRow, adjacentCol);
                         int adjacentCellValue = adjacentCell.getNumber();
     
                         if (cellValue > 0 && adjacentCellValue > 0) {
-                            if (model.existsWhiteEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1)) {
-                                // Vérifier la règle du point blanc (les chiffres doivent être consécutifs)
+                            if (model.existsWhiteEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1) || model.existsWhiteEdgePoint(adjacentRow + 1, adjacentCol + 1, row + 1, col + 1)) {
                                 if (Math.abs(cellValue - adjacentCellValue) != 1) {
                                     pointErrors[row][col] = true;
                                     pointErrors[adjacentRow][adjacentCol] = true;
                                     foundError = true;
                                     break;
                                 }
-                            } else if (model.existsBlackEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1)) {
-                                // Vérifier la règle du point noir (un chiffre doit être le double de l'autre)
+                            } else if (model.existsBlackEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1) || model.existsBlackEdgePoint(adjacentRow + 1, adjacentCol + 1, row + 1, col + 1)) {
                                 if (!(cellValue == 2 * adjacentCellValue || adjacentCellValue == 2 * cellValue)) {
                                     pointErrors[row][col] = true;
                                     pointErrors[adjacentRow][adjacentCol] = true;
@@ -505,6 +501,7 @@ public class GameBoardController {
         }
         return foundError;
     }
+    
     
     /**
      * Met en évidence la première erreur trouvée dans la ligne ou la colonne entière.
@@ -564,24 +561,29 @@ public class GameBoardController {
             for (int row = 0; row < gridSize && !errorHighlighted; row++) {
                 for (int col = 0; col < gridSize && !errorHighlighted; col++) {
                     if (pointErrors[row][col]) {
-                        // Mettre en évidence les deux cellules séparées par un point
-                        view.getCell(row, col).setStyle(KropkiConstants.CELL_ERROR_STYLE);
-
-                        // Supposons que pointErrors contient déjà la paire de cellules erronées
                         for (int[] direction : new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}) {
                             int adjRow = row + direction[0];
                             int adjCol = col + direction[1];
                             if (adjRow >= 0 && adjRow < gridSize && adjCol >= 0 && adjCol < gridSize && pointErrors[adjRow][adjCol]) {
+                                Cell cell = view.getCell(row, col);
+                                Cell adjacentCell = view.getCell(adjRow, adjCol);
 
-                                if(view.getCell(adjRow, adjCol).equals(cellController.getSelectedCell())) {
-                                    view.getCell(adjRow, adjCol).setStyle(KropkiConstants.CELL_ERROR_SELECTED_STYLE);
+                                if (cell.equals(cellController.getSelectedCell())) {
+                                    cell.setStyle(KropkiConstants.CELL_ERROR_SELECTED_STYLE);
                                 } else {
-                                    view.getCell(adjRow, adjCol).setStyle(KropkiConstants.CELL_ERROR_STYLE);
+                                    cell.setStyle(KropkiConstants.CELL_ERROR_STYLE);
                                 }
+                                cell.setIsError(true);
 
-                                view.getCell(adjRow, adjCol).setIsError(true);
+                                if (adjacentCell.equals(cellController.getSelectedCell())) {
+                                    adjacentCell.setStyle(KropkiConstants.CELL_ERROR_SELECTED_STYLE);
+                                } else {
+                                    adjacentCell.setStyle(KropkiConstants.CELL_ERROR_STYLE);
+                                }
+                                adjacentCell.setIsError(true);
+
                                 errorHighlighted = true;
-                                break; // Sortir de la boucle dès la première erreur trouvée
+                                break;
                             }
                         }
                     }
