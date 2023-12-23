@@ -130,6 +130,8 @@ public class GameBoardController {
     public void handleNumberButtonClicked(int number) {
         // Délégation du clic sur le bouton de nombre au CellController
         cellController.handleNumberButtonClicked(number);
+
+        // Vérification des erreurs
         highlightErrors();
         
         if (view.getHelpSwitch().getValue()) {
@@ -139,8 +141,6 @@ public class GameBoardController {
         if (isGridFull()) {
             if (checkGameStatus()) {
                 showVictoryMessage();
-            } else {
-                showIncorrectGridMessage();
             }
         }
     }
@@ -425,19 +425,6 @@ public class GameBoardController {
     }
 
     /**
-     * Affiche un message d'erreur lorsque la grille est incorrecte.
-     */
-    public void showIncorrectGridMessage() {
-        Alert alert = new Alert(AlertType.ERROR);
-
-        alert.setTitle("Incorrect !");
-        alert.setHeaderText(null);
-        alert.setContentText("Le puzzle n'est pas résolu.");
-
-        alert.showAndWait();
-    }
-
-    /**
      * Vérifie les doublons et s'arrête à la première erreur trouvée.
      *
      * @param rowErrors Tableau pour stocker les erreurs de ligne.
@@ -608,21 +595,18 @@ public class GameBoardController {
      */
     public void highlightErrors() {
         resetCellStyles(); // Réinitialiser les styles avant de marquer les erreurs
-
+    
         boolean[][] rowErrors = new boolean[model.getGridSize()][model.getGridSize()];
         boolean[][] colErrors = new boolean[model.getGridSize()][model.getGridSize()];
         boolean[][] pointErrors = new boolean[model.getGridSize()][model.getGridSize()];
-
-        boolean foundError = checkForDuplicates(rowErrors, colErrors);
-        if (!foundError) {
-            foundError = checkForPointErrors(pointErrors);
-        }
-
-        if (foundError) {
+    
+        boolean foundRowOrColError = checkForDuplicates(rowErrors, colErrors);
+        boolean foundPointError = checkForPointErrors(pointErrors);
+    
+        if (foundRowOrColError || foundPointError) {
             highlightFirstError(rowErrors, colErrors, pointErrors);
         } else {
-            // S'il n'y a plus d'erreurs, réinitialiser l'état d'erreur de toutes les cellules
-            resetErrorState();
+            resetErrorState(); // S'il n'y a plus d'erreurs, réinitialiser l'état d'erreur de toutes les cellules
         }
     }
 
@@ -634,14 +618,13 @@ public class GameBoardController {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
                 Cell cell = view.getCell(row, col);
+                cell.setIsError(false); // Assurez-vous de réinitialiser l'état d'erreur
 
-                if (cell.equals(cellController.getSelectedCell())) {
-                    if (cell.getIsError()) {
-                        cell.setStyle(KropkiConstants.CELL_BORDER_STYLE);
-                    } else {
-                        cell.setStyle(KropkiConstants.CELL_ERROR_STYLE);
-                    }
-                }
+                if (!cell.equals(cellController.getSelectedCell())) {
+                    cell.setStyle(KropkiConstants.CELL_BORDER_STYLE);
+                } else {
+                    cell.setStyle(KropkiConstants.CELL_SELECTED_STYLE);
+                }            
             }
         }
     }
@@ -655,12 +638,11 @@ public class GameBoardController {
             for (int col = 0; col < gridSize; col++) {
                 Cell cell = view.getCell(row, col);
 
-                if (cell.equals(cellController.getSelectedCell())) {
-                    cell.setStyle(KropkiConstants.CELL_SELECTED_STYLE);
-                } else {
+                if (!cell.equals(cellController.getSelectedCell())) {
                     cell.setStyle(KropkiConstants.CELL_BORDER_STYLE);
+                } else {
+                    cell.setStyle(KropkiConstants.CELL_SELECTED_STYLE);
                 }
-
                 cell.setIsError(false);
             }
         }
