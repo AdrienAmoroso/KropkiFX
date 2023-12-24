@@ -467,12 +467,11 @@ public class GameBoardController {
      */
     private boolean checkForPointErrors(boolean[][] pointErrors) {
         int gridSize = model.getGridSize();
-        // Initialise une variable pour suivre si une erreur a été trouvée
         boolean foundError = false;
     
         for (int row = 0; row < gridSize && !foundError; row++) {
             for (int col = 0; col < gridSize && !foundError; col++) {
-                // Récupère la cellule actuelle et sa valeur
+                // Récupère la cellule et sa valeur à la position (row, col)
                 Cell cell = view.getCell(row, col);
                 int cellValue = cell.getNumber();
     
@@ -489,20 +488,31 @@ public class GameBoardController {
                         int adjacentCellValue = adjacentCell.getNumber();
     
                         if (cellValue > 0 && adjacentCellValue > 0) {
-                            // Vérifie si un poibt blanc existe entre les deux cellules
-                            if (model.existsWhiteEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1) || model.existsWhiteEdgePoint(adjacentRow + 1, adjacentCol + 1, row + 1, col + 1)) {
-                                // Si les valeurs des deux cellules ne sont pas consécutives, on signale l'erreur
-                                if (Math.abs(cellValue - adjacentCellValue) != 1) {
-                                    pointErrors[row][col] = true;
-                                    pointErrors[adjacentRow][adjacentCol] = true;
-                                    foundError = true;
-                                    break;
-                                }
-                            } 
-                            // Vérifie si un point noir existe entre les deux cellules
-                            else if (model.existsBlackEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1) || model.existsBlackEdgePoint(adjacentRow + 1, adjacentCol + 1, row + 1, col + 1)) {
-                                // Si la valeur de l'une des cellules n'est pas le double de l'autre, on signale l'erreur
-                                if (!(cellValue == 2 * adjacentCellValue || adjacentCellValue == 2 * cellValue)) {
+                            // Vérifie si un point blanc ou noir existe entre les deux cellules
+                            boolean hasWhitePoint = model.existsWhiteEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1)
+                                    || model.existsWhiteEdgePoint(adjacentRow + 1, adjacentCol + 1, row + 1, col + 1);
+                            boolean hasBlackPoint = model.existsBlackEdgePoint(row + 1, col + 1, adjacentRow + 1, adjacentCol + 1)
+                                    || model.existsBlackEdgePoint(adjacentRow + 1, adjacentCol + 1, row + 1, col + 1);
+    
+                            // Si un point blanc existe et que les valeurs des cellules ne sont pas consécutives, on signale l'erreur
+                            if (hasWhitePoint && Math.abs(cellValue - adjacentCellValue) != 1) {
+                                pointErrors[row][col] = true;
+                                pointErrors[adjacentRow][adjacentCol] = true;
+                                foundError = true;
+                                break;
+                            }
+                            // Si un point noir existe et que l'une des valeurs n'est pas le double de l'autre, on signale l'erreur
+                            else if (hasBlackPoint && !(cellValue == 2 * adjacentCellValue || adjacentCellValue == 2 * cellValue)) {
+                                pointErrors[row][col] = true;
+                                pointErrors[adjacentRow][adjacentCol] = true;
+                                foundError = true;
+                                break;
+                            }
+    
+                            // Si aucune règle de point n'est applicable mais que les valeurs des cellules appliquent une règle 
+                            // liée aux points noirs ou blancs, on signale l'erreur
+                            if (!hasWhitePoint && !hasBlackPoint) {
+                                if (Math.abs(cellValue - adjacentCellValue) == 1 || cellValue == 2 * adjacentCellValue || adjacentCellValue == 2 * cellValue) {
                                     pointErrors[row][col] = true;
                                     pointErrors[adjacentRow][adjacentCol] = true;
                                     foundError = true;
@@ -514,10 +524,8 @@ public class GameBoardController {
                 }
             }
         }
-
         return foundError;
-    }
-    
+    } 
     
     /**
      * Met en évidence la première erreur trouvée dans la ligne ou la colonne entière.
