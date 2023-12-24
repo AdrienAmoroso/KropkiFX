@@ -103,13 +103,14 @@ public class GameBoardController {
             }
         }
 
-        // Parcours de chaque bouton de nombre
+        // Configuration des boutons de nombre
         for (int i = 1; i <= model.getGridSize(); i++) {
             final int number = i;
             Button numberButton = (Button) view.lookup("#numberButton" + number);
             if (numberButton != null) {
-                // Attachement du gestionnaire d'événements gérant le fait de rentrer un nombre dans la cellule sélectionnée (clic)
                 numberButton.setOnAction(event -> handleNumberButtonClicked(number));
+                numberButton.setOnMouseEntered(e -> numberButton.setStyle(KropkiConstants.NUMBER_BUTTON_HOVER_STYLE));
+                numberButton.setOnMouseExited(e -> numberButton.setStyle(KropkiConstants.NUMBER_BUTTON_STYLE));
             }
         }
 
