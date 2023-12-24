@@ -6,6 +6,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -19,6 +21,7 @@ public class GameBoardPanel extends BorderPane {
     private HBox numberBar;
     private GridPane gridPane;
     private HelpSwitch helpSwitch;
+    private Button resetButton;
 
     /**
      * Construit la fenêtre de jeu avec la taille de grille spécifiée.
@@ -30,11 +33,15 @@ public class GameBoardPanel extends BorderPane {
         this.gridPane = createGridPane(gridSize);
         this.numberBar = createNumberBar(gridSize);
         this.helpSwitch = new HelpSwitch();
+        this.resetButton = createResetButton();
 
+        HBox contentHbox = new HBox(50);
         VBox contentVBox = new VBox(10);
+        contentHbox.setAlignment(Pos.CENTER);
         contentVBox.setAlignment(Pos.CENTER);
 
-        contentVBox.getChildren().addAll(helpSwitch, gridPane);
+        contentHbox.getChildren().addAll(resetButton, helpSwitch);
+        contentVBox.getChildren().addAll(contentHbox, gridPane);
 
         this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
         this.setCenter(contentVBox);
@@ -88,6 +95,24 @@ public class GameBoardPanel extends BorderPane {
         numberBar.setStyle(KropkiConstants.NUMBER_BAR_STYLE);
 
         return numberBar;
+    }
+
+    /**
+     * Crée le bouton de réinitialisation.
+     * @return le bouton de réinitialisation.
+     */
+    private Button createResetButton() {
+        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(KropkiConstants.RESTART_ICON_PATH)));
+        imageView.setFitWidth(30); 
+        imageView.setFitHeight(30);
+        imageView.setPreserveRatio(false);
+
+        // Créer le bouton de réinitialisation
+        Button resetBtn = new Button();
+        resetBtn.setGraphic(imageView); // Définir l'image comme graphique du bouton
+        resetBtn.setStyle(KropkiConstants.RESET_BUTTON_STYLE);
+
+        return resetBtn;
     }
     
     /**
@@ -144,4 +169,19 @@ public class GameBoardPanel extends BorderPane {
         return this.helpSwitch;
     }
 
+    /**
+     * Renvoie le bouton de réinitialisation.
+     * @return le bouton de réinitialisation.
+     */
+    public Button getResetButton() {
+        return this.resetButton;
+    }
+
+    /**
+     * Définit le bouton de réinitialisation.
+     * @param resetButton le bouton de réinitialisation.
+     */
+    public void setResetButton(Button resetButton) {
+        this.resetButton = resetButton;
+    }
 }

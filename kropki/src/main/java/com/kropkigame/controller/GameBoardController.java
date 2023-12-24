@@ -113,6 +113,9 @@ public class GameBoardController {
             }
         }
 
+        // Configuration du bouton de réinitialisation
+        view.getResetButton().setOnAction(event -> resetGame());
+
         // Configuration du switch d'aide
         view.getHelpSwitch().setOnMouseClicked(e -> {
             view.getHelpSwitch().setValue(!(view.getHelpSwitch().getValue()));
@@ -382,10 +385,20 @@ public class GameBoardController {
     /**
      * Réinitialise le jeu.
      */
-    public void resetGame() {
-        // Réinitialise le modèle pour commencer une nouvelle partie
-        // Met à jour la vue pour afficher le jeu réinitialisé
-        initializeGameBoard();
+    private void resetGame() {
+        int gridSize = model.getGridSize();
+
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                Cell cell = view.getCell(row, col);
+                cell.setNumber(0);
+                cell.getTextDisplay().setText("");
+            }
+        }
+
+        // Réinitialise les styles et états des cellules
+        resetCellStyles();
+        resetErrorState();
     }
 
     /**
