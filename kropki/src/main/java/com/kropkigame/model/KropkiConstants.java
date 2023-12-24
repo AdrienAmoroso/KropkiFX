@@ -20,12 +20,14 @@ public interface KropkiConstants {
         String GAMEBOARD_STYLE = "-fx-background-color: black;" // Couleur de fond du plateau de jeu
                 + "-fx-border-color: white;" // Couleur de bordure du plateau de jeu
                 + "-fx-border-width: 2px;"; // Largeur de bordure du plateau de jeu
-        String NUMBER_BAR_STYLE = "-fx-border-color: white; -fx-border-width: 2px; -fx-padding: 10px;"; // Style de la numberBar (sélection des nombress)
+        String NUMBER_BAR_STYLE = "-fx-border-color: white; -fx-border-width: 2px; -fx-padding: 10px;"; // Style de la numberBar (sélection des nombres)
         String HELP_TEXT_STYLE = "-fx-font-family: Helvetica; -fx-font-weight: bold;"; // Style du texte d'aide (switch)
         String CELL_ERROR_STYLE = "-fx-border-color: red; -fx-border-width: 3px; -fx-border-style: solid;"; // Style de la cellule lorsqu'elle est incorrecte
         String CELL_SELECTED_STYLE = "-fx-border-color: white; -fx-border-width: 1px; -fx-background-color: blue;"; // Style de la cellule lorsqu'elle est sélectionnée
         String CELL_ERROR_SELECTED_STYLE = "-fx-border-color: red; -fx-border-width: 3px; -fx-border-style: solid; -fx-background-color: blue;"; // Style de la cellule lorsqu'elle est incorrecte et sélectionnée
         String RESET_BUTTON_STYLE = "-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 10;"; // Style du bouton de réinitialisation
+        String RESET_BUTTON_HOVER_STYLE = "-fx-effect: dropshadow(gaussian, white, 5, 0.3, 0, 0);" // Halo lumineux moins intense
+        + "-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 1; -fx-border-style: solid; -fx-border-radius: 10;"; 
 
         /*** Chemins vers les fichiers contenant les grilles de jeu ***/
         String FILE_PATH_4x4 = "kropki" + File.separator + "data" + File.separator + "kropki_4x4.txt";
