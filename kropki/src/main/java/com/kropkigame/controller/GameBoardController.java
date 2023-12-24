@@ -459,13 +459,14 @@ public class GameBoardController {
      */
     public void handleBackButton() {
         if (!actions.isEmpty()) {
-            Action lastAction = actions.pop();
+            Action lastAction = actions.pop(); // Récupère la dernière action effectuée par l'utilisateur
             Cell cell = view.getCell(lastAction.getRow(), lastAction.getCol());
             cell.setNumber(0);
             cell.getTextDisplay().setText("");
             highlightErrors();
         }
     }
+
     /**
      * Enregistre une action lorsqu'un chiffre est entré.
      * @param row la ligne de la cellule.

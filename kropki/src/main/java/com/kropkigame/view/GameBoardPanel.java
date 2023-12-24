@@ -37,8 +37,8 @@ public class GameBoardPanel extends BorderPane {
         this.resetButton = createResetButton();
         this.backButton = createBackButton();
 
-        HBox contentHbox = new HBox(50);
-        VBox contentVBox = new VBox(10);
+        HBox contentHbox = new HBox(50); // Boutons utilitaires
+        VBox contentVBox = new VBox(10); // Contenu principal (grille + Hbox)
         contentHbox.setAlignment(Pos.CENTER);
         contentVBox.setAlignment(Pos.CENTER);
 

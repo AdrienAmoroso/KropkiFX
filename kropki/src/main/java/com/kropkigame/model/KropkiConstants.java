@@ -16,11 +16,11 @@ public interface KropkiConstants {
         String NUMBER_BAR_STYLE = "-fx-border-color: white; -fx-border-width: 2px; -fx-padding: 10px;"; // Style de la numberBar (sélection des nombres)
         String NUMBER_BUTTON_STYLE = "-fx-background-color: #000000, linear-gradient(#7ebcea, #2f4b8f), linear-gradient(#426ab7, #263e75), "
                 + "linear-gradient(#395cab, #223768); -fx-background-insets: 0,1,2,3; -fx-background-radius: 3,2,2,2; "
-                + "-fx-padding: 12 30 12 30; -fx-text-fill: white; -fx-font-family: Helvetica; -fx-font-size: 14pt; "
+                + "-fx-padding: 12 30 12 30; -fx-text-fill: white; -fx-font-family: Helvetica; -fx-font-size: 20pt; "
                 + "-fx-pref-width: 50px; -fx-pref-height: 50px; -fx-font-weight: bold; -fx-border-color: white; -fx-border-radius: 3"; // Style des boutons de sélection des nombres
         String NUMBER_BUTTON_HOVER_STYLE = "-fx-background-color: #000000, linear-gradient(#7ebcea, #2f4b8f), linear-gradient(#426ab7, #263e75), "
                 + "linear-gradient(#395cab, #223768); -fx-background-insets: 0,1,2,3; -fx-background-radius: 3,2,2,2; "
-                + "-fx-padding: 12 30 12 30; -fx-text-fill: white; -fx-font-family: Helvetica; -fx-font-size: 14pt; "
+                + "-fx-padding: 12 30 12 30; -fx-text-fill: white; -fx-font-family: Helvetica; -fx-font-size: 20pt; "
                 + "-fx-pref-width: 50px; -fx-pref-height: 50px; -fx-font-weight: bold; -fx-border-color: white; -fx-border-radius: 3;"
                 + "-fx-effect: dropshadow(gaussian, white, 5, 0.3, 0, 0);"; // Style des boutons de sélection des nombres
         String HELP_TEXT_STYLE = "-fx-font-family: Helvetica; -fx-font-weight: bold;"; // Style du texte d'aide (switch)
