@@ -32,7 +32,7 @@ public interface KropkiConstants {
         String CELL_ERROR_SELECTED_STYLE = "-fx-border-color: red; -fx-border-width: 3px; -fx-border-style: solid; -fx-background-color: blue;"; // Style de la cellule lorsqu'elle est incorrecte et sélectionnée
 
         String RESET_BUTTON_STYLE = "-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 10;"; // Style du bouton de réinitialisation
-        String RESET_BUTTON_HOVER_STYLE = "-fx-effect: dropshadow(gaussian, white, 5, 0.3, 0, 0);" // Style de survol du bouton de réinitialisation
+        String RESET_BUTTON_HOVER_STYLE = "-fx-effect: dropshadow(gaussian, white, 3, 0.3, 0, 0);" // Style de survol du bouton de réinitialisation
         + "-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 1; -fx-border-style: solid; -fx-border-radius: 10;"; 
 
         /*** Chemins vers les fichiers contenant les grilles de jeu ***/
