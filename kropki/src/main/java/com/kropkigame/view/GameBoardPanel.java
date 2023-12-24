@@ -22,6 +22,7 @@ public class GameBoardPanel extends BorderPane {
     private GridPane gridPane;
     private HelpSwitch helpSwitch;
     private Button resetButton;
+    private Button backButton;
 
     /**
      * Construit la fenêtre de jeu avec la taille de grille spécifiée.
@@ -34,13 +35,14 @@ public class GameBoardPanel extends BorderPane {
         this.numberBar = createNumberBar(gridSize);
         this.helpSwitch = new HelpSwitch();
         this.resetButton = createResetButton();
+        this.backButton = createBackButton();
 
         HBox contentHbox = new HBox(50);
         VBox contentVBox = new VBox(10);
         contentHbox.setAlignment(Pos.CENTER);
         contentVBox.setAlignment(Pos.CENTER);
 
-        contentHbox.getChildren().addAll(resetButton, helpSwitch);
+        contentHbox.getChildren().addAll(resetButton, helpSwitch, backButton);
         contentVBox.getChildren().addAll(contentHbox, gridPane);
 
         this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
@@ -114,6 +116,24 @@ public class GameBoardPanel extends BorderPane {
 
         return resetBtn;
     }
+
+    /**
+     * Crée le bouton de retour.
+     * @return le bouton de retour.
+     */
+    private Button createBackButton() {
+        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(KropkiConstants.BACK_ICON_PATH)));
+        imageView.setFitWidth(30); 
+        imageView.setFitHeight(30);
+        imageView.setPreserveRatio(false);
+
+        // Créer le bouton de réinitialisation
+        Button backBtn = new Button();
+        backBtn.setGraphic(imageView); // Définir l'image comme graphique du bouton
+        backBtn.setStyle(KropkiConstants.BACK_BUTTON_STYLE);
+
+        return backBtn;
+    }
     
     /**
      * Renvoie la cellule à la ligne et à la colonne spécifiées.
@@ -183,5 +203,21 @@ public class GameBoardPanel extends BorderPane {
      */
     public void setResetButton(Button resetButton) {
         this.resetButton = resetButton;
+    }
+
+    /**
+     * Renvoie le bouton de retour.
+     * @return le bouton de retour.
+     */
+    public Button getBackButton() {
+        return this.backButton;
+    }
+
+    /**
+     * Définit le bouton de retour.
+     * @param backButton le bouton de retour.
+     */
+    public void setBackButton(Button backButton) {
+        this.backButton = backButton;
     }
 }

@@ -35,6 +35,10 @@ public interface KropkiConstants {
         String RESET_BUTTON_HOVER_STYLE = "-fx-effect: dropshadow(gaussian, white, 3, 0.3, 0, 0);" // Style de survol du bouton de réinitialisation
         + "-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 1; -fx-border-style: solid; -fx-border-radius: 10;"; 
 
+        String BACK_BUTTON_STYLE = "-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 10;"; // Style du bouton de réinitialisation
+        String BACK_BUTTON_HOVER_STYLE = "-fx-effect: dropshadow(gaussian, white, 3, 0.3, 0, 0);" // Style de survol du bouton de réinitialisation
+        + "-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 1; -fx-border-style: solid; -fx-border-radius: 10;"; 
+
         /*** Chemins vers les fichiers contenant les grilles de jeu ***/
         String FILE_PATH_4x4 = "kropki" + File.separator + "data" + File.separator + "kropki_4x4.txt";
         String FILE_PATH_5x5 = "kropki" + File.separator + "data" + File.separator + "kropki_5x5.txt";
@@ -43,5 +47,6 @@ public interface KropkiConstants {
         String FILE_PATH_8x8 = "kropki" + File.separator + "data" + File.separator + "kropki_8x8.txt";
 
         /*** Chemins vers les ressources supplémentaires (images, logos, ...) ***/
-        String RESTART_ICON_PATH = "/restart_icon.png"; // Chemin vers l'icône du bouton Reset    
+        String RESTART_ICON_PATH = "/restart_icon.png"; // Chemin vers l'icône du bouton Reset
+        String BACK_ICON_PATH = "/back_icon.png"; // Chemin vers l'icône du bouton Back
 }

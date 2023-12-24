@@ -5,6 +5,7 @@ import java.util.*;
 import com.kropkigame.model.EdgePoint;
 import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
+import com.kropkigame.utils.Action;
 import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
 
@@ -27,6 +28,7 @@ public class GameBoardController {
     private Puzzle model;
     private GameBoardPanel view;
     private CellController cellController;
+    private Stack<Action> actions = new Stack<>();
 
     /**
      * Obtient le modèle du plateau de jeu.
@@ -77,6 +79,22 @@ public class GameBoardController {
     }
 
     /**
+     * Obtient la pile d'actions de l'utilisateur.
+     * @return la pile d'actions de l'utilisateur.
+     */
+    public Stack<Action> getActions() {
+        return this.actions;
+    }
+
+    /**
+     * Définit la pile d'actions de l'utilisateur.
+     * @param actions la pile d'actions de l'utilisateur.
+     */
+    public void setActions(Stack<Action> actions) {
+        this.actions = actions;
+    }
+
+    /**
      * Construit un contrôleur de plateau de jeu avec le modèle, la vue et le contrôleur de cellule spécifiés.
      * @param model le modèle du plateau de jeu.
      * @param view la vue du plateau de jeu.
@@ -119,6 +137,11 @@ public class GameBoardController {
         view.getResetButton().setOnMouseEntered(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_HOVER_STYLE));
         view.getResetButton().setOnMouseExited(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_STYLE));
 
+        // Configuration du bouton de retour
+        view.getBackButton().setOnAction(event -> handleBackButton());
+        view.getBackButton().setOnMouseEntered(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_HOVER_STYLE));
+        view.getBackButton().setOnMouseExited(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_STYLE));
+
         // Configuration du switch d'aide
         view.getHelpSwitch().setOnMouseClicked(e -> {
             view.getHelpSwitch().setValue(!(view.getHelpSwitch().getValue()));
@@ -148,6 +171,12 @@ public class GameBoardController {
             if (checkGameStatus()) {
                 showVictoryMessage();
             }
+        }
+
+        // Enregistrement de l'action effectuée par l'utilisateur
+        Cell selectedCell = cellController.getSelectedCell();
+        if (selectedCell != null) {
+            recordAction(selectedCell.getRow(), selectedCell.getCol(), number);
         }
     }
 
@@ -348,6 +377,14 @@ public class GameBoardController {
     }
 
     /**
+     * Efface les points du plateau de jeu.
+     */
+    public void clearEdgePoints() {
+        // Supprime tous les points de la vue
+        view.getChildren().removeIf(node -> node instanceof Circle);
+    }   
+
+    /**
      * Vérifie si le jeu est gagné.
      * @return vrai si le jeu est gagné, faux sinon.
      */
@@ -384,6 +421,19 @@ public class GameBoardController {
     
         return true; // Toutes les cellules sont remplies, la grile est pleine
     }
+
+    /**
+     * Affiche un message de victoire lorsque la grille est correcte.
+     */
+    public void showVictoryMessage() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+
+        alert.setTitle("Victoire !");
+        alert.setHeaderText(null);
+        alert.setContentText("Félicitations ! Vous avez résolu le puzzle.");
+
+        alert.showAndWait();
+    }
     
     /**
      * Réinitialise le jeu.
@@ -405,6 +455,28 @@ public class GameBoardController {
     }
 
     /**
+     * Gère l'évènement qui permet d'effacer le dernier chiffre entré par l'utilisateur.
+     */
+    public void handleBackButton() {
+        if (!actions.isEmpty()) {
+            Action lastAction = actions.pop();
+            Cell cell = view.getCell(lastAction.getRow(), lastAction.getCol());
+            cell.setNumber(0);
+            cell.getTextDisplay().setText("");
+            highlightErrors();
+        }
+    }
+    /**
+     * Enregistre une action lorsqu'un chiffre est entré.
+     * @param row la ligne de la cellule.
+     * @param col la colonne de la cellule.
+     * @param number le nombre entré.
+     */
+    public void recordAction(int row, int col, int number) {
+        actions.push(new Action(row, col, number));
+    }
+
+    /**
      * Ajoute un écouteur de redimensionnement à la scène.
      * @param stage la scène à laquelle ajouter l'écouteur.
      */
@@ -417,27 +489,6 @@ public class GameBoardController {
         // Ajoute des écouteurs aux propriétés de largeur et de hauteur de la scène
         stage.widthProperty().addListener(stageSizeListener);
         stage.heightProperty().addListener(stageSizeListener);
-    }
-
-    /**
-     * Efface les points du plateau de jeu.
-     */
-    public void clearEdgePoints() {
-        // Supprime tous les points de la vue
-        view.getChildren().removeIf(node -> node instanceof Circle);
-    }    
-
-    /**
-     * Affiche un message de victoire lorsque la grille est correcte.
-     */
-    public void showVictoryMessage() {
-        Alert alert = new Alert(AlertType.INFORMATION);
-
-        alert.setTitle("Victoire !");
-        alert.setHeaderText(null);
-        alert.setContentText("Félicitations ! Vous avez résolu le puzzle.");
-
-        alert.showAndWait();
     }
 
     /**
