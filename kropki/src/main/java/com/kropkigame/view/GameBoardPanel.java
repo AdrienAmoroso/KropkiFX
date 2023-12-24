@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -23,6 +24,7 @@ public class GameBoardPanel extends BorderPane {
     private HelpSwitch helpSwitch;
     private Button resetButton;
     private Button backButton;
+    private Label timerLabel;
 
     /**
      * Construit la fenêtre de jeu avec la taille de grille spécifiée.
@@ -36,6 +38,7 @@ public class GameBoardPanel extends BorderPane {
         this.helpSwitch = new HelpSwitch();
         this.resetButton = createResetButton();
         this.backButton = createBackButton();
+        this.timerLabel = createTimer();
 
         HBox contentHbox = new HBox(50); // Boutons utilitaires
         VBox contentVBox = new VBox(10); // Contenu principal (grille + Hbox)
@@ -43,7 +46,7 @@ public class GameBoardPanel extends BorderPane {
         contentVBox.setAlignment(Pos.CENTER);
 
         contentHbox.getChildren().addAll(resetButton, helpSwitch, backButton);
-        contentVBox.getChildren().addAll(contentHbox, gridPane);
+        contentVBox.getChildren().addAll(timerLabel, contentHbox, gridPane);
 
         this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
         this.setCenter(contentVBox);
@@ -134,6 +137,15 @@ public class GameBoardPanel extends BorderPane {
 
         return backBtn;
     }
+
+    /**
+     * Crée le chronomètre.
+     */
+    private Label createTimer() {
+        timerLabel = new Label("00:00:00");
+        timerLabel.setStyle(KropkiConstants.TIMER_LABEL_STYLE);
+        return timerLabel;
+    }
     
     /**
      * Renvoie la cellule à la ligne et à la colonne spécifiées.
@@ -219,5 +231,21 @@ public class GameBoardPanel extends BorderPane {
      */
     public void setBackButton(Button backButton) {
         this.backButton = backButton;
+    }
+
+    /**
+     * Renvoie le Label du chronomètre.
+     * @return le Label du chronomètre.
+     */
+    public Label getTimerLabel() {
+        return this.timerLabel;
+    }
+
+    /**
+     * Définit le Label du chronomètre.
+     * @param timerLabel le Label du chronomètre.
+     */
+    public void setTimerLabel(Label timerLabel) {
+        this.timerLabel = timerLabel;
     }
 }

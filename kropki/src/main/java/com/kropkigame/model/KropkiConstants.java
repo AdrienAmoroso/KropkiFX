@@ -15,14 +15,14 @@ public interface KropkiConstants {
                 + "-fx-border-width: 2px;"; // Largeur de bordure du plateau de jeu
         String NUMBER_BAR_STYLE = "-fx-border-color: white; -fx-border-width: 2px; -fx-padding: 10px;"; // Style de la numberBar (sélection des nombres)
         String NUMBER_BUTTON_STYLE = "-fx-background-color: #000000, linear-gradient(#7ebcea, #2f4b8f), linear-gradient(#426ab7, #263e75), "
-                + "linear-gradient(#395cab, #223768); -fx-background-insets: 0,1,2,3; -fx-background-radius: 3,2,2,2; "
-                + "-fx-padding: 12 30 12 30; -fx-text-fill: white; -fx-font-family: Helvetica; -fx-font-size: 20pt; "
+                + "linear-gradient(#395cab, #223768); -fx-background-insets: 0,1,2,3; -fx-background-radius: 3,2,2,2;"
+                + "-fx-padding: 12 30 12 30; -fx-text-fill: white; -fx-font-family: Helvetica; -fx-font-size: 20pt;"
                 + "-fx-pref-width: 50px; -fx-pref-height: 50px; -fx-font-weight: bold; -fx-border-color: white; -fx-border-radius: 3"; // Style des boutons de sélection des nombres
         String NUMBER_BUTTON_HOVER_STYLE = "-fx-background-color: #000000, linear-gradient(#7ebcea, #2f4b8f), linear-gradient(#426ab7, #263e75), "
                 + "linear-gradient(#395cab, #223768); -fx-background-insets: 0,1,2,3; -fx-background-radius: 3,2,2,2; "
                 + "-fx-padding: 12 30 12 30; -fx-text-fill: white; -fx-font-family: Helvetica; -fx-font-size: 20pt; "
                 + "-fx-pref-width: 50px; -fx-pref-height: 50px; -fx-font-weight: bold; -fx-border-color: white; -fx-border-radius: 3;"
-                + "-fx-effect: dropshadow(gaussian, white, 5, 0.3, 0, 0);"; // Style des boutons de sélection des nombres
+                + "-fx-effect: dropshadow(gaussian, white, 5, 0.3, 0, 0);"; // Style de survol des boutons de sélection des nombres
         String HELP_TEXT_STYLE = "-fx-font-family: Helvetica; -fx-font-weight: bold;"; // Style du texte d'aide (switch)
 
         String CELL_TEXT_STYLE = "-fx-fill: white; -fx-font-family: Helvetica; -fx-font-size: 20pt; -fx-font-weight: bold;"; // Style de texte pour les cellules
@@ -39,6 +39,8 @@ public interface KropkiConstants {
         String BACK_BUTTON_HOVER_STYLE = "-fx-effect: dropshadow(gaussian, white, 3, 0.3, 0, 0);" // Style de survol du bouton de réinitialisation
         + "-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 1; -fx-border-style: solid; -fx-border-radius: 10;"; 
 
+        String TIMER_LABEL_STYLE = "-fx-font-family: 'Digital-7'; -fx-font-size: 40pt; -fx-text-fill: white;"; // Style du chronomètre
+
         /*** Chemins vers les fichiers contenant les grilles de jeu ***/
         String FILE_PATH_4x4 = "kropki" + File.separator + "data" + File.separator + "kropki_4x4.txt";
         String FILE_PATH_5x5 = "kropki" + File.separator + "data" + File.separator + "kropki_5x5.txt";
@@ -49,4 +51,5 @@ public interface KropkiConstants {
         /*** Chemins vers les ressources supplémentaires (images, logos, ...) ***/
         String RESTART_ICON_PATH = "/restart_icon.png"; // Chemin vers l'icône du bouton Reset
         String BACK_ICON_PATH = "/back_icon.png"; // Chemin vers l'icône du bouton Back
+        String LABEL_TIMER_FONT_PATH = "/fonts" + File.separator + "digital-7.ttf"; // Chemin vers la police du chronomètre
 }

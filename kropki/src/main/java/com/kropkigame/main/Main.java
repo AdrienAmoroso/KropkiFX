@@ -9,6 +9,7 @@ import java.io.IOException;
 import com.kropkigame.controller.GameController;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -23,6 +24,8 @@ public class Main extends Application {
      */
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Kropki Game");
+        Font.loadFont(getClass().getResourceAsStream(KropkiConstants.LABEL_TIMER_FONT_PATH), 40);
+
         
         // Parse le fichier de grille Kropki et crée un modèle de puzzle
         Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH_4x4);

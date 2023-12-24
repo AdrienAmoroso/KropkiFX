@@ -9,6 +9,9 @@ import com.kropkigame.utils.Action;
 import com.kropkigame.view.Cell;
 import com.kropkigame.view.GameBoardPanel;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Bounds;
@@ -19,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * La classe GameBoardController est responsable de contrôler le plateau de jeu et de gérer les interactions utilisateur.
@@ -29,6 +33,8 @@ public class GameBoardController {
     private GameBoardPanel view;
     private CellController cellController;
     private Stack<Action> actions = new Stack<>();
+    private Duration time = Duration.ZERO;
+    private Timeline timeline;
 
     /**
      * Obtient le modèle du plateau de jeu.
@@ -95,6 +101,38 @@ public class GameBoardController {
     }
 
     /**
+     * Obtient le chronomètre.
+     * @return le chronomètre.
+     */
+    public Duration getTime() {
+        return this.time;
+    }
+
+    /**
+     * Définit le chronomètre.
+     * @param time le chronomètre.
+     */
+    public void setTime(Duration time) {
+        this.time = time;
+    }
+
+    /**
+     * Obtient la timeline.
+     * @return la timeline.
+     */
+    public Timeline getTimeline() {
+        return this.timeline;
+    }
+
+    /**
+     * Définit la timeline.
+     * @param timeline la timeline.
+     */
+    public void setTimeline(Timeline timeline) {
+        this.timeline = timeline;
+    }
+
+    /**
      * Construit un contrôleur de plateau de jeu avec le modèle, la vue et le contrôleur de cellule spécifiés.
      * @param model le modèle du plateau de jeu.
      * @param view la vue du plateau de jeu.
@@ -104,6 +142,9 @@ public class GameBoardController {
         this.model = model;
         this.view = view;
         this.cellController = cellController;
+        this.actions = new Stack<>();
+        this.time = Duration.ZERO;
+        this.timeline = null;
     }
 
     /**
@@ -131,6 +172,11 @@ public class GameBoardController {
                 numberButton.setOnMouseExited(e -> numberButton.setStyle(KropkiConstants.NUMBER_BUTTON_STYLE));
             }
         }
+
+        // Configuration du chronomètre
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateTimer()));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
 
         // Configuration du bouton de réinitialisation
         view.getResetButton().setOnAction(event -> resetGame());
@@ -169,6 +215,9 @@ public class GameBoardController {
 
         if (isGridFull()) {
             if (checkGameStatus()) {
+                if (timeline != null) {
+                    timeline.stop();
+                }
                 showVictoryMessage();
             }
         }
@@ -385,6 +434,24 @@ public class GameBoardController {
     }   
 
     /**
+     * Met à jour le chronomètre.
+     */
+    private void updateTimer() {
+        time = time.add(Duration.seconds(1));
+        view.getTimerLabel().setText(formatDuration(time));
+    }
+
+    /**
+     * Permet de formater le temps écoulé.
+     * @param duration le temps à formater.
+     * @return le temps formaté.
+     */    
+    private String formatDuration(Duration duration) {
+        long seconds = (long) duration.toSeconds();
+        return String.format("%02d:%02d:%02d", seconds / 3600, (seconds % 3600) / 60, seconds % 60);
+    }
+
+    /**
      * Vérifie si le jeu est gagné.
      * @return vrai si le jeu est gagné, faux sinon.
      */
@@ -430,8 +497,7 @@ public class GameBoardController {
 
         alert.setTitle("Victoire !");
         alert.setHeaderText(null);
-        alert.setContentText("Félicitations ! Vous avez résolu le puzzle.");
-
+        alert.setContentText("Félicitations ! Vous avez résolu le puzzle en " + formatDuration(time) + ".");
         alert.showAndWait();
     }
     
@@ -452,6 +518,13 @@ public class GameBoardController {
         // Réinitialise les styles et états des cellules
         resetCellStyles();
         resetErrorState();
+
+        // Réinitialise le chronomètre
+        time = Duration.ZERO;
+        view.getTimerLabel().setText(formatDuration(time));
+        if (timeline != null) {
+            timeline.playFromStart();
+        }
     }
 
     /**
