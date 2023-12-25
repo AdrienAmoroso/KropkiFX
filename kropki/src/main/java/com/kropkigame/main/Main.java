@@ -24,9 +24,10 @@ public class Main extends Application {
      */
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Kropki Game");
+
+        // Charge la police du chronomètre
         Font.loadFont(getClass().getResourceAsStream(KropkiConstants.LABEL_TIMER_FONT_PATH), 40);
 
-        
         // Parse le fichier de grille Kropki et crée un modèle de puzzle
         Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH_4x4);
         int gridSize = model.getGridSize();

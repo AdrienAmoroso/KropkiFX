@@ -107,19 +107,18 @@ public class GameBoardPanel extends BorderPane {
      * @return le bouton de réinitialisation.
      */
     private Button createResetButton() {
-        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(KropkiConstants.RESTART_ICON_PATH)));
+        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(KropkiConstants.RESET_ICON_PATH)));
         imageView.setFitWidth(30); 
         imageView.setFitHeight(30);
         imageView.setPreserveRatio(false);
-
-        // Créer le bouton de réinitialisation
+    
         Button resetBtn = new Button();
-        resetBtn.setGraphic(imageView); // Définir l'image comme graphique du bouton
+        resetBtn.setGraphic(imageView);
         resetBtn.setStyle(KropkiConstants.RESET_BUTTON_STYLE);
-
+    
         return resetBtn;
     }
-
+    
     /**
      * Crée le bouton de retour.
      * @return le bouton de retour.
@@ -129,14 +128,13 @@ public class GameBoardPanel extends BorderPane {
         imageView.setFitWidth(30); 
         imageView.setFitHeight(30);
         imageView.setPreserveRatio(false);
-
-        // Créer le bouton de réinitialisation
+    
         Button backBtn = new Button();
-        backBtn.setGraphic(imageView); // Définir l'image comme graphique du bouton
+        backBtn.setGraphic(imageView);
         backBtn.setStyle(KropkiConstants.BACK_BUTTON_STYLE);
-
+    
         return backBtn;
-    }
+    }   
 
     /**
      * Crée le chronomètre.
