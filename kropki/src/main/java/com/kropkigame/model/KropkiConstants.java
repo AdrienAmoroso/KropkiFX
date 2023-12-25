@@ -49,7 +49,7 @@ public interface KropkiConstants {
         String FILE_PATH_8x8 = "kropki" + File.separator + "data" + File.separator + "kropki_8x8.txt";
 
         /*** Chemins vers les ressources supplémentaires (images, polices, ...) ***/
-        String RESET_ICON_PATH = "/reset_icon.png"; // Chemin vers l'icône du bouton Reset
-        String BACK_ICON_PATH = "/back_icon.png"; // Chemin vers l'icône du bouton Back
-        String LABEL_TIMER_FONT_PATH = "/digital-7.ttf"; // Chemin vers la police du chronomètre
+        String RESET_ICON_PATH = "/icons/reset_icon.png"; // Chemin vers l'icône du bouton Reset
+        String BACK_ICON_PATH = "/icons/back_icon.png"; // Chemin vers l'icône du bouton Back
+        String LABEL_TIMER_FONT_PATH = "/fonts/digital-7.ttf"; // Chemin vers la police du chronomètre
 }

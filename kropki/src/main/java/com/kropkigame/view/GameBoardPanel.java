@@ -107,7 +107,8 @@ public class GameBoardPanel extends BorderPane {
      * @return le bouton de réinitialisation.
      */
     private Button createResetButton() {
-        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(KropkiConstants.RESET_ICON_PATH)));
+        ImageView imageView = new ImageView();
+        imageView.setImage(new Image(getClass().getResourceAsStream(KropkiConstants.RESET_ICON_PATH)));
         imageView.setFitWidth(30); 
         imageView.setFitHeight(30);
         imageView.setPreserveRatio(false);
@@ -124,7 +125,8 @@ public class GameBoardPanel extends BorderPane {
      * @return le bouton de retour.
      */
     private Button createBackButton() {
-        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(KropkiConstants.BACK_ICON_PATH)));
+        ImageView imageView = new ImageView();
+        imageView.setImage(new Image(getClass().getResourceAsStream(KropkiConstants.BACK_ICON_PATH)));
         imageView.setFitWidth(30); 
         imageView.setFitHeight(30);
         imageView.setPreserveRatio(false);
