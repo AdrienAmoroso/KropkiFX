@@ -1,0 +1,36 @@
+.root {
+    -fx-background-image: url('file:C:\\Users\\adrie\\OneDrive - Université de Tours\\S7\\DepotProjet\\KropkiFX\\kropki\\assets\\Prinbles_GUI_Asset_Solid (1.0.0)\\asset\\png@2x\\Panel\\Body\\Rounded@2x.png');
+    background-image: url('file:C:\\Users\\adrie\\OneDrive - Université de Tours\\S7\\DepotProjet\\KropkiFX\\kropki\\assets\\Prinbles_GUI_Asset_Solid (1.0.0)\\asset\\png@2x\\Panel\\Body\\Rounded@2x.png');
+    -fx-background-size: cover;
+    background-size: cover;
+    -fx-background-position: center center;
+    background-position: center center;
+    -fx-background-repeat: no-repeat;
+    background-repeat: no-repeat;
+}
+
+/* style.css */
+.button-transparent {
+    -fx-background-color: transparent;
+    background-color: transparent;
+    -fx-padding: 0;
+    padding: 0;
+    -fx-border-width: 0;
+    border-width: 0;
+    -fx-border-color: transparent;
+    border-color: transparent;
+}
+
+.label-title {
+    -fx-font-size: 50px;
+    font-size: 50px;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    font-family: "Arial";
+}
+
+.main-layout {
+    -fx-background-color: lightblue;
+    background-color: lightblue;
+}
+

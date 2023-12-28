@@ -8,7 +8,7 @@
             "request": "launch",
             "mainClass": "com.kropkigame.main.Main", 
             "projectName": "kropki",
-            "vmArgs": "--module-path C:\\javafx-sdk-21\\lib --add-modules javafx.controls,javafx.fxml"       
+            "vmArgs": "--module-path C:\\Windows\\javafx-sdk-21.0.1\\lib --add-modules javafx.controls,javafx.fxml"       
         },
     ]
 }
