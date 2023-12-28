@@ -42,13 +42,13 @@ public interface KropkiConstants {
         String TIMER_LABEL_STYLE = "-fx-font-family: 'Digital-7'; -fx-font-size: 40pt; -fx-text-fill: white;"; // Style du chronomètre
 
         /*** Chemins vers les fichiers contenant les grilles de jeu ***/
-        String FILE_PATH_4x4 = "kropki" + File.separator + "data" + File.separator + "kropki_4x4.txt";
-        String FILE_PATH_5x5 = "kropki" + File.separator + "data" + File.separator + "kropki_5x5.txt";
-        String FILE_PATH_6x6 = "kropki" + File.separator + "data" + File.separator + "kropki_6x6.txt";
-        String FILE_PATH_7x7 = "kropki" + File.separator + "data" + File.separator + "kropki_7x7.txt";
-        String FILE_PATH_8x8 = "kropki" + File.separator + "data" + File.separator + "kropki_8x8.txt";
+        String FILE_PATH_4x4 = "kropki" + File.separator + "data" + File.separator + "4x4" + File.separator + "kropki_4x4.txt";
+        String FILE_PATH_5x5 = "kropki" + File.separator + "data" + File.separator + "5x5" + File.separator + "kropki_5x5.txt";
+        String FILE_PATH_6x6 = "kropki" + File.separator + "data" + File.separator + "6x6" + File.separator + "kropki_6x6.txt";
+        String FILE_PATH_7x7 = "kropki" + File.separator + "data" + File.separator + "7x7" + File.separator + "kropki_7x7.txt";
+        String FILE_PATH_8x8 = "kropki" + File.separator + "data" + File.separator + "8x8" + File.separator + "kropki_8x8.txt";
 
-        String ASSETS_PATH = "C:\\Users\\adrie\\OneDrive - Université de Tours\\S7\\DepotProjet\\KropkiFX\\kropki\\assets\\Prinbles_GUI_Asset_Solid (1.0.0)\\asset";
+        String ASSETS_PATH = "kropki\\assets\\Prinbles_GUI_Asset_Solid (1.0.0)\\asset";
 
         /*** Chemins vers les ressources supplémentaires (images, polices, ...) ***/
         String RESET_ICON_PATH = "/icons/reset_icon.png"; // Chemin vers l'icône du bouton Reset
