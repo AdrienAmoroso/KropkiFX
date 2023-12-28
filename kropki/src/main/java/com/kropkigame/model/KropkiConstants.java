@@ -6,8 +6,8 @@ public interface KropkiConstants {
 
     /*** Sizes of view components ***/
     int CELL_SIZE = 80; // Size of a cell
-    int SCENE_WIDTH = 600; // Width of the scene
-    int SCENE_HEIGHT = 800; // Height of the scene
+    int SCENE_WIDTH = 800; // Width of the scene
+    int SCENE_HEIGHT = 700; // Height of the scene
 
     /*** Styles of view components ***/
     String NUMBER_BUTTON_STYLE = "-fx-font-family: Helvetica; -fx-font-size: 14pt; -fx-pref-width: 50px; -fx-pref-height: 50px;"; // Style of number selection buttons
@@ -24,5 +24,6 @@ public interface KropkiConstants {
     String FILE_PATH_5x5 = "kropki" + File.separator + "data" + File.separator + "kropki_5x5.txt";
     String FILE_PATH_6x6 = "kropki" + File.separator + "data" + File.separator + "kropki_6x6.txt";
     String FILE_PATH_7x7 = "kropki" + File.separator + "data" + File.separator + "kropki_7x7.txt";
-    String FILE_PATH_8x8 = "kropki" + File.separator + "data" + File.separator + "kropki_8x8.txt";
+    String FILE_PATH_8x8 = "kropki" + File.separator + "data" + File.separator + "kropki_8x8.txt"; 
+    String ASSETS_PATH = "C:\\Users\\adrie\\OneDrive - Université de Tours\\S7\\DepotProjet\\KropkiFX\\kropki\\assets\\Prinbles_GUI_Asset_Solid (1.0.0)\\asset";
 }
