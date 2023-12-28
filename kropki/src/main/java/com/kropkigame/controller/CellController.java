@@ -1,6 +1,5 @@
 package com.kropkigame.controller;
 
-import com.kropkigame.model.EdgePoint;
 import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.Cell;
@@ -9,65 +8,65 @@ import com.kropkigame.view.GameBoardPanel;
 import javafx.scene.input.MouseEvent;
 
 /**
- * Represents the controller for each Cell in the grid.
+ * Représente le contrôleur pour chaque cellule dans la grille.
  */
 public class CellController {
-    private Cell selectedCell; // To track which cell is currently selected
+    private Cell selectedCell; // Pour suivre quelle cellule est actuellement sélectionnée
     private Puzzle model;
     private GameBoardPanel view;
 
     /**
-     * Returns the currently selected cell.
-     * @return the currently selected cell.
+     * Renvoie la cellule actuellement sélectionnée.
+     * @return la cellule actuellement sélectionnée.
      */
     public Cell getSelectedCell() {
         return this.selectedCell;
     }
 
     /**
-     * Sets the currently selected cell.
-     * @param selectedCell
+     * Définit la cellule actuellement sélectionnée.
+     * @param selectedCell la cellule à sélectionner.
      */
-    public void setSelectedCell(Cell selectedCell) {
-        this.selectedCell = selectedCell;
+    public void setSelectedCell(Cell cell) {
+        this.selectedCell = cell;
     }
 
     /**
-     * Returns the model.
-     * @return the model.
+     * Renvoie le modèle.
+     * @return le modèle.
      */
     public Puzzle getModel() {
         return this.model;
     }
 
     /**
-     * Sets the model.
-     * @param model
+     * Définit le modèle.
+     * @param model le modèle à définir.
      */
     public void setModel(Puzzle model) {
         this.model = model;
     }
 
     /**
-     * Returns the view.
-     * @return the view.
+     * Renvoie la vue.
+     * @return la vue.
      */
     public GameBoardPanel getView() {
         return this.view;
     }
 
     /**
-     * Sets the view.
-     * @param view
+     * Définit la vue.
+     * @param view la vue à définir.
      */
     public void setView(GameBoardPanel view) {
         this.view = view;
     }
 
     /**
-     * Constructs a cell controller with the specified model and view.
-     * @param model the model.
-     * @param view the view.
+     * Construit un contrôleur de cellule avec le modèle et la vue spécifiés.
+     * @param model le modèle.
+     * @param view la vue.
      */
     public CellController(Puzzle model, GameBoardPanel view) {
         this.model = model;
@@ -76,257 +75,43 @@ public class CellController {
     }
 
     /**
-     * Handles the event when a cell is selected.
-     * @param event the mouse event.
-     * @param cell the cell that was selected.
+     * Gère l'événement lorsqu'une cellule est sélectionnée.
+     * @param event l'événement de la souris.
+     * @param cell la cellule qui a été sélectionnée.
      */
     public void handleCellSelected(MouseEvent event, Cell cell) { 
         if (selectedCell != null) {
-            // Reset the style of the previously selected cell (you can adjust the style as
-            // desired)
-            selectedCell.setStyle(KropkiConstants.CELL_BORDER_STYLE);
+            // Réinitialise le style de la cellule précédemment sélectionnée en fonction de son état
+            if (selectedCell.getIsError()) {
+                selectedCell.setStyle(KropkiConstants.CELL_ERROR_STYLE);
+            } else {
+                selectedCell.setStyle(KropkiConstants.CELL_BORDER_STYLE);
+            }
         }
 
-        highlightSelection(cell); // Highlight the selected cell
-        selectedCell = cell; // Set the current cell as the selected cell
+        selectedCell = cell; // Définit la cellule actuelle comme la cellule sélectionnée
+        highlightSelection(cell); // Met en évidence la cellule sélectionnée
     }
 
     /**
-     * Handles the event when a number button is clicked.
-     * @param number the number that was clicked.
+     * Gère l'événement lorsque le joueur clique sur un bouton pour rentrer un nombre dans une cellule.
+     * @param number le nombre qui a été rentré.
      */
     public void handleNumberButtonClicked(int number) {
         if (selectedCell != null) {
             selectedCell.setNumber(number);
         }
-
-        //updateGameBoard();
     }
 
     /**
-     * Updates the game board to highlight cells that violate the rules.
-     */
-    public void updateGameBoard() {
-        if (selectedCell != null) {
-            int row = selectedCell.getRow();
-            int col = selectedCell.getCol();
-            int number = selectedCell.getNumber();
-    
-            if (checkNumberInRow(row, col, number)) {
-                highlightRow(row);
-                return;
-            }
-    
-            if (checkNumberInCol(row, col, number)) {
-                highlightCol(col);
-                return;
-            }
-    
-            if (checkBlackDotRule(row, col, number)) {
-                highlightConnectedCellsByDot(selectedCell, "black");
-                return;
-            }
-    
-            if (checkWhiteDotRule(row, col, number)) {
-                highlightConnectedCellsByDot(selectedCell, "white");
-                return;
-            }
-
-            resetCellBorders();
-        }
-    }
-
-    /**
-     * Checks if the number of the specified cell is already in the row.
-     * @param row
-     * @param col
-     * @param number
-     * @return true if the number is already in the row, false otherwise.
-     */
-    private boolean checkNumberInRow(int row, int col, int number) {
-        boolean ruleChecked = false;
-
-        if (number != 0) {
-            for (int j = 0; j < model.getGridSize(); j++) {
-                if (view.getCell(row, j).getNumber() == number && j != col) {
-                    ruleChecked = true;  
-                    break;          
-                }
-            }
-        }
-
-        return ruleChecked;
-    }
-
-    /**
-     * Checks if the number of the specified cell is already in the column.
-     * @param row
-     * @param col
-     * @param number
-     * @return true if the number is already in the column, false otherwise.
-     */
-    private boolean checkNumberInCol(int row, int col, int number) {
-        boolean ruleChecked = false;
-
-        if (number != 0) {
-            for (int i = 0; i < model.getGridSize(); i++) {
-                if (view.getCell(i, col).getNumber() == number && i != row) {
-                    ruleChecked = true;
-                    break;
-                }
-            }
-        }
-
-        return ruleChecked;
-    }
-
-    /**
-     * Checks if the black dot rule is violated.
-     * @param row
-     * @param col
-     * @param number
-     * @return true if the black dot rule is violated, false otherwise.
-     */
-    private boolean checkBlackDotRule(int row, int col, int number) {
-        boolean ruleChecked = false;
-
-        if (number != 0) {
-            for (EdgePoint edgePoint : model.getEdgePoints()) {
-                if (edgePoint.getType().equals("black")) {
-                    if (edgePoint.getSourceRow()-1 == row && edgePoint.getSourceCol()-1 == col) {
-                        Cell otherCell = view.getCell(edgePoint.getTargetRow()-1, edgePoint.getTargetCol()-1);
-                        int otherNumber = otherCell.getNumber();
-    
-                        if (otherNumber != 0 && (number == otherNumber * 2 || otherNumber == number * 2)) {
-                            ruleChecked = true;
-                            break;
-                        }
-                    }
-    
-                    if (edgePoint.getTargetRow()-1 == row && edgePoint.getTargetCol()-1 == col) {
-                        Cell otherCell = view.getCell(edgePoint.getSourceRow()-1, edgePoint.getSourceCol()-1);
-                        int otherNumber = otherCell.getNumber();
-    
-                        if (otherNumber != 0 && (number == otherNumber * 2 || otherNumber == number * 2)) {
-                            ruleChecked = true;
-                            break;
-                        }
-                    }
-                }
-            
-            }
-        }
-    
-        return ruleChecked;
-    }
-    
-    /**
-     * Checks if the white dot rule is violated.
-     * @param row
-     * @param col
-     * @param number
-     * @return true if the white dot rule is violated, false otherwise.
-     */
-    private boolean checkWhiteDotRule(int row, int col, int number) {
-        boolean ruleChecked = false;
-
-        if (number != 0) {
-            for (EdgePoint edgePoint : model.getEdgePoints()) {
-                if (edgePoint.getType().equals("white")) {
-                    if (edgePoint.getSourceRow()-1 == row && edgePoint.getSourceCol()-1 == col) {
-                        Cell otherCell = view.getCell(edgePoint.getTargetRow()-1, edgePoint.getTargetCol()-1);
-                        int otherNumber = otherCell.getNumber();
-    
-                        if (otherNumber != 0 && (Math.abs(number - otherNumber) != 1)) {
-                            ruleChecked = true;
-                            break;
-                        }
-                    }
-    
-                    if (edgePoint.getTargetRow()-1 == row && edgePoint.getTargetCol()-1 == col) {
-                        Cell otherCell = view.getCell(edgePoint.getSourceRow()-1, edgePoint.getSourceCol()-1);
-                        int otherNumber = otherCell.getNumber();
-    
-                        if (otherNumber != 0 && (Math.abs(number - otherNumber) != 1)) {
-                            ruleChecked = true;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    
-        return ruleChecked;
-    }
-
-    /**
-     * Highlights the specified row.
-     * @param row
-     */
-    private void highlightRow(int row) {
-        for (int j = 0; j < model.getGridSize(); j++) {
-            highlightCellBorders(view.getCell(row, j));
-        }
-    }
-    
-    /**
-     * Highlights the specified column.
-     * @param col
-     */
-    private void highlightCol(int col) {
-        for (int i = 0; i < model.getGridSize(); i++) {
-            highlightCellBorders(view.getCell(i, col));
-        }
-    }
-
-    /**
-     * Highlights the cells connected to the specified cell by the specified dot type.
-     * @param cell
-     * @param dotType
-     */
-    private void highlightConnectedCellsByDot(Cell cell, String dotType) {
-        int row = cell.getRow();
-        int col = cell.getCol();
-
-        for (EdgePoint edgePoint : model.getEdgePoints()) {
-            if (edgePoint.getType().equals(dotType)) {
-                if (edgePoint.getSourceRow()-1 == row && edgePoint.getSourceCol()-1 == col) {
-                    highlightCellBorders(view.getCell(edgePoint.getSourceRow()-1, edgePoint.getSourceCol()-1));
-                    highlightCellBorders(view.getCell(edgePoint.getTargetRow()-1, edgePoint.getTargetCol()-1));
-                }
-
-                if (edgePoint.getTargetRow()-1 == row && edgePoint.getTargetCol()-1 == col) {
-                    highlightCellBorders(view.getCell(edgePoint.getSourceRow()-1, edgePoint.getSourceCol()-1));
-                    highlightCellBorders(view.getCell(edgePoint.getTargetRow()-1, edgePoint.getTargetCol()-1));
-                }
-            }
-        }
-    }
-
-    /**
-     * Highlights the borders of the specified cell.
-     * @param cell
-     */
-    private void highlightCellBorders(Cell cell) {
-        cell.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-    }
-
-    /**
-     * Highlights the specified cell.
-     * @param cell
+     * Met en évidence la cellule spécifiée.
+     * @param cell la cellule à mettre en évidence.
      */
     private void highlightSelection(Cell cell) {
-        cell.setStyle("-fx-border-color: white; -fx-border-width: 1px; -fx-background-color: blue;");
-    }
-
-    /**
-     * Resets the borders of all cells.
-     */
-    private void resetCellBorders() {
-        for (int i = 0; i < model.getGridSize(); i++) {
-            for (int j = 0; j < model.getGridSize(); j++) {
-                view.getCell(i, j).setStyle(null);
-            }
+        if(cell.getIsError()) {
+            cell.setStyle(KropkiConstants.CELL_ERROR_SELECTED_STYLE);
+        } else {
+            cell.setStyle(KropkiConstants.CELL_SELECTED_STYLE);
         }
     }
 }

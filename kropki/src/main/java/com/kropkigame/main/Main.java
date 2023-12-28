@@ -25,6 +25,10 @@ public class Main extends Application implements SceneSwitcher {
     private Stage primaryStage;
 
     @Override
+    /**
+     * Cette méthode est appelée au démarrage de l'application.
+     * @param primaryStage le stage principal de l'application.
+     */
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Kropki Game");

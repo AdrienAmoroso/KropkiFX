@@ -11,18 +11,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Class used for file manipulation.
+ * Classe utilisée pour la manipulation de fichiers.
  */
 public class FileData {
 
     /**
-     * Parses a Kropki grid from a file.
+     * Analyse une grille Kropki à partir d'un fichier.
      *
-     * @param fileName the name of the file containing the grid data
-     * @return a Puzzle object representing the grid
+     * @param fileName le nom du fichier contenant les données de la grille
+     * @return un objet Puzzle représentant la grille
      */
     public static Puzzle parseKropkiGrid(String fileName) {
-        int[][] grid = null; // Grid size will be determined dynamically
+        int[][] grid = null; // La taille de la grille sera déterminée dynamiquement
         int gridSize = 0;
         ArrayList<EdgePoint> edgePoints = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class FileData {
                 line = line.trim();
 
                 if (line.isEmpty()) {
-                    continue; // Ignore empty lines
+                    continue; // Ignore les lignes vides
                 }
 
                 if (line.equals("Points noirs :")) {
@@ -51,7 +51,7 @@ public class FileData {
                     continue;
                 }
 
-                // Use a regular expression to search for lines containing numbers only
+                // Utilise une expression régulière pour rechercher les lignes contenant uniquement des nombres
                 Pattern pattern = Pattern.compile("^(\\d+\\s+)+\\d+$");
                 Matcher matcher = pattern.matcher(line);
 
@@ -73,7 +73,7 @@ public class FileData {
                     }
                     row++;
                 } else {
-                    // Try to match the points writing format
+                    // Essaye de correspondre au format d'écriture des points
                     pattern = Pattern.compile("\\((\\d+),(\\d+)\\)\\s*-\\s*\\((\\d+),(\\d+)\\)");
                     matcher = pattern.matcher(line);
 
