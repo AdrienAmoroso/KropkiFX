@@ -39,7 +39,7 @@ public class LevelSelectionMenu extends Parent {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
                 String level = ((i * 4) + j + 1) + "";
-                Button levelButton = createImageButton("Level\\" + level, 150, 100, e -> playLevel(level));
+                Button levelButton = createImageButton("Level\\" + level, 150, 100, e -> sceneSwitcher.switchToGame());
                 levelGrid.add(levelButton, i, j);
             }
         }
