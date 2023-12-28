@@ -52,14 +52,17 @@ public class FirstMenu extends Parent {
         return titleLabel;
     }
 
-    private Button createImageButton(String imageType, double width, double height, javafx.event.EventHandler<javafx.event.ActionEvent> actionEvent) {
+    private Button createImageButton(String imageType, double width, double height,
+            javafx.event.EventHandler<javafx.event.ActionEvent> actionEvent) {
         Button button = new Button();
         button.setMinSize(width, height);
         button.setMaxSize(width, height);
         button.getStyleClass().add("button-transparent");
 
-        Image image = new Image("file:" + KropkiConstants.ASSETS_PATH + "\\png\\Buttons\\Square-Medium\\" + imageType + "\\Default.png");
-        Image hoverImage = new Image("file:" + KropkiConstants.ASSETS_PATH + "\\png\\Buttons\\Square-Medium\\" + imageType + "\\Hover.png");
+        Image image = new Image("file:" + KropkiConstants.ASSETS_PATH + "\\png\\Buttons\\Square-Medium\\" + imageType
+                + "\\Default.png");
+        Image hoverImage = new Image(
+                "file:" + KropkiConstants.ASSETS_PATH + "\\png\\Buttons\\Square-Medium\\" + imageType + "\\Hover.png");
 
         ImageView imageView = new ImageView(image);
         ImageView hoverImageView = new ImageView(hoverImage);

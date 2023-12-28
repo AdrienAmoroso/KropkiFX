@@ -1,83 +1,62 @@
 package com.kropkigame.view;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.kropkigame.model.KropkiConstants;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class DifficultySelectionMenu extends Parent {
+public class LevelSelectionMenu extends Parent {
 
     private SceneSwitcher sceneSwitcher;
+    private String difficulty;
 
-    public DifficultySelectionMenu(SceneSwitcher sceneSwitcher) {
+    public LevelSelectionMenu(SceneSwitcher sceneSwitcher, String difficulty) {
         this.sceneSwitcher = sceneSwitcher;
+        this.difficulty = difficulty;
 
         BorderPane mainLayout = new BorderPane();
         mainLayout.getStyleClass().add("main-layout");
 
         Label difficultyLabel = createTitleLabel("DIFFICULTY");
 
-        Button fourButton = createImageButton(
-                "Difficulty\\4x4",
-                150,
-                100,
-                e -> sceneSwitcher.showLevelSelection("4x4"));
-        Button fiveButton = createImageButton(
-                "Difficulty\\5x5",
-                150,
-                100,
-                e -> sceneSwitcher.showLevelSelection("5x5"));
-        Button sixButton = createImageButton(
-                "Difficulty\\6x6",
-                150,
-                100,
-                e -> sceneSwitcher.showLevelSelection("6x6"));
-        Button sevenButton = createImageButton(
-                "Difficulty\\7x7",
-                150,
-                100,
-                e -> sceneSwitcher.showLevelSelection("7x7"));
-        Button eightButton = createImageButton(
-                "Difficulty\\8x8",
-                150,
-                100,
-                e -> sceneSwitcher.showLevelSelection("8x8"));
+        GridPane levelGrid = new GridPane();
+        levelGrid.setHgap(10); // Espacement horizontal entre les boutons
+        levelGrid.setVgap(10); // Espacement vertical entre les boutons
+        levelGrid.setAlignment(Pos.CENTER);
+
+        // Créer une grille de boutons 5x4
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 4; j++) {
+                String level = ((i * 4) + j + 1) + "";
+                Button levelButton = createImageButton("Level\\" + level, 150, 100, e -> playLevel(level));
+                levelGrid.add(levelButton, i, j);
+            }
+        }
 
         Button homeButton = createImageButton(
                 "Home",
                 120,
                 70,
-                e -> sceneSwitcher.switchToFirstMenu());
+                e -> sceneSwitcher.switchToDifficultySelection());
         HBox iconsHBox = new HBox(homeButton);
         iconsHBox.setAlignment(Pos.BOTTOM_LEFT);
         HBox.setHgrow(iconsHBox, Priority.ALWAYS);
         iconsHBox.setPadding(new Insets(0, 0, 20, 0));
 
-        // Create a list of buttons for the VBox
-        List<Button> buttons = Arrays.asList(
-                fourButton,
-                fiveButton,
-                sixButton,
-                sevenButton,
-                eightButton);
+        VBox leveBox = createCenterVBox(difficultyLabel, levelGrid);
 
-        // Use the modified createCenterVBox method that accepts a list of buttons
-        VBox difficultyVBox = createCenterVBox(difficultyLabel, buttons);
-
-        // Set the VBox to the center of the main layout
-        mainLayout.setCenter(difficultyVBox);
+        mainLayout.setCenter(leveBox);
         mainLayout.setBottom(iconsHBox);
 
         this.sceneProperty()
@@ -88,32 +67,20 @@ public class DifficultySelectionMenu extends Parent {
                     }
                 });
 
-        // Assuming this class extends a JavaFX layout, set the main layout as the child
         getChildren().add(mainLayout);
     }
 
-    private Button createImageButton(
-            String imageType,
-            double width,
-            double height,
+    private Button createImageButton(String imageType, double width, double height,
             javafx.event.EventHandler<javafx.event.ActionEvent> actionEvent) {
         Button button = new Button();
         button.setMinSize(width, height);
         button.setMaxSize(width, height);
         button.getStyleClass().add("button-transparent");
 
-        Image image = new Image(
-                "file:" +
-                        KropkiConstants.ASSETS_PATH +
-                        "\\png\\Buttons\\Square-Medium\\" +
-                        imageType +
-                        "\\Default.png");
+        Image image = new Image("file:" + KropkiConstants.ASSETS_PATH + "\\png\\Buttons\\Square-Medium\\" + imageType
+                + "\\Default.png");
         Image hoverImage = new Image(
-                "file:" +
-                        KropkiConstants.ASSETS_PATH +
-                        "\\png\\Buttons\\Square-Medium\\" +
-                        imageType +
-                        "\\Hover.png");
+                "file:" + KropkiConstants.ASSETS_PATH + "\\png\\Buttons\\Square-Medium\\" + imageType + "\\Hover.png");
 
         ImageView imageView = new ImageView(image);
         ImageView hoverImageView = new ImageView(hoverImage);
@@ -140,15 +107,17 @@ public class DifficultySelectionMenu extends Parent {
         return titleLabel;
     }
 
-    private VBox createCenterVBox(Label label, List<Button> buttons) {
-        VBox vbox = new VBox();
+    private VBox createCenterVBox(Label label, Node gridOrComponent) {
+        VBox vbox = new VBox(10); // Ajustez l'espacement selon vos besoins
         vbox.getChildren().add(label);
-        vbox.getChildren().addAll(buttons);
-        vbox.setSpacing(10); // Vous pouvez ajuster l'espacement ici
+        vbox.getChildren().add(gridOrComponent);
         vbox.setAlignment(Pos.CENTER);
-        VBox.setVgrow(vbox, Priority.ALWAYS);
+        VBox.setVgrow(gridOrComponent, Priority.ALWAYS);
 
         return vbox;
     }
 
+    private void playLevel(String level) {
+        // TODO: Implémenter la logique pour démarrer le niveau sélectionné
+    }
 }
