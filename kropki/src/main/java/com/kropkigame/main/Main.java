@@ -36,7 +36,7 @@ public class Main extends Application implements SceneSwitcher {
         FirstMenu firstMenu = new FirstMenu(this);
 
         Scene scene = new Scene(firstMenu, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -65,7 +65,7 @@ public class Main extends Application implements SceneSwitcher {
 
         Scene difficultySelectionScene = new Scene(difficultySelectionMenu, KropkiConstants.SCENE_WIDTH,
                 KropkiConstants.SCENE_HEIGHT);
-        difficultySelectionScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        difficultySelectionScene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
         primaryStage.setScene(difficultySelectionScene);
     }
 
@@ -74,8 +74,7 @@ public class Main extends Application implements SceneSwitcher {
         FirstMenu firstMenu = new FirstMenu(this);
 
         Scene firstMenuScene = new Scene(firstMenu, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
-        firstMenuScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        primaryStage.setScene(firstMenuScene);
+        firstMenuScene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());        primaryStage.setScene(firstMenuScene);
     }
 
     @Override
@@ -83,7 +82,7 @@ public class Main extends Application implements SceneSwitcher {
         LevelSelectionMenu levelSelectionMenu = new LevelSelectionMenu(this, difficulty);
         Scene levelSelectionScene = new Scene(levelSelectionMenu, KropkiConstants.SCENE_WIDTH,
                 KropkiConstants.SCENE_HEIGHT);
-        levelSelectionScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        levelSelectionScene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
         primaryStage.setScene(levelSelectionScene);
     }
 
