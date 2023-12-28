@@ -1,8 +1,8 @@
 package com.kropkigame.model;
 
 /**
- * Represents an edge point in the Kropki game.
- * An edge point connects two cells on the game board.
+ * Représente un point de bord dans le jeu Kropki.
+ * Un point de bord relie deux cellules sur le plateau de jeu.
  */
 public class EdgePoint {
     private int sourceRow;
@@ -12,13 +12,13 @@ public class EdgePoint {
     private String type;
 
     /**
-     * Constructs a new EdgePoint object with the specified coordinates and type.
+     * Construit un nouvel objet EdgePoint avec les coordonnées et le type spécifiés.
      *
-     * @param sourceRow the row index of the source cell
-     * @param sourceCol the column index of the source cell
-     * @param targetRow the row index of the target cell
-     * @param targetCol the column index of the target cell
-     * @param type      the type of the edge point (black or white)
+     * @param sourceRow l'indice de ligne de la cellule source
+     * @param sourceCol l'indice de colonne de la cellule source
+     * @param targetRow l'indice de ligne de la cellule cible
+     * @param targetCol l'indice de colonne de la cellule cible
+     * @param type      le type du point de bord (noir ou blanc)
      */
     public EdgePoint(int sourceRow, int sourceCol, int targetRow, int targetCol, String type) {
         this.sourceRow = sourceRow;
@@ -29,99 +29,99 @@ public class EdgePoint {
     }
 
     /**
-     * Returns the row index of the source cell.
+     * Retourne l'indice de ligne de la cellule source.
      *
-     * @return the row index of the source cell
+     * @return l'indice de ligne de la cellule source
      */
     public int getSourceRow() {
         return this.sourceRow;
     }
 
     /**
-     * Sets the row index of the source cell.
+     * Définit l'indice de ligne de la cellule source.
      *
-     * @param sourceRow the row index of the source cell
+     * @param sourceRow l'indice de ligne de la cellule source
      */
     public void setSourceRow(int sourceRow) {
         this.sourceRow = sourceRow;
     }
 
     /**
-     * Returns the column index of the source cell.
+     * Retourne l'indice de colonne de la cellule source.
      *
-     * @return the column index of the source cell
+     * @return l'indice de colonne de la cellule source
      */
     public int getSourceCol() {
         return this.sourceCol;
     }
 
     /**
-     * Sets the column index of the source cell.
+     * Définit l'indice de colonne de la cellule source.
      *
-     * @param sourceCol the column index of the source cell
+     * @param sourceCol l'indice de colonne de la cellule source
      */
     public void setSourceCol(int sourceCol) {
         this.sourceCol = sourceCol;
     }
 
     /**
-     * Returns the row index of the target cell.
+     * Retourne l'indice de ligne de la cellule cible.
      *
-     * @return the row index of the target cell
+     * @return l'indice de ligne de la cellule cible
      */
     public int getTargetRow() {
         return this.targetRow;
     }
 
     /**
-     * Sets the row index of the target cell.
+     * Définit l'indice de ligne de la cellule cible.
      *
-     * @param targetRow the row index of the target cell
+     * @param targetRow l'indice de ligne de la cellule cible
      */
     public void setTargetRow(int targetRow) {
         this.targetRow = targetRow;
     }
 
     /**
-     * Returns the column index of the target cell.
+     * Retourne l'indice de colonne de la cellule cible.
      *
-     * @return the column index of the target cell
+     * @return l'indice de colonne de la cellule cible
      */
     public int getTargetCol() {
         return this.targetCol;
     }
 
     /**
-     * Sets the column index of the target cell.
+     * Définit l'indice de colonne de la cellule cible.
      *
-     * @param targetCol the column index of the target cell
+     * @param targetCol l'indice de colonne de la cellule cible
      */
     public void setTargetCol(int targetCol) {
         this.targetCol = targetCol;
     }
 
     /**
-     * Returns the type of the edge point.
+     * Retourne le type du point de bord.
      *
-     * @return the type of the edge point
+     * @return le type du point de bord
      */
     public String getType() {
         return this.type;
     }
 
     /**
-     * Sets the type of the edge point.
+     * Définit le type du point de bord.
      *
-     * @param type the type of the edge point
+     * @param type le type du point de bord
      */
     public void setType(String type) {
         this.type = type;
     }
 
     /**
-     * Returns a string representation of the EdgePoint object.
+     * Retourne une représentation en chaîne de caractères de l'objet EdgePoint.
      *
-     * @return a string representation of the EdgePoint object
+     * @return une représentation en chaîne de caractères de l'objet EdgePoint
      */
     @Override
     public String toString() {
