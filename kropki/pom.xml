@@ -10,12 +10,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <javafx.version>17.0.1</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
     </properties>
 
     <dependencies>
+        <!-- JavaFX dependencies -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -26,27 +28,44 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        <!-- Add other JavaFX modules if needed -->
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>${maven.compiler.release}</release>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
+            <!-- JavaFX Maven Plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx.maven.plugin.version}</version>
                 <configuration>
-                    <release>${maven.compiler.release}</release>
                     <mainClass>com.kropkigame.main.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <!-- Uncomment and configure if you need to deploy to a Maven repository -->
+    <!--
+    <distributionManagement>
+        <repository>
+            <id>your-repo-id</id>
+            <url>your-repository-url</url>
+        </repository>
+        <snapshotRepository>
+            <id>your-snapshot-repo-id</id>
+            <url>your-snapshot-repository-url</url>
+        </snapshotRepository>
+    </distributionManagement>
+    -->
 </project>

@@ -144,7 +144,7 @@ public class DifficultySelectionMenu extends Parent {
         VBox vbox = new VBox();
         vbox.getChildren().add(label);
         vbox.getChildren().addAll(buttons);
-        vbox.setSpacing(10); // Vous pouvez ajuster l'espacement ici
+        vbox.setSpacing(10); 
         vbox.setAlignment(Pos.CENTER);
         VBox.setVgrow(vbox, Priority.ALWAYS);
 

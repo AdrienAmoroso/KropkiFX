@@ -35,12 +35,12 @@ public class LevelSelectionMenu extends Parent {
         levelGrid.setVgap(10); // Espacement vertical entre les boutons
         levelGrid.setAlignment(Pos.CENTER);
 
-        // Créer une grille de boutons 5x4
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 4; j++) {
-                String level = ((i * 4) + j + 1) + "";
-                Button levelButton = createImageButton("Level\\" + level, 150, 100, e -> playLevel(level));
-                levelGrid.add(levelButton, i, j);
+        // Créer une grille de boutons 2x5
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 5; j++) {
+                int level = ((i * 5) + j + 1) ; // Calcule le numéro du niveau
+                Button levelButton = createImageButton("Level\\" + level, 150, 100, e -> sceneSwitcher.switchToGame(difficulty, level));
+                levelGrid.add(levelButton, j, i); // Ajoute le bouton à la grille
             }
         }
 

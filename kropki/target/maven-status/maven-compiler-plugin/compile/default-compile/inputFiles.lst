@@ -1,12 +1,16 @@
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\model\KropkiConstants.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\main\Main.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\model\Puzzle.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\view\Cell.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\utils\FileData.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\controller\CellController.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\controller\GameBoardController.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\controller\GameController.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\utils\Action.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\model\EdgePoint.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\view\GameBoardPanel.java
-C:\Users\valen\Desktop\Projet_Kropki\KropkiFX\kropki\src\main\java\com\kropkigame\view\HelpSwitch.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\view\HelpSwitch.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\model\EdgePoint.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\controller\CellController.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\view\Cell.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\view\DifficultySelectionMenu.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\view\LevelSelectionMenu.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\model\Puzzle.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\view\FirstMenu.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\view\SceneSwitcher.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\controller\GameController.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\utils\FileData.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\view\GameBoardPanel.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\controller\GameBoardController.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\utils\Action.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\main\Main.java
+c:\Users\adrie\OneDrive - Université de Tours\S7\DepotProjet\KropkiFX\kropki\src\main\java\com\kropkigame\model\KropkiConstants.java
