@@ -28,7 +28,7 @@ public class FirstMenu extends Parent {
         Button playButton = createImageButton("PlayText", 150, 100, e -> sceneSwitcher.switchToDifficultySelection());
 
         Button homeButton = createImageButton("Home", 120, 70, e -> System.exit(0));
-        Button starButton = createImageButton("Star", 120, 70, e -> sceneSwitcher.switchToGame());
+        Button starButton = createImageButton("Star", 120, 70, e -> sceneSwitcher.switchToDifficultySelection());
 
         HBox iconsHBox = createIconHBox(homeButton, starButton);
         VBox centerVBox = createCenterVBox(titleLabel, playButton);

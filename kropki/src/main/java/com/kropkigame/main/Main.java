@@ -27,6 +27,7 @@ public class Main extends Application implements SceneSwitcher {
     @Override
     /**
      * Cette méthode est appelée au démarrage de l'application.
+     * 
      * @param primaryStage le stage principal de l'application.
      */
     public void start(Stage primaryStage) {
@@ -42,10 +43,11 @@ public class Main extends Application implements SceneSwitcher {
     }
 
     @Override
-    public void switchToGame() {
-        // Logic to switch to the game scene
-        // Similar to your existing game initialization code
-        Puzzle model = FileData.parseKropkiGrid(KropkiConstants.FILE_PATH_4x4);
+    public void switchToGame(String difficulty, int levelNumber) {
+        // Obtenez le chemin du fichier en fonction du numéro de niveau
+        String filepath = KropkiConstants.getFilePathForLevel(difficulty, levelNumber);
+
+        Puzzle model = FileData.parseKropkiGrid(filepath);
         int gridSize = model.getGridSize();
 
         GameBoardPanel view = new GameBoardPanel(gridSize);
@@ -65,7 +67,8 @@ public class Main extends Application implements SceneSwitcher {
 
         Scene difficultySelectionScene = new Scene(difficultySelectionMenu, KropkiConstants.SCENE_WIDTH,
                 KropkiConstants.SCENE_HEIGHT);
-        difficultySelectionScene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
+        difficultySelectionScene.getStylesheets()
+                .add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
         primaryStage.setScene(difficultySelectionScene);
     }
 
@@ -74,7 +77,8 @@ public class Main extends Application implements SceneSwitcher {
         FirstMenu firstMenu = new FirstMenu(this);
 
         Scene firstMenuScene = new Scene(firstMenu, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
-        firstMenuScene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());        primaryStage.setScene(firstMenuScene);
+        firstMenuScene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
+        primaryStage.setScene(firstMenuScene);
     }
 
     @Override
@@ -82,7 +86,8 @@ public class Main extends Application implements SceneSwitcher {
         LevelSelectionMenu levelSelectionMenu = new LevelSelectionMenu(this, difficulty);
         Scene levelSelectionScene = new Scene(levelSelectionMenu, KropkiConstants.SCENE_WIDTH,
                 KropkiConstants.SCENE_HEIGHT);
-        levelSelectionScene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
+        levelSelectionScene.getStylesheets()
+                .add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
         primaryStage.setScene(levelSelectionScene);
     }
 
