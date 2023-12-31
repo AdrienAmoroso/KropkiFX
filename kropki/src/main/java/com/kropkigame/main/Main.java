@@ -12,6 +12,7 @@ import com.kropkigame.view.SceneSwitcher;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -31,6 +32,8 @@ public class Main extends Application implements SceneSwitcher {
      * @param primaryStage le stage principal de l'application.
      */
     public void start(Stage primaryStage) {
+        Font.loadFont(Main.class.getResourceAsStream(KropkiConstants.TIMER_LABEL_FONT_PATH), 12);
+
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Kropki Game");
 
