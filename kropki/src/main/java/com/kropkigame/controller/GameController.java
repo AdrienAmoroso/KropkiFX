@@ -80,13 +80,13 @@ public class GameController {
      * Construit un contrôleur de jeu avec la taille de grille spécifiée.
      * @param gridSize la taille de la grille du jeu.
      */
-    public GameController(int gridSize) {
-        // Initialise le jeu en créant les instances nécessaires
-        this.model = new Puzzle();
-        this.view = new GameBoardPanel(gridSize);
-        this.cellController = new CellController(model, view);
-        this.gameBoardController = new GameBoardController(model, view, cellController);
-    }
+    // public GameController(int gridSize) {
+    //     // Initialise le jeu en créant les instances nécessaires
+    //     this.model = new Puzzle();
+    //     this.view = new GameBoardPanel(gridSize);
+    //     this.cellController = new CellController(model, view);
+    //     this.gameBoardController = new GameBoardController(model, view, cellController);
+    // }
 
     /**
      * Construit un contrôleur de jeu avec le modèle et la vue spécifiés.

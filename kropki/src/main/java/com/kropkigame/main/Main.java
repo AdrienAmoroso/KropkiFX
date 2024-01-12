@@ -52,16 +52,17 @@ public class Main extends Application implements SceneSwitcher {
 
         Puzzle model = FileData.parseKropkiGrid(filepath);
         int gridSize = model.getGridSize();
-
-        GameBoardPanel view = new GameBoardPanel(gridSize);
+        GameBoardPanel view = new GameBoardPanel(gridSize, this);
         GameController gameController = new GameController(model, view);
 
         gameController.startGame();
         gameController.getGameBoardController().drawEdgePoints(model.getEdgePoints());
 
         Scene gameScene = new Scene(view, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
+        gameScene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
         gameController.getGameBoardController().addResizeListener(primaryStage);
         primaryStage.setScene(gameScene);
+        primaryStage.show();
     }
 
     @Override
