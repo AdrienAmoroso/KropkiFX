@@ -24,7 +24,7 @@ public class GameBoardPanel extends BorderPane {
     private Button resetButton;
     private Button backButton;
     private Label timerLabel;
-    private SceneSwitcher sceneSwitcher;
+    
 
     /**
      * Construit la fenêtre de jeu avec la taille de grille spécifiée.
@@ -38,7 +38,7 @@ public class GameBoardPanel extends BorderPane {
         this.helpSwitch = new HelpSwitch();
 
         this.botSwitch = new BotSwitch();
-        this.sceneSwitcher = sceneSwitcher;
+        
         this.resetButton = UiUtils.createImageButton("repeat", 40, 40, e -> {});
         this.backButton = UiUtils.createImageButton("Back", 40, 40, e -> {});
         this.timerLabel = UiUtils.createTimer();

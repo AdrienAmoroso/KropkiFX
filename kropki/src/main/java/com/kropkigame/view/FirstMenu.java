@@ -11,10 +11,10 @@ import javafx.scene.layout.VBox;
 
 public class FirstMenu extends Parent {
 
-    private SceneSwitcher sceneSwitcher;
+    
 
     public FirstMenu(SceneSwitcher sceneSwitcher) {
-        this.sceneSwitcher = sceneSwitcher;
+        
 
         BorderPane mainLayout = new BorderPane();
         mainLayout.getStyleClass().add("main-layout");

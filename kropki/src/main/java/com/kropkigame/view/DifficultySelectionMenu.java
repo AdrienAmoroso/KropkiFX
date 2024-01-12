@@ -17,10 +17,10 @@ import javafx.scene.layout.VBox;
 
 public class DifficultySelectionMenu extends Parent {
 
-    private SceneSwitcher sceneSwitcher;
+    
 
     public DifficultySelectionMenu(SceneSwitcher sceneSwitcher) {
-        this.sceneSwitcher = sceneSwitcher;
+        
 
         BorderPane mainLayout = new BorderPane();
         mainLayout.getStyleClass().add("main-layout");
