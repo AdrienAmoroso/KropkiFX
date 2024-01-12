@@ -11,9 +11,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
 
 /**
- * Représente le bouton pour activer l'aide à la résolution.
+ * Représente le bouton pour activer le bot.
  */
-public class HelpSwitch extends GridPane {
+public class BotSwitch extends GridPane {
 
     Circle knob;
     Label lblDesc;
@@ -23,7 +23,7 @@ public class HelpSwitch extends GridPane {
     /**
      * Construit un bouton d'aide.
      */
-    public HelpSwitch() {
+    public BotSwitch() {
 
         // Dimensionnement
         ColumnConstraints colThird = new ColumnConstraints();
@@ -40,7 +40,7 @@ public class HelpSwitch extends GridPane {
         knob.setFill(Color.GRAY);
         
         // Étiquette de description
-        lblDesc = new Label("HELP OFF");
+        lblDesc = new Label("BOT OFF");
         lblDesc.setStyle(KropkiConstants.HELP_TEXT_STYLE);
         lblDesc.setTextAlignment(TextAlignment.CENTER);
         GridPane.setHalignment(lblDesc, HPos.CENTER);
@@ -49,22 +49,22 @@ public class HelpSwitch extends GridPane {
     /**
      * Dessine l'interrupteur
      */
-    public void paintHelpSwitch() {
+    public void paintBotSwitch() {
         getChildren().clear();
         
         if(isOn) 
         {
             add(knob, 2, 0);
-            lblDesc.setText("HELP ON"); // Activée
+            lblDesc.setText("BOT ON"); // Activé
             add(lblDesc, 0, 0, 2, 1);
             GridPane.setHalignment(lblDesc, HPos.CENTER);
-            setStyle("-fx-background-radius: 30; -fx-background-color: #1CEA31; -fx-border-radius: 30;-fx-border-width:2; -fx-border-color: white;-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 0.2, 0.0, 0.0, 1);");
-            knob.setFill(Color.valueOf("#1B9D28"));
+            setStyle("-fx-background-radius: 30; -fx-background-color: #FE8801; -fx-border-radius: 30;-fx-border-width:2; -fx-border-color: white;-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 0.2, 0.0, 0.0, 1);");
+            knob.setFill(Color.valueOf("#67441D"));
         }
         else 
         {
             add(knob, 0, 0);
-            lblDesc.setText("HELP OFF"); // Désactivée
+            lblDesc.setText("BOT OFF"); // Désactivé
             add(lblDesc, 1, 0);
             setStyle("-fx-background-radius: 30; -fx-background-color: #D6D6D6; -fx-border-radius: 30;-fx-border-width:2; -fx-border-color: white;-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 0.2, 0.0, 0.0, 1);");
             knob.setFill(Color.GRAY);
@@ -77,7 +77,7 @@ public class HelpSwitch extends GridPane {
      */
     public void setValue(boolean value) {
         isOn = value; 
-        paintHelpSwitch(); 
+        paintBotSwitch(); 
     }
 
     /**

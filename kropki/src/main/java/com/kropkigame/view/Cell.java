@@ -95,7 +95,11 @@ public class Cell extends Pane {
      */
     public void setNumber(int number) {
         this.number = number;
-        textDisplay.setText(String.valueOf(number));
+        if (number == 0) {
+            textDisplay.setText("");
+        } else {
+            textDisplay.setText(String.valueOf(number));
+        }
         textDisplay.setStyle(KropkiConstants.CELL_TEXT_STYLE);
 
         // Centre TextDisplay dans Pane
