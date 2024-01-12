@@ -10,7 +10,7 @@ public interface KropkiConstants {
         int SCENE_HEIGHT = 800; // Hauteur de la scène
 
         /*** Styles des composants de la vue ***/
-        String GAMEBOARD_STYLE = "-fx-background-color: black;" // Couleur de fond du plateau de jeu
+        String GAMEBOARD_STYLE = "-fx-background-color: lightblue;" // Couleur de fond du plateau de jeu
                 + "-fx-border-color: white;" // Couleur de bordure du plateau de jeu
                 + "-fx-border-width: 2px;"; // Largeur de bordure du plateau de jeu
 
@@ -80,8 +80,7 @@ public interface KropkiConstants {
                 + "kropki_8x8.txt";
 
         /*** Chemins vers les ressources supplémentaires (images, polices, ...) ***/
-        String RESET_ICON_PATH = "kropki\\assets\\icons\\reset_icon.png"; // Chemin vers l'icône du bouton Reset
-        String BACK_ICON_PATH = "kropki\\assets\\icons\\back_icon.png"; // Chemin vers l'icône du bouton Back
+        
         String TIMER_LABEL_FONT_PATH = "kropki\\assets\\fonts\\digital-7.ttf"; // Chemin vers la police du chronomètre
         String ASSETS_PATH = "kropki\\assets\\Prinbles_GUI_Asset_Solid (1.0.0)\\asset"; // Chemin vers les assets
 

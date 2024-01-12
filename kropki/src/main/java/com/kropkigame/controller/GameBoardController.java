@@ -1,6 +1,9 @@
 package com.kropkigame.controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
 import com.kropki.bot.BotSolver;
 import com.kropki.bot.BotSolverImpl;
@@ -30,7 +33,7 @@ import javafx.util.Duration;
  * La classe GameBoardController est responsable de contrôler le plateau de jeu et de gérer les interactions utilisateur.
  * Elle gère le modèle, la vue et le contrôleur de cellule du plateau de jeu, notamment au niveau du respect des règles du jeu.
  */
-public class GameBoardController {
+public class GameBoardController implements GameBoardActions {
     private Puzzle model;
     private GameBoardPanel view;
     private CellController cellController;
@@ -184,13 +187,13 @@ public class GameBoardController {
 
         // Configuration du bouton de réinitialisation
         view.getResetButton().setOnAction(event -> resetGame());
-        view.getResetButton().setOnMouseEntered(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_HOVER_STYLE));
-        view.getResetButton().setOnMouseExited(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_STYLE));
+        // view.getResetButton().setOnMouseEntered(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_HOVER_STYLE));
+        // view.getResetButton().setOnMouseExited(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_STYLE));
 
         // Configuration du bouton de retour
         view.getBackButton().setOnAction(event -> handleBackButton());
-        view.getBackButton().setOnMouseEntered(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_HOVER_STYLE));
-        view.getBackButton().setOnMouseExited(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_STYLE));
+        // view.getBackButton().setOnMouseEntered(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_HOVER_STYLE));
+        // view.getBackButton().setOnMouseExited(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_STYLE));
 
         // Configuration du switch d'aide
         view.getHelpSwitch().setOnMouseClicked(e -> {
@@ -566,44 +569,7 @@ public class GameBoardController {
         alert.showAndWait();
     }
     
-    /**
-     * Réinitialise le jeu.
-     */
-    public void resetGame() {
-        int gridSize = model.getGridSize();
 
-        for (int row = 0; row < gridSize; row++) {
-            for (int col = 0; col < gridSize; col++) {
-                Cell cell = view.getCell(row, col);
-                cell.setNumber(0);
-                cell.getTextDisplay().setText("");
-            }
-        }
-
-        // Réinitialise les styles et états des cellules
-        resetCellStyles();
-        resetErrorState();
-
-        // Réinitialise le chronomètre
-        time = Duration.ZERO;
-        view.getTimerLabel().setText(formatDuration(time));
-        if (timeline != null) {
-            timeline.playFromStart();
-        }
-    }
-
-    /**
-     * Gère l'évènement qui permet d'effacer le dernier chiffre entré par l'utilisateur.
-     */
-    public void handleBackButton() {
-        if (!actions.isEmpty()) {
-            Action lastAction = actions.pop(); // Récupère la dernière action effectuée par l'utilisateur
-            Cell cell = view.getCell(lastAction.getRow(), lastAction.getCol());
-            cell.setNumber(0);
-            cell.getTextDisplay().setText("");
-            highlightErrors();
-        }
-    }
 
     /**
      * Enregistre une action lorsqu'un chiffre est entré.
@@ -887,6 +853,51 @@ public class GameBoardController {
                 }
                 cell.setIsError(false);
             }
+        }
+    }
+
+    /**
+     * Réinitialise le jeu.
+     */
+    @Override
+    public void resetGame() {
+        int gridSize = model.getGridSize();
+
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                Cell cell = view.getCell(row, col);
+                cell.setNumber(0);
+                cell.getTextDisplay().setText("");
+            }
+        }
+
+        // Réinitialise les styles et états des cellules
+        resetCellStyles();
+        resetErrorState();
+
+        // Réinitialise le chronomètre
+        time = Duration.ZERO;
+        view.getTimerLabel().setText(formatDuration(time));
+        if (timeline != null) {
+            timeline.playFromStart();
+        }
+    }
+
+
+    
+
+
+     /**
+     * Gère l'évènement qui permet d'effacer le dernier chiffre entré par l'utilisateur.
+     */
+    @Override
+    public void handleBackButton() {
+        if (!actions.isEmpty()) {
+            Action lastAction = actions.pop(); // Récupère la dernière action effectuée par l'utilisateur
+            Cell cell = view.getCell(lastAction.getRow(), lastAction.getCol());
+            cell.setNumber(0);
+            cell.getTextDisplay().setText("");
+            highlightErrors();
         }
     }
 }

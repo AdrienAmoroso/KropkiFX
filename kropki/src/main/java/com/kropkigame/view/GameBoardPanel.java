@@ -1,16 +1,14 @@
 package com.kropkigame.view;
 
 import com.kropkigame.model.KropkiConstants;
+import com.kropkigame.utils.UiUtils;
 
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -26,21 +24,24 @@ public class GameBoardPanel extends BorderPane {
     private Button resetButton;
     private Button backButton;
     private Label timerLabel;
+    private SceneSwitcher sceneSwitcher;
 
     /**
      * Construit la fenêtre de jeu avec la taille de grille spécifiée.
      * @param gridSize la taille de la grille.
      */
-    public GameBoardPanel(int gridSize) {
+    public GameBoardPanel(int gridSize, SceneSwitcher sceneSwitcher) {
         this.gridSize = gridSize;
         this.cells = new Cell[gridSize][gridSize];
         this.gridPane = createGridPane(gridSize);
-        this.numberBar = createNumberBar(gridSize);
+        this.numberBar = UiUtils.createNumberBar(gridSize);
         this.helpSwitch = new HelpSwitch();
+
         this.botSwitch = new BotSwitch();
-        this.resetButton = createResetButton();
-        this.backButton = createBackButton();
-        this.timerLabel = createTimer();
+        this.sceneSwitcher = sceneSwitcher;
+        this.resetButton = UiUtils.createImageButton("repeat", 40, 40, e -> {});
+        this.backButton = UiUtils.createImageButton("Back", 40, 40, e -> {});
+        this.timerLabel = UiUtils.createTimer();
 
         HBox contentHbox = new HBox(50); // Boutons utilitaires
         VBox contentVBox = new VBox(10); // Contenu principal (grille + Hbox)
@@ -50,11 +51,15 @@ public class GameBoardPanel extends BorderPane {
         contentVBox.setAlignment(Pos.CENTER);
         botSwitchHBox.setAlignment(Pos.CENTER);
 
+        Button homeButton = UiUtils.createImageButton("Home", 120, 70, e -> sceneSwitcher.switchToDifficultySelection());
         contentHbox.getChildren().addAll(resetButton, helpSwitch, backButton);
         botSwitchHBox.getChildren().add(botSwitch);
         contentVBox.getChildren().addAll(timerLabel, contentHbox, gridPane, botSwitchHBox);
 
+        this.setTop(homeButton);
+
         this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
+        // this.getStylesheets().add(getClass().getResource("/com/kropkigame/view/gameBoardStyle.css").toExternalForm());
         this.setCenter(contentVBox);
         this.setBottom(numberBar);
     }
@@ -65,7 +70,7 @@ public class GameBoardPanel extends BorderPane {
      * @return la grille de jeu (sans les points).
      */
     private GridPane createGridPane(int gridSize) {
-        this.gridPane = new GridPane();
+        GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
 
         for (int row = 0; row < gridSize; row++) {
@@ -77,81 +82,47 @@ public class GameBoardPanel extends BorderPane {
         return gridPane;
     }
 
-    /**
-     * Crée la barre de sélection des nombres.
-     * @param gridSize la taille de la grille.
-     * @return la barre de sélection des nombres.
-     */
-    private HBox createNumberBar(int gridSize) {
-        this.numberBar = new HBox(10);
+    
 
-        // Crée un bouton pour chaque nombre
-        for (int j = 1; j <= gridSize; j++) {
-            final int number = j;
-            Button numberButton = new Button(String.valueOf(number));
-            numberButton.setId("numberButton" + number);
-            numberButton.setStyle(KropkiConstants.NUMBER_BUTTON_STYLE);
-            numberButton.setMaxWidth(Double.MAX_VALUE);
-
-            // Ajoute le bouton à la barre de sélection des nombres
-            numberBar.getChildren().add(numberButton);
-
-            HBox.setHgrow(numberButton, Priority.ALWAYS);           
-        }
-
-        // Définit l'espacement entre les boutons
-        numberBar.setSpacing(10);
-
-        // Définit une bordure autour de la barre de sélection des nombres 
-        numberBar.setStyle(KropkiConstants.NUMBER_BAR_STYLE);
-
-        return numberBar;
-    }
+    
 
     /**
      * Crée le bouton de réinitialisation.
      * @return le bouton de réinitialisation.
      */
-    private Button createResetButton() {
-        Image image = new Image("file:" + KropkiConstants.RESET_ICON_PATH);
-        ImageView imageView = new ImageView(image);        
-        imageView.setFitWidth(30); 
-        imageView.setFitHeight(30);
-        imageView.setPreserveRatio(false);
+    // private Button createResetButton() {
+    //     Image image = new Image("file:" + KropkiConstants.RESET_ICON_PATH);
+    //     ImageView imageView = new ImageView(image);        
+    //     imageView.setFitWidth(30); 
+    //     imageView.setFitHeight(30);
+    //     imageView.setPreserveRatio(false);
     
-        Button resetBtn = new Button();
-        resetBtn.setGraphic(imageView);
-        resetBtn.setStyle(KropkiConstants.RESET_BUTTON_STYLE);
+    //     Button resetBtn = new Button();
+    //     resetBtn.setGraphic(imageView);
+    //     resetBtn.setStyle(KropkiConstants.RESET_BUTTON_STYLE);
     
-        return resetBtn;
-    }
+    //     return resetBtn;
+    // }
     
-    /**
-     * Crée le bouton de retour.
-     * @return le bouton de retour.
-     */
-    private Button createBackButton() {
-        Image image = new Image("file:" + KropkiConstants.BACK_ICON_PATH);
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(30); 
-        imageView.setFitHeight(30);
-        imageView.setPreserveRatio(false);
+    // /**
+    //  * Crée le bouton de retour.
+    //  * @return le bouton de retour.
+    //  */
+    // private Button createBackButton() {
+    //     Image image = new Image("file:" + KropkiConstants.BACK_ICON_PATH);
+    //     ImageView imageView = new ImageView(image);
+    //     imageView.setFitWidth(30); 
+    //     imageView.setFitHeight(30);
+    //     imageView.setPreserveRatio(false);
     
-        Button backBtn = new Button();
-        backBtn.setGraphic(imageView);
-        backBtn.setStyle(KropkiConstants.BACK_BUTTON_STYLE);
+    //     Button backBtn = new Button();
+    //     backBtn.setGraphic(imageView);
+    //     backBtn.setStyle(KropkiConstants.BACK_BUTTON_STYLE);
     
-        return backBtn;
-    }   
+    //     return backBtn;
+    // }   
 
-    /**
-     * Crée le chronomètre.
-     */
-    private Label createTimer() {
-        timerLabel = new Label("00:00:00");
-        timerLabel.setStyle(KropkiConstants.TIMER_LABEL_STYLE);
-        return timerLabel;
-    }
+    
     
     /**
      * Renvoie la cellule à la ligne et à la colonne spécifiées.
