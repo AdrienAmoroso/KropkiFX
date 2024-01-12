@@ -183,13 +183,13 @@ public class GameBoardController implements GameBoardActions {
 
         // Configuration du bouton de réinitialisation
         view.getResetButton().setOnAction(event -> resetGame());
-        view.getResetButton().setOnMouseEntered(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_HOVER_STYLE));
-        view.getResetButton().setOnMouseExited(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_STYLE));
+        // view.getResetButton().setOnMouseEntered(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_HOVER_STYLE));
+        // view.getResetButton().setOnMouseExited(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_STYLE));
 
         // Configuration du bouton de retour
         view.getBackButton().setOnAction(event -> handleBackButton());
-        view.getBackButton().setOnMouseEntered(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_HOVER_STYLE));
-        view.getBackButton().setOnMouseExited(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_STYLE));
+        // view.getBackButton().setOnMouseEntered(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_HOVER_STYLE));
+        // view.getBackButton().setOnMouseExited(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_STYLE));
 
         // Configuration du switch d'aide
         view.getHelpSwitch().setOnMouseClicked(e -> {

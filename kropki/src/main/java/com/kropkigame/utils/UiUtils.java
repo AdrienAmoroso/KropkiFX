@@ -6,6 +6,7 @@ import com.kropkigame.model.KropkiConstants;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -69,6 +70,16 @@ public class UiUtils {
         vbox.setSpacing(10); 
         vbox.setAlignment(Pos.CENTER);
         VBox.setVgrow(vbox, Priority.ALWAYS);
+
+        return vbox;
+    }
+
+    public static VBox createCenterVBoxGrid(Label label, Node gridOrComponent) {
+        VBox vbox = new VBox(10); // Ajustez l'espacement selon vos besoins
+        vbox.getChildren().add(label);
+        vbox.getChildren().add(gridOrComponent);
+        vbox.setAlignment(Pos.CENTER);
+        VBox.setVgrow(gridOrComponent, Priority.ALWAYS);
 
         return vbox;
     }

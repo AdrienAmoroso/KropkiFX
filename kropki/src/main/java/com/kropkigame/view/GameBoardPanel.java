@@ -6,8 +6,6 @@ import com.kropkigame.utils.UiUtils;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -37,8 +35,9 @@ public class GameBoardPanel extends BorderPane {
         this.gridPane = createGridPane(gridSize);
         this.numberBar = UiUtils.createNumberBar(gridSize);
         this.helpSwitch = new HelpSwitch();
-        this.resetButton = UiUtils.createImageButton("repeat", 40, 40, e -> sceneSwitcher.switchToDifficultySelection());
-        this.backButton = UiUtils.createImageButton("back", 40, 40, e -> sceneSwitcher.switchToDifficultySelection());
+        this.sceneSwitcher = sceneSwitcher;
+        this.resetButton = UiUtils.createImageButton("repeat", 40, 40, e -> {});
+        this.backButton = UiUtils.createImageButton("Back", 40, 40, e -> {});
         this.timerLabel = UiUtils.createTimer();
 
         HBox contentHbox = new HBox(50); // Boutons utilitaires
@@ -53,6 +52,7 @@ public class GameBoardPanel extends BorderPane {
         this.setTop(homeButton);
 
         this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
+        // this.getStylesheets().add(getClass().getResource("/com/kropkigame/view/gameBoardStyle.css").toExternalForm());
         this.setCenter(contentVBox);
         this.setBottom(numberBar);
     }
@@ -83,37 +83,37 @@ public class GameBoardPanel extends BorderPane {
      * Crée le bouton de réinitialisation.
      * @return le bouton de réinitialisation.
      */
-    private Button createResetButton() {
-        Image image = new Image("file:" + KropkiConstants.RESET_ICON_PATH);
-        ImageView imageView = new ImageView(image);        
-        imageView.setFitWidth(30); 
-        imageView.setFitHeight(30);
-        imageView.setPreserveRatio(false);
+    // private Button createResetButton() {
+    //     Image image = new Image("file:" + KropkiConstants.RESET_ICON_PATH);
+    //     ImageView imageView = new ImageView(image);        
+    //     imageView.setFitWidth(30); 
+    //     imageView.setFitHeight(30);
+    //     imageView.setPreserveRatio(false);
     
-        Button resetBtn = new Button();
-        resetBtn.setGraphic(imageView);
-        resetBtn.setStyle(KropkiConstants.RESET_BUTTON_STYLE);
+    //     Button resetBtn = new Button();
+    //     resetBtn.setGraphic(imageView);
+    //     resetBtn.setStyle(KropkiConstants.RESET_BUTTON_STYLE);
     
-        return resetBtn;
-    }
+    //     return resetBtn;
+    // }
     
-    /**
-     * Crée le bouton de retour.
-     * @return le bouton de retour.
-     */
-    private Button createBackButton() {
-        Image image = new Image("file:" + KropkiConstants.BACK_ICON_PATH);
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(30); 
-        imageView.setFitHeight(30);
-        imageView.setPreserveRatio(false);
+    // /**
+    //  * Crée le bouton de retour.
+    //  * @return le bouton de retour.
+    //  */
+    // private Button createBackButton() {
+    //     Image image = new Image("file:" + KropkiConstants.BACK_ICON_PATH);
+    //     ImageView imageView = new ImageView(image);
+    //     imageView.setFitWidth(30); 
+    //     imageView.setFitHeight(30);
+    //     imageView.setPreserveRatio(false);
     
-        Button backBtn = new Button();
-        backBtn.setGraphic(imageView);
-        backBtn.setStyle(KropkiConstants.BACK_BUTTON_STYLE);
+    //     Button backBtn = new Button();
+    //     backBtn.setGraphic(imageView);
+    //     backBtn.setStyle(KropkiConstants.BACK_BUTTON_STYLE);
     
-        return backBtn;
-    }   
+    //     return backBtn;
+    // }   
 
     
     
