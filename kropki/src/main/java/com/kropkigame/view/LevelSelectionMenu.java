@@ -13,13 +13,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * La classe LevelSelectionMenu représente le menu de sélection de niveau du jeu.
+ * Elle hérite de la classe Parent de JavaFX, ce qui signifie qu'elle peut être utilisée comme un nœud dans la scène de l'interface utilisateur.
+ */
 public class LevelSelectionMenu extends Parent {
 
-    
-
+    /**
+     * Constructeur de la classe LevelSelectionMenu.
+     * @param sceneSwitcher Le commutateur de scène utilisé pour changer de scène dans l'interface utilisateur.
+     * @param difficulty Le niveau de difficulté sélectionné.
+     */
     public LevelSelectionMenu(SceneSwitcher sceneSwitcher, String difficulty) {
-    
-
         BorderPane mainLayout = new BorderPane();
         mainLayout.getStyleClass().add("main-layout");
 
@@ -30,7 +35,7 @@ public class LevelSelectionMenu extends Parent {
         levelGrid.setVgap(10); // Espacement vertical entre les boutons
         levelGrid.setAlignment(Pos.CENTER);
 
-        // Créer une grille de boutons 1x5
+        // Création d'une grille de boutons pour la sélection du niveau
         for (int i = 0; i < 1; i++) {
             for (int j = 0; j < 5; j++) {
                 int level = ((i * 5) + j + 1); // Calcule le numéro du niveau
@@ -63,14 +68,7 @@ public class LevelSelectionMenu extends Parent {
                     }
                 });
 
+        // Ajout du layout principal comme enfant de ce nœud
         getChildren().add(mainLayout);
-    }
-
-    
-
-   
-
-    
-
-    
+    }    
 }

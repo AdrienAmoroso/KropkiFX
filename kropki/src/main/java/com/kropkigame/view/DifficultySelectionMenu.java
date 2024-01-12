@@ -15,10 +15,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * La classe DifficultySelectionMenu représente le menu de sélection de la difficulté du jeu.
+ * Elle hérite de la classe Parent de JavaFX, ce qui signifie qu'elle peut être utilisée comme un nœud dans la scène de l'interface utilisateur.
+ */
 public class DifficultySelectionMenu extends Parent {
 
     private SceneSwitcher sceneSwitcher;
 
+    /**
+     * Constructeur de la classe DifficultySelectionMenu.
+     * @param sceneSwitcher Le commutateur de scène utilisé pour changer de scène dans l'interface utilisateur.
+     */
     public DifficultySelectionMenu(SceneSwitcher sceneSwitcher) {
         this.sceneSwitcher = sceneSwitcher;
 
@@ -27,6 +35,7 @@ public class DifficultySelectionMenu extends Parent {
 
         Label difficultyLabel = UiUtils.createTitleLabel("DIFFICULTY");
 
+        // Création des boutons pour chaque niveau de difficulté
         Button fourButton = UiUtils.createImageButton(
                 "Difficulty\\4x4",
                 150,
@@ -53,6 +62,7 @@ public class DifficultySelectionMenu extends Parent {
                 100,
                 e -> sceneSwitcher.showLevelSelection("8x8"));
 
+        // Création du bouton pour revenir à l'accueil
         Button homeButton = UiUtils.createImageButton(
                 "Home",
                 120,
@@ -63,7 +73,7 @@ public class DifficultySelectionMenu extends Parent {
         HBox.setHgrow(iconsHBox, Priority.ALWAYS);
         iconsHBox.setPadding(new Insets(0, 0, 20, 0));
 
-        // Create a list of buttons for the VBox
+        // Création d'une liste de boutons pour la VBox
         List<Button> buttons = Arrays.asList(
                 fourButton,
                 fiveButton,
@@ -71,13 +81,14 @@ public class DifficultySelectionMenu extends Parent {
                 sevenButton,
                 eightButton);
 
-        // Use the modified createCenterVBox method that accepts a list of buttons
+        // Utilisation de la méthode modifiée createCenterVBox qui accepte une liste de boutons
         VBox difficultyVBox = UiUtils.createCenterVBoxList(difficultyLabel, buttons);
 
-        // Set the VBox to the center of the main layout
+        // Configuration de la VBox au centre du layout principal
         mainLayout.setCenter(difficultyVBox);
         mainLayout.setBottom(iconsHBox);
 
+        // Liaison des propriétés de hauteur et de largeur du layout principal à celles de la scène
         this.sceneProperty()
                 .addListener((obs, oldScene, newScene) -> {
                     if (newScene != null) {
@@ -86,10 +97,7 @@ public class DifficultySelectionMenu extends Parent {
                     }
                 });
 
-        // Assuming this class extends a JavaFX layout, set the main layout as the child
+        // Ajout du layout principal comme enfant de ce nœud
         getChildren().add(mainLayout);
     }
-
-
-
 }

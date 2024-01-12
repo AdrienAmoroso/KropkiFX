@@ -16,11 +16,9 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- * The main class of the Kropki Game application.
- * This class extends the Application class and is responsible for starting the
- * game.
+ * La classe principale de l'application Kropki Game.
+ * Cette classe étend la classe Application et est responsable du démarrage du jeu.
  */
-
 public class Main extends Application implements SceneSwitcher {
 
     private Stage primaryStage;
@@ -44,6 +42,12 @@ public class Main extends Application implements SceneSwitcher {
     }
 
     @Override
+    /**
+     * Change la scène pour afficher le jeu avec la difficulté et le numéro de niveau spécifiés.
+     * 
+     * @param difficulty La difficulté du jeu.
+     * @param levelNumber Le numéro du niveau.
+     */
     public void switchToGame(String difficulty, int levelNumber) {
         // Obtenez le chemin du fichier en fonction du numéro de niveau
         String filepath = KropkiConstants.getFilePathForLevel(difficulty, levelNumber);
@@ -65,6 +69,9 @@ public class Main extends Application implements SceneSwitcher {
     }
 
     @Override
+    /**
+     * Change la scène pour afficher la sélection de la difficulté.
+     */
     public void switchToDifficultySelection() {
         DifficultySelectionMenu difficultySelectionMenu = new DifficultySelectionMenu(this);
 
@@ -76,6 +83,9 @@ public class Main extends Application implements SceneSwitcher {
     }
 
     @Override
+    /**
+     * Change la scène pour afficher le menu d'accueil.
+     */
     public void switchToFirstMenu() {
         FirstMenu firstMenu = new FirstMenu(this);
 
@@ -85,6 +95,11 @@ public class Main extends Application implements SceneSwitcher {
     }
 
     @Override
+    /**
+     * Change la scène pour afficher la sélection du niveau avec la difficulté spécifiée.
+     * 
+     * @param difficulty La difficulté du jeu.
+     */
     public void showLevelSelection(String difficulty) {
         LevelSelectionMenu levelSelectionMenu = new LevelSelectionMenu(this, difficulty);
         Scene levelSelectionScene = new Scene(levelSelectionMenu, KropkiConstants.SCENE_WIDTH,
@@ -94,6 +109,11 @@ public class Main extends Application implements SceneSwitcher {
         primaryStage.setScene(levelSelectionScene);
     }
 
+    /**
+     * Le point d'entrée principal de l'application.
+     * 
+     * @param args les arguments de la ligne de commande.
+     */
     public static void main(String[] args) {
         launch(args);
     }

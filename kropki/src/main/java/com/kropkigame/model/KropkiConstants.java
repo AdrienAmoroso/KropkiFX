@@ -2,6 +2,9 @@ package com.kropkigame.model;
 
 import java.io.File;
 
+/**
+ * Interface contenant les constantes du jeu Kropki.
+ */
 public interface KropkiConstants {
 
         /*** Tailles des composants de la vue ***/

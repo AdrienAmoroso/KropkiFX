@@ -101,18 +101,18 @@ public class EdgePoint {
     }
 
     /**
-     * Retourne le type du point de bord.
+     * Retourne le type du point.
      *
-     * @return le type du point de bord
+     * @return le type du point
      */
     public String getType() {
         return this.type;
     }
 
     /**
-     * Définit le type du point de bord.
+     * Définit le type du point.
      *
-     * @param type le type du point de bord
+     * @param type le type du point
      */
     public void setType(String type) {
         this.type = type;
