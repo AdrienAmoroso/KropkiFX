@@ -7,35 +7,57 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * La classe BotSolverImpl implémente l'interface BotSolver.
+ * Elle est utilisée pour résoudre automatiquement le jeu Kropki.
+ * Elle utilise l'algorithme de backtracking pour trouver une solution.
+ */
 public class BotSolverImpl implements BotSolver {
     private GameBoardController gameBoardController;
     private GameBoardPanel view;
     private boolean isRunning;
 
+    /**
+     * Constructeur de la classe BotSolverImpl.
+     * @param gameBoardController Le contrôleur du plateau de jeu.
+     * @param view La vue du plateau de jeu.
+     */
     public BotSolverImpl(GameBoardController gameBoardController, GameBoardPanel view) {
         this.gameBoardController = gameBoardController;
         this.view = view;
     }
 
+    /**
+     * Démarre le bot pour résoudre le jeu.
+     */
     @Override
     public void startBot() {
         isRunning = true;
         new Thread(this::runBot).start();
     }
 
+    /**
+     * Arrête le bot.
+     */
     @Override
     public void stopBot() {
         isRunning = false;
     }
 
+    /**
+     * Exécute le bot pour résoudre le jeu.
+     * Utilise l'algorithme de backtracking pour trouver une solution.
+     */
     private void runBot() {
         long startTime = System.currentTimeMillis();
     
         // Placer ici un chiffre valide automatiquement
-        gameBoardController.resetGame();
-        int correctRow = 0;
-        int correctCol = 0;
-        view.getCell(correctRow, correctCol).setNumber(gameBoardController.getModel().getNumber(correctRow, correctCol));
+        Platform.runLater(() -> {
+            gameBoardController.resetGame();
+            int correctRow = 0;
+            int correctCol = 0;
+            view.getCell(correctRow, correctCol).setNumber(gameBoardController.getModel().getNumber(correctRow, correctCol));
+        });
     
         try {
             Thread.sleep(1000); // Réglable selon la vitesse souhaitée
@@ -48,11 +70,12 @@ public class BotSolverImpl implements BotSolver {
 
                         long endTime = System.currentTimeMillis();
                         System.out.println("[BotSolver] Solution trouvée en " + (endTime - startTime) + " ms!");
-                        showVictoryMessage(startTime, endTime);
+                        showBotVictoryMessage(startTime, endTime);
                     }
                     stopBot(); // Arrête le bot si une solution est trouvée
                 } else {
                     System.out.println("[BotSolver] Aucune solution trouvée.");
+                    showNoSolutionFoundMessage();
                 }
             });
         } catch (InterruptedException e) {
@@ -60,6 +83,12 @@ public class BotSolverImpl implements BotSolver {
         }
     }
 
+    /**
+     * Tente de résoudre le jeu en utilisant l'algorithme de backtracking.
+     * @param row La ligne actuelle.
+     * @param col La colonne actuelle.
+     * @return true si une solution a été trouvée, false sinon.
+     */
     private boolean solveWithBacktracking(int row, int col) {
         System.out.println("[Backtracking] Cellule actuelle: [" + row + ", " + col + "]");
 
@@ -91,6 +120,13 @@ public class BotSolverImpl implements BotSolver {
         return false; // Aucun numéro valide trouvé pour cette cellule
     }
 
+    /**
+     * Vérifie si le placement d'un nombre dans une cellule est valide.
+     * @param row La ligne de la cellule.
+     * @param col La colonne de la cellule.
+     * @param num Le nombre à placer.
+     * @return true si le placement est valide, false sinon.
+     */
     private boolean isValidPlacement(int row, int col, int num) {
         System.out.println("[isValidPlacement] Vérification du placement de " + num + " en [" + row + ", " + col + "]");
     
@@ -148,11 +184,22 @@ public class BotSolverImpl implements BotSolver {
         return true; // Si toutes les vérifications sont passées, le placement est valide
     }
     
+    /**
+     * Vérifie si une cellule est valide.
+     * @param row La ligne de la cellule.
+     * @param col La colonne de la cellule.
+     * @return true si la cellule est valide, false sinon.
+     */
     private boolean isValidCell(int row, int col) {
         return row >= 0 && row < view.getGridSize() && col >= 0 && col < view.getGridSize();
     }
 
-    private void showVictoryMessage(long startTime, long endTime) {
+    /**
+     * Affiche un message de victoire lorsque le bot a résolu le jeu.
+     * @param startTime Le temps de début de l'exécution du bot.
+     * @param endTime Le temps de fin de l'exécution du bot.
+     */
+    private void showBotVictoryMessage(long startTime, long endTime) {
         long time = endTime - startTime; // Temps d'exécution de l'algo en ms
 
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -163,4 +210,15 @@ public class BotSolverImpl implements BotSolver {
         alert.showAndWait();
     }
     
+    /**
+     * Affiche un message d'erreur lorsque le bot n'a pas réussi à résoudre le jeu.
+     */
+    private void showNoSolutionFoundMessage() {
+        Alert alert = new Alert(AlertType.WARNING);
+
+        alert.setTitle("Echec");
+        alert.setHeaderText(null);
+        alert.setContentText("Le bot n'a pas réussi à résoudre la grille.");
+        alert.showAndWait();
+    }
 }
