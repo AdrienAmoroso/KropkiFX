@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
+import com.kropki.bot.BotSolver;
+import com.kropki.bot.BotSolverImpl;
 import com.kropkigame.model.EdgePoint;
 import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
@@ -38,6 +40,7 @@ public class GameBoardController implements GameBoardActions {
     private Stack<Action> actions = new Stack<>();
     private Duration time = Duration.ZERO;
     private Timeline timeline;
+    private BotSolver botSolver;
 
     /**
      * Obtient le modèle du plateau de jeu.
@@ -148,6 +151,7 @@ public class GameBoardController implements GameBoardActions {
         this.actions = new Stack<>();
         this.time = Duration.ZERO;
         this.timeline = null;
+        this.botSolver = new BotSolverImpl(this, view);
     }
 
     /**
@@ -194,11 +198,36 @@ public class GameBoardController implements GameBoardActions {
         // Configuration du switch d'aide
         view.getHelpSwitch().setOnMouseClicked(e -> {
             view.getHelpSwitch().setValue(!(view.getHelpSwitch().getValue()));
-            view.getHelpSwitch().paintSwitch();
+            view.getHelpSwitch().paintHelpSwitch();
         });
         
-        view.getHelpSwitch().paintSwitch();
+        view.getHelpSwitch().paintHelpSwitch();
 
+        // Configuration du switch du bot
+        view.getBotSwitch().setOnMouseClicked(e -> {
+            boolean isBotActive = view.getBotSwitch().getValue();
+            view.getBotSwitch().setValue(!isBotActive);
+            toggleBot(!isBotActive);
+            view.getBotSwitch().paintBotSwitch();
+        });
+
+        view.getBotSwitch().paintBotSwitch();
+    }
+
+    /**
+     * Démarre ou arrête le bot en fonction de l'état du switch.
+     * @param isBotActive vrai si le bot est actif, faux sinon. 
+     */
+    private void toggleBot(boolean isBotActive) {
+        if (isBotActive) {
+            view.disableUserInteraction();
+            botSolver.startBot();
+        } else {
+            view.enableUserInteraction();
+            botSolver.stopBot();
+        }
+        view.getBotSwitch().setValue(isBotActive);
+        view.getBotSwitch().paintBotSwitch();
     }
 
     /**
@@ -211,7 +240,7 @@ public class GameBoardController implements GameBoardActions {
 
         // Vérification des erreurs
         highlightErrors();
-        
+
         if (view.getHelpSwitch().getValue()) {
             provideHelp();
         }
@@ -242,6 +271,8 @@ public class GameBoardController implements GameBoardActions {
         cellController.handleCellSelected(event, cell);
     }
 
+
+
     /**
      * Fournit une aide en remplissant automatiquement certaines cases de la grille,
      * en fonction des règles de Kropki.
@@ -270,6 +301,13 @@ public class GameBoardController implements GameBoardActions {
     
                     // Si thisCell est vide, vérifier si une valeur manquante peut être déterminée
                     if (thisCell.getNumber() == 0) {
+                        if (canDetermineValueFromLineAndColumn(row, col)) {
+                            filledACell = true; // Marquer qu'une cellule a été remplie
+                        }
+                    }
+
+                    // Si thisCell est vide, vérifier si une valeur manquante peut être déterminée
+                    if (thisCell.getNumber() == 0) {
                         int missingValue = determineMissingValue(row, col);
                         if (missingValue > 0) {
                             thisCell.setNumber(missingValue); // Remplir la case avec la valeur manquante
@@ -280,6 +318,33 @@ public class GameBoardController implements GameBoardActions {
             }
         } while (filledACell); // Continuer tant qu'au moins une case est remplie à chaque itération
     }
+
+    /**
+     * Permet de savoir si on peut déterminer la valeur manquante dans une
+     * configuration de jeu précise.
+     * @param row la ligne de la cellule.
+     * @param col la colonne de la cellule.
+     * @return vrai si une valeur unique est possible, faux sinon.
+     */
+    public boolean canDetermineValueFromLineAndColumn(int row, int col) {
+        Set<Integer> possibleValues = new HashSet<>();
+        for (int i = 1; i <= model.getGridSize(); i++) {
+            possibleValues.add(i);
+        }
+    
+        // Retirer les valeurs déjà présentes dans la ligne et la colonne
+        for (int i = 0; i < model.getGridSize(); i++) {
+            possibleValues.remove(view.getCell(row, i).getNumber());
+            possibleValues.remove(view.getCell(i, col).getNumber());
+        }
+    
+        // Si seulement une valeur est possible, retourner true
+        if (possibleValues.size() == 1) {
+            view.getCell(row, col).setNumber(possibleValues.iterator().next());
+            return true;
+        }
+        return false;
+    }    
     
     /**
      * Remplit les cellules adjacentes à la cellule spécifiée en fonction des points adjacents.
@@ -355,7 +420,7 @@ public class GameBoardController implements GameBoardActions {
      * @param col
      * @return la valeur de la cellule
      */
-    private int determineMissingValue(int row, int col) {
+    public int determineMissingValue(int row, int col) {
         int size = model.getGridSize();
         int missingValueForRow = size * (size + 1) / 2; // La somme de tous les nombres attendus dans une ligne
         int missingValueForColumn = missingValueForRow; // La somme de tous les nombres attendus dans une colonne
@@ -504,8 +569,7 @@ public class GameBoardController implements GameBoardActions {
         alert.showAndWait();
     }
     
-    
-   
+
 
     /**
      * Enregistre une action lorsqu'un chiffre est entré.

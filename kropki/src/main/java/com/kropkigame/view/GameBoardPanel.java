@@ -20,6 +20,7 @@ public class GameBoardPanel extends BorderPane {
     private HBox numberBar;
     private GridPane gridPane;
     private HelpSwitch helpSwitch;
+    private BotSwitch botSwitch;
     private Button resetButton;
     private Button backButton;
     private Label timerLabel;
@@ -35,6 +36,8 @@ public class GameBoardPanel extends BorderPane {
         this.gridPane = createGridPane(gridSize);
         this.numberBar = UiUtils.createNumberBar(gridSize);
         this.helpSwitch = new HelpSwitch();
+
+        this.botSwitch = new BotSwitch();
         this.sceneSwitcher = sceneSwitcher;
         this.resetButton = UiUtils.createImageButton("repeat", 40, 40, e -> {});
         this.backButton = UiUtils.createImageButton("Back", 40, 40, e -> {});
@@ -42,12 +45,16 @@ public class GameBoardPanel extends BorderPane {
 
         HBox contentHbox = new HBox(50); // Boutons utilitaires
         VBox contentVBox = new VBox(10); // Contenu principal (grille + Hbox)
+        HBox botSwitchHBox = new HBox(10); // Contient le bouton du bot
+
         contentHbox.setAlignment(Pos.CENTER);
         contentVBox.setAlignment(Pos.CENTER);
+        botSwitchHBox.setAlignment(Pos.CENTER);
 
         Button homeButton = UiUtils.createImageButton("Home", 120, 70, e -> sceneSwitcher.switchToDifficultySelection());
         contentHbox.getChildren().addAll(resetButton, helpSwitch, backButton);
-        contentVBox.getChildren().addAll(timerLabel, contentHbox, gridPane);
+        botSwitchHBox.getChildren().add(botSwitch);
+        contentVBox.getChildren().addAll(timerLabel, contentHbox, gridPane, botSwitchHBox);
 
         this.setTop(homeButton);
 
@@ -140,6 +147,34 @@ public class GameBoardPanel extends BorderPane {
     }
 
     /**
+     * Désactive les interactions utilisateurs avec la grille et la barre de sélection des nombres.
+     */
+    public void disableUserInteraction() {
+        resetButton.setDisable(true);
+        backButton.setDisable(true);
+        helpSwitch.setDisable(true);
+
+        // Désactiver les interactions avec numberBar et les cellules
+        for (javafx.scene.Node node : numberBar.getChildren()) {
+            node.setDisable(true);
+        }
+    }
+
+    /**
+     * Active les interactions utilisateurs avec la grille et la barre de sélection des nombres.
+     */
+    public void enableUserInteraction() {
+        resetButton.setDisable(false);
+        backButton.setDisable(false);
+        helpSwitch.setDisable(false);
+
+        // Activer les interactions avec numberBar et les cellules
+        for (javafx.scene.Node node : numberBar.getChildren()) {
+            node.setDisable(false);
+        }
+    }
+
+    /**
      * Renvoie la grille de jeu.
      * @return la grille de jeu.
      */
@@ -169,6 +204,14 @@ public class GameBoardPanel extends BorderPane {
      */
     public HelpSwitch getHelpSwitch() {
         return this.helpSwitch;
+    }
+
+    /**
+     * Renvoie le bouton du bot.
+     * @return le bouton du bot.
+     */
+    public BotSwitch getBotSwitch() {
+        return this.botSwitch;
     }
 
     /**
