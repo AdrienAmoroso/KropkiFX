@@ -7,13 +7,11 @@ package com.kropki.bot;
 public interface BotSolver {
     /**
      * Démarre le bot pour résoudre le jeu.
-     * Cette méthode doit être implémentée pour démarrer le processus de résolution du jeu.
      */
     void startBot();
 
     /**
      * Arrête le bot.
-     * Cette méthode doit être implémentée pour arrêter le processus de résolution du jeu.
      */
     void stopBot();
 }
