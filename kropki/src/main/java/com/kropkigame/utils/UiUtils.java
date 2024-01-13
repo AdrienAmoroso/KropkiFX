@@ -15,8 +15,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * Classe utilitaire pour la création d'éléments d'interface utilisateur.
+ */
 public class UiUtils {
 
+    /**
+     * Crée un bouton avec une image.
+     * @param imageType Le type d'image à utiliser pour le bouton.
+     * @param width La largeur du bouton.
+     * @param height La hauteur du bouton.
+     * @param actionEvent L'action à effectuer lorsque l'on clique sur le bouton.
+     * @return Le bouton créé.
+     */
     public static Button createImageButton(String imageType, double width, double height,
             javafx.event.EventHandler<javafx.event.ActionEvent> actionEvent) {
         Button button = new Button();
@@ -48,6 +59,11 @@ public class UiUtils {
         return button;
     }
 
+    /**
+     * Crée une HBox avec les boutons utilitaires.
+     * @param buttons Les boutons à ajouter à la HBox.
+     * @return La HBox créée.
+     */
     public static HBox createIconHBox(Button... buttons) {
         HBox hbox = new HBox(500, buttons);
         hbox.setAlignment(Pos.BOTTOM_CENTER);
@@ -56,6 +72,12 @@ public class UiUtils {
         return hbox;
     }
 
+    /**
+     * Crée une VBox centrée avec le chrono et un bouton.
+     * @param label Le label à ajouter à la VBox.
+     * @param button Le bouton à ajouter à la VBox.
+     * @return La VBox créée.
+     */
     public static VBox createCenterVBox(Label label, Button button) {
         VBox vbox = new VBox(100, label, button);
         vbox.setAlignment(Pos.CENTER);
@@ -63,6 +85,12 @@ public class UiUtils {
         return vbox;
     }
 
+    /**
+     * Crée une VBox centrée avec un label et une liste de boutons.
+     * @param label Le label à ajouter à la VBox.
+     * @param buttons La liste de boutons à ajouter à la VBox.
+     * @return La VBox créée.
+     */
     public static VBox createCenterVBoxList(Label label, List<Button> buttons) {
         VBox vbox = new VBox();
         vbox.getChildren().add(label);
@@ -74,6 +102,12 @@ public class UiUtils {
         return vbox;
     }
 
+    /**
+     * Crée une Vbox centrée avec un label et un composant ou une grille.
+     * @param label Le label à ajouter à la VBox.
+     * @param gridOrComponent Le composant ou la grille à ajouter à la VBox.
+     * @return La VBox créée.
+     */
     public static VBox createCenterVBoxGrid(Label label, Node gridOrComponent) {
         VBox vbox = new VBox(10); // Ajustez l'espacement selon vos besoins
         vbox.getChildren().add(label);
@@ -84,6 +118,11 @@ public class UiUtils {
         return vbox;
     }
 
+    /**
+     * Crée un label de titre.
+     * @param text Le texte du label.
+     * @return Le label créé.
+     */
     public static Label createTitleLabel(String text) {
         Label titleLabel = new Label(text);
         titleLabel.getStyleClass().add("label-title");
@@ -123,13 +162,11 @@ public class UiUtils {
 
     /**
      * Crée le chronomètre.
+     * @return Le label du chronomètre.
      */
     public static Label createTimer() {
         Label timerLabel = new Label("00:00:00");
         timerLabel.setStyle(KropkiConstants.TIMER_LABEL_STYLE);
         return timerLabel;
     }
-
-    
-
 }
