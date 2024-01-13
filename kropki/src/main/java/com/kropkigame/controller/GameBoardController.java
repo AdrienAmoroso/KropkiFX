@@ -5,10 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import com.kropki.bot.BotSolver;
-import com.kropki.bot.BotSolverImpl;
-import com.kropki.help.GameHelper;
-import com.kropki.help.GameHelperImpl;
+import com.kropkigame.bot.BotSolver;
+import com.kropkigame.bot.BotSolverImpl;
+import com.kropkigame.help.GameHelper;
+import com.kropkigame.help.GameHelperImpl;
 import com.kropkigame.model.EdgePoint;
 import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;

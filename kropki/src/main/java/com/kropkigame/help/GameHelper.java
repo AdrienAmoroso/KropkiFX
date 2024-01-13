@@ -1,4 +1,4 @@
-package com.kropki.help;
+package com.kropkigame.help;
 
 /**
  * L'interface GameHelper définit les méthodes de base pour une aide à la résolution d'une grille de jeu.

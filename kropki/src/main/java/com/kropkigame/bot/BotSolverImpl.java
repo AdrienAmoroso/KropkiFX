@@ -1,4 +1,4 @@
-package com.kropki.bot;
+package com.kropkigame.bot;
 
 import com.kropkigame.controller.GameBoardController;
 import com.kropkigame.view.Cell;

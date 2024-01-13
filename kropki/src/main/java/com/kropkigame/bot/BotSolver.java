@@ -1,4 +1,4 @@
-package com.kropki.bot;
+package com.kropkigame.bot;
 
 /**
  * L'interface BotSolver définit les méthodes de base pour un bot résolveur de jeu.

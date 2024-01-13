@@ -1,4 +1,4 @@
-package com.kropki.help;
+package com.kropkigame.help;
 
 import java.util.HashSet;
 import java.util.Set;
