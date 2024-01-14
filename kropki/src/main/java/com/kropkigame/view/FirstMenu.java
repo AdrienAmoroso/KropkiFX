@@ -9,10 +9,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * La classe FirstMenu représente le premier menu du jeu.
+ * Elle hérite de la classe Parent de JavaFX, ce qui signifie qu'elle peut être utilisée comme un nœud dans la scène de l'interface utilisateur.
+ */
 public class FirstMenu extends Parent {
 
     
 
+    /**
+     * Constructeur de la classe FirstMenu.
+     * @param sceneSwitcher Le commutateur de scène utilisé pour changer de scène dans l'interface utilisateur.
+     */
     public FirstMenu(SceneSwitcher sceneSwitcher) {
         
 
@@ -39,9 +47,5 @@ public class FirstMenu extends Parent {
         });
 
         getChildren().add(mainLayout);
-    }
-
-
-
-    
+    }    
 }

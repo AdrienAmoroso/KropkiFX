@@ -59,7 +59,6 @@ public class GameBoardPanel extends BorderPane {
         this.setTop(homeButton);
 
         this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
-        // this.getStylesheets().add(getClass().getResource("/com/kropkigame/view/gameBoardStyle.css").toExternalForm());
         this.setCenter(contentVBox);
         this.setBottom(numberBar);
     }
@@ -80,50 +79,8 @@ public class GameBoardPanel extends BorderPane {
             }
         }
         return gridPane;
-    }
+    }   
 
-    
-
-    
-
-    /**
-     * Crée le bouton de réinitialisation.
-     * @return le bouton de réinitialisation.
-     */
-    // private Button createResetButton() {
-    //     Image image = new Image("file:" + KropkiConstants.RESET_ICON_PATH);
-    //     ImageView imageView = new ImageView(image);        
-    //     imageView.setFitWidth(30); 
-    //     imageView.setFitHeight(30);
-    //     imageView.setPreserveRatio(false);
-    
-    //     Button resetBtn = new Button();
-    //     resetBtn.setGraphic(imageView);
-    //     resetBtn.setStyle(KropkiConstants.RESET_BUTTON_STYLE);
-    
-    //     return resetBtn;
-    // }
-    
-    // /**
-    //  * Crée le bouton de retour.
-    //  * @return le bouton de retour.
-    //  */
-    // private Button createBackButton() {
-    //     Image image = new Image("file:" + KropkiConstants.BACK_ICON_PATH);
-    //     ImageView imageView = new ImageView(image);
-    //     imageView.setFitWidth(30); 
-    //     imageView.setFitHeight(30);
-    //     imageView.setPreserveRatio(false);
-    
-    //     Button backBtn = new Button();
-    //     backBtn.setGraphic(imageView);
-    //     backBtn.setStyle(KropkiConstants.BACK_BUTTON_STYLE);
-    
-    //     return backBtn;
-    // }   
-
-    
-    
     /**
      * Renvoie la cellule à la ligne et à la colonne spécifiées.
      * @param row la ligne de la cellule.
@@ -172,6 +129,20 @@ public class GameBoardPanel extends BorderPane {
         for (javafx.scene.Node node : numberBar.getChildren()) {
             node.setDisable(false);
         }
+    }
+
+    /**
+     * Désactive les interactions utilisateurs avec le bouton du bot.
+     */
+    public void disableBotInteraction() {
+        botSwitch.setDisable(true);
+    }
+
+    /**
+     * Active les interactions utilisateurs avec le bouton du bot.
+     */
+    public void enableBotInteraction() {
+        botSwitch.setDisable(false);
     }
 
     /**
