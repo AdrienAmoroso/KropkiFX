@@ -1,5 +1,6 @@
 package com.kropkigame.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -106,6 +107,52 @@ public class GameBoardControllerTest {
 
         // Assert
         assertFalse(status, "Le jeu devrait être dans un état non gagnant");
+    }
+
+    /**
+     * Teste si le bouton de retour en arrière fonctionne.
+     */
+    @Test
+    public void testUndoAction() {
+        int row = 0;
+        int col = 0;
+        int originalValue = gameBoardController.getView().getCell(row, col).getNumber(); // = 0
+
+        // Act
+        gameBoardController.recordAction(row, col, 3); // Changer le numéro à 3 par exemple
+        gameBoardController.handleBackButton(); // Annuler cette action
+        int currentValue = gameBoardController.getView().getCell(row, col).getNumber();
+
+        // Assert
+        assertEquals(originalValue, currentValue, "La cellule doit revenir à sa valeur originale après annulation");
+    }
+
+    /**
+     * Teste si le bouton de réinitialisation fonctionne.
+     */
+    @Test
+    public void testResetAction() {
+        int row = 0;
+        int col = 0;
+        int originalValue = gameBoardController.getView().getCell(row, col).getNumber(); // = 0
+
+        // Act
+        for (int i = 0; i < gameBoardController.getModel().getGridSize(); i++) {
+            for (int j = 0; j < gameBoardController.getModel().getGridSize(); j++) {
+                gameBoardController.getView().getCell(i, j).setNumber(gameBoardController.getModel().getNumber(i, j));
+                gameBoardController.recordAction(i, j, gameBoardController.getView().getCell(i,j).getNumber()); // Enregistrer l'action
+            }
+        }
+        gameBoardController.resetGame(); // Réinitialiser le plateau de jeu
+
+        for (int i = 0; i < gameBoardController.getModel().getGridSize(); i++) {
+            for (int j = 0; j < gameBoardController.getModel().getGridSize(); j++) {
+                int currentValue = gameBoardController.getView().getCell(row, col).getNumber();
+
+                // Assert
+                assertEquals(originalValue, currentValue, "La cellule doit revenir à sa valeur originale après réinitialisation");
+            }
+        }
     }
 
     @AfterEach
