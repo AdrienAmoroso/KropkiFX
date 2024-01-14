@@ -297,7 +297,7 @@ public class GameBoardController implements GameBoardActions {
      * Démarre ou arrête le bot en fonction de l'état du switch.
      * @param isBotActive vrai si le bot est actif, faux sinon. 
      */
-    private void toggleBot(boolean isBotActive) {
+    public void toggleBot(boolean isBotActive) {
         if (isBotActive) {
             view.disableUserInteraction();
             botSolver.startBot();
@@ -313,7 +313,7 @@ public class GameBoardController implements GameBoardActions {
      * Démarre ou arrête l'aide en fonction de l'état du switch.
      * @param isBotActive vrai si l'aide est active, faux sinon. 
      */
-    private void toggleHelp(boolean isHelpActive) {
+    public void toggleHelp(boolean isHelpActive) {
         if (isHelpActive) {
             view.disableBotInteraction();
         } else {

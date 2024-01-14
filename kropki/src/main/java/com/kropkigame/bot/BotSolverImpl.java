@@ -39,6 +39,9 @@ public class BotSolverImpl implements BotSolver {
     @Override
     public void stopBot() {
         isRunning = false;
+        gameBoardController.getView().enableUserInteraction();
+        gameBoardController.getView().getBotSwitch().setValue(false);
+        gameBoardController.getView().getBotSwitch().paintBotSwitch();
     }
 
     /**
@@ -71,6 +74,7 @@ public class BotSolverImpl implements BotSolver {
                     stopBot(); // Arrête le bot si une solution est trouvée
                 } else {
                     showNoSolutionFoundMessage();
+                    stopBot(); // Arrête le bot si aucune solution n'est trouvée
                 }
             });
         } catch (InterruptedException e) {
