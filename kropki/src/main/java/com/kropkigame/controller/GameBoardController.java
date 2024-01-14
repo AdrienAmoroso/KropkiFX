@@ -229,7 +229,9 @@ public class GameBoardController implements GameBoardActions {
 
         // Configuration du switch d'aide
         view.getHelpSwitch().setOnMouseClicked(e -> {
-            view.getHelpSwitch().setValue(!(view.getHelpSwitch().getValue()));
+            boolean isHelpActive = view.getHelpSwitch().getValue();
+            view.getHelpSwitch().setValue(!isHelpActive);
+            toggleHelp(!isHelpActive);
             view.getHelpSwitch().paintHelpSwitch();
         });
         
@@ -244,63 +246,6 @@ public class GameBoardController implements GameBoardActions {
         });
 
         view.getBotSwitch().paintBotSwitch();
-    }
-
-    /**
-     * Démarre ou arrête le bot en fonction de l'état du switch.
-     * @param isBotActive vrai si le bot est actif, faux sinon. 
-     */
-    private void toggleBot(boolean isBotActive) {
-        if (isBotActive) {
-            view.disableUserInteraction();
-            botSolver.startBot();
-        } else {
-            view.enableUserInteraction();
-            botSolver.stopBot();
-        }
-        view.getBotSwitch().setValue(isBotActive);
-        view.getBotSwitch().paintBotSwitch();
-    }
-
-    /**
-     * Gère l'événement lorsqu'un bouton de numéro est cliqué.
-     * @param number le numéro du bouton cliqué.
-     */
-    public void handleNumberButtonClicked(int number) {
-        // Délégation du clic sur le bouton de nombre au CellController
-        cellController.handleNumberButtonClicked(number);
-
-        // Vérification des erreurs
-        highlightErrors();
-
-        if (view.getHelpSwitch().getValue()) {
-            gameHelper.provideHelp();
-        }
-
-        if (isGridFull()) {
-            if (checkGameStatus()) {
-                if (timeline != null) {
-                    timeline.stop();
-                }
-                showVictoryMessage();
-            }
-        }
-
-        // Enregistrement de l'action effectuée par l'utilisateur
-        Cell selectedCell = cellController.getSelectedCell();
-        if (selectedCell != null) {
-            recordAction(selectedCell.getRow(), selectedCell.getCol(), number);
-        }
-    }
-
-    /**
-     * Gère l'événement lorsqu'une cellule est sélectionnée.
-     * @param event l'événement de sélection de la cellule.
-     * @param cell la cellule sélectionnée.
-     */
-    public void handleCellSelection(MouseEvent event, Cell cell) {
-        // Délégation de la sélection de la cellule au CellController
-        cellController.handleCellSelected(event, cell);
     }
 
     /**
@@ -346,6 +291,77 @@ public class GameBoardController implements GameBoardActions {
                 view.getChildren().add(point);
             }
         });
+    }
+
+    /**
+     * Démarre ou arrête le bot en fonction de l'état du switch.
+     * @param isBotActive vrai si le bot est actif, faux sinon. 
+     */
+    private void toggleBot(boolean isBotActive) {
+        if (isBotActive) {
+            view.disableUserInteraction();
+            botSolver.startBot();
+        } else {
+            view.enableUserInteraction();
+            botSolver.stopBot();
+        }
+        view.getBotSwitch().setValue(isBotActive);
+        view.getBotSwitch().paintBotSwitch();
+    }
+
+    /**
+     * Démarre ou arrête l'aide en fonction de l'état du switch.
+     * @param isBotActive vrai si l'aide est active, faux sinon. 
+     */
+    private void toggleHelp(boolean isHelpActive) {
+        if (isHelpActive) {
+            view.disableBotInteraction();
+        } else {
+            view.enableBotInteraction();
+        }
+        view.getHelpSwitch().setValue(isHelpActive);
+        view.getHelpSwitch().paintHelpSwitch();
+    }
+
+    /**
+     * Gère l'événement lorsqu'un bouton de numéro est cliqué.
+     * @param number le numéro du bouton cliqué.
+     */
+    public void handleNumberButtonClicked(int number) {
+        // Délégation du clic sur le bouton de nombre au CellController
+        cellController.handleNumberButtonClicked(number);
+
+        // Vérification des erreurs
+        highlightErrors();
+
+        if (view.getHelpSwitch().getValue()) {
+            gameHelper.provideHelp();
+        }
+
+        if (isGridFull()) {
+            if (checkGameStatus()) {
+                if (timeline != null) {
+                    timeline.stop();
+                }
+                showVictoryMessage();
+            }
+        }
+
+        // Enregistrement de l'action effectuée par l'utilisateur
+        Cell selectedCell = cellController.getSelectedCell();
+        if (selectedCell != null) {
+            recordAction(selectedCell.getRow(), selectedCell.getCol(), number);
+        }
+    }
+
+    /**
+     * Gère l'événement lorsqu'une cellule est sélectionnée.
+     * @param event l'événement de sélection de la cellule.
+     * @param cell la cellule sélectionnée.
+     */
+    public void handleCellSelection(MouseEvent event, Cell cell) {
+        // Délégation de la sélection de la cellule au CellController
+        cellController.handleCellSelected(event, cell);
     }
 
     /**

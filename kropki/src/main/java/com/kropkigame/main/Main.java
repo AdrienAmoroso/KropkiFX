@@ -33,6 +33,8 @@ public class Main extends Application implements SceneSwitcher {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Kropki Game");
 
+        Font.loadFont(getClass().getResourceAsStream(KropkiConstants.TIMER_LABEL_FONT_PATH), 12);
+
         FirstMenu firstMenu = new FirstMenu(this);
 
         Scene scene = new Scene(firstMenu, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
@@ -49,10 +51,9 @@ public class Main extends Application implements SceneSwitcher {
      * @param levelNumber Le numéro du niveau.
      */
     public void switchToGame(String difficulty, int levelNumber) {
-        // Obtenez le chemin du fichier en fonction du numéro de niveau
+        // Obtenir le chemin du fichier en fonction du numéro de niveau
         String filepath = KropkiConstants.getFilePathForLevel(difficulty, levelNumber);
-        Font.loadFont(getClass().getResourceAsStream(KropkiConstants.TIMER_LABEL_FONT_PATH), 12);
-
+        
         Puzzle model = FileData.parseKropkiGrid(filepath);
         int gridSize = model.getGridSize();
         GameBoardPanel view = new GameBoardPanel(gridSize, this);

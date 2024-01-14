@@ -18,7 +18,6 @@ public class BotSolverImpl implements BotSolver {
     /**
      * Constructeur de la classe BotSolverImpl.
      * @param gameBoardController Le contrôleur du plateau de jeu.
-     * @param view La vue du plateau de jeu.
      */
     public BotSolverImpl(GameBoardController gameBoardController) {
         this.gameBoardController = gameBoardController;
@@ -49,15 +48,15 @@ public class BotSolverImpl implements BotSolver {
     private void runBot() {
         long startTime = System.currentTimeMillis();
     
-        // Placer ici un chiffre valide automatiquement
-        Platform.runLater(() -> {
-            gameBoardController.resetGame();
-            int correctRow = 0;
-            int correctCol = 0;
-            gameBoardController.getView().getCell(correctRow, correctCol).setNumber(gameBoardController.getModel().getNumber(correctRow, correctCol));
-        });
-    
         try {
+            // Placer ici un chiffre valide automatiquement
+            Platform.runLater(() -> {
+                gameBoardController.resetGame();
+                int correctRow = 0;
+                int correctCol = 0;
+                gameBoardController.getView().getCell(correctRow, correctCol).setNumber(gameBoardController.getModel().getNumber(correctRow, correctCol));
+            });
+            
             Thread.sleep(1000); // Réglable selon la vitesse souhaitée
             Platform.runLater(() -> {
                 if (solveWithBacktracking(0, 0)) {
