@@ -78,7 +78,7 @@ public class UiUtils {
      * @param button Le bouton à ajouter à la VBox.
      * @return La VBox créée.
      */
-    public static VBox createCenterVBox(Label label, Button button) {
+    public static VBox createCenterVBox(ImageView label, Button button) {
         VBox vbox = new VBox(100, label, button);
         vbox.setAlignment(Pos.CENTER);
         VBox.setVgrow(vbox, Priority.ALWAYS);
@@ -91,7 +91,7 @@ public class UiUtils {
      * @param buttons La liste de boutons à ajouter à la VBox.
      * @return La VBox créée.
      */
-    public static VBox createCenterVBoxList(Label label, List<Button> buttons) {
+    public static VBox createCenterVBoxList(ImageView label, List<Button> buttons) {
         VBox vbox = new VBox();
         vbox.getChildren().add(label);
         vbox.getChildren().addAll(buttons);
@@ -108,7 +108,7 @@ public class UiUtils {
      * @param gridOrComponent Le composant ou la grille à ajouter à la VBox.
      * @return La VBox créée.
      */
-    public static VBox createCenterVBoxGrid(Label label, Node gridOrComponent) {
+    public static VBox createCenterVBoxGrid(ImageView label, Node gridOrComponent) {
         VBox vbox = new VBox(10); // Ajustez l'espacement selon vos besoins
         vbox.getChildren().add(label);
         vbox.getChildren().add(gridOrComponent);

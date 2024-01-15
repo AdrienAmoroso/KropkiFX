@@ -3,6 +3,7 @@ package com.kropkigame.view;
 import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.utils.UiUtils;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -52,11 +53,13 @@ public class GameBoardPanel extends BorderPane {
         botSwitchHBox.setAlignment(Pos.CENTER);
 
         Button homeButton = UiUtils.createImageButton("Home", 120, 70, e -> sceneSwitcher.switchToDifficultySelection());
+        VBox homeBox = new VBox(homeButton);
+        homeBox.setPadding(new Insets(20, 0, 0, 0));
         contentHbox.getChildren().addAll(resetButton, helpSwitch, backButton);
         botSwitchHBox.getChildren().add(botSwitch);
         contentVBox.getChildren().addAll(timerLabel, contentHbox, gridPane, botSwitchHBox);
 
-        this.setTop(homeButton);
+        this.setTop(homeBox);
 
         this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
         this.setCenter(contentVBox);

@@ -3,13 +3,15 @@ package com.kropkigame.view;
 import java.util.Arrays;
 import java.util.List;
 
+import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.utils.UiUtils;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -33,7 +35,12 @@ public class DifficultySelectionMenu extends Parent {
         BorderPane mainLayout = new BorderPane();
         mainLayout.getStyleClass().add("main-layout");
 
-        Label difficultyLabel = UiUtils.createTitleLabel("DIFFICULTY");
+        Image difficultyLabel = new Image("file:" + KropkiConstants.ASSETS_PATH + "\\png\\Titles\\Difficultes.png");
+        ImageView difficultyLabelview = new ImageView(difficultyLabel);
+        difficultyLabelview.setFitWidth(550); // Largeur souhaitée
+        difficultyLabelview.setFitHeight(400); // Hauteur souhaitée
+        difficultyLabelview.setPreserveRatio(true);
+
 
         // Création des boutons pour chaque niveau de difficulté
         Button fourButton = UiUtils.createImageButton(
@@ -71,7 +78,7 @@ public class DifficultySelectionMenu extends Parent {
         HBox iconsHBox = new HBox(homeButton);
         iconsHBox.setAlignment(Pos.BOTTOM_LEFT);
         HBox.setHgrow(iconsHBox, Priority.ALWAYS);
-        iconsHBox.setPadding(new Insets(0, 0, 20, 0));
+        iconsHBox.setPadding(new Insets(-100, 0, 20, 0));
 
         // Création d'une liste de boutons pour la VBox
         List<Button> buttons = Arrays.asList(
@@ -82,7 +89,8 @@ public class DifficultySelectionMenu extends Parent {
                 eightButton);
 
         // Utilisation de la méthode modifiée createCenterVBox qui accepte une liste de boutons
-        VBox difficultyVBox = UiUtils.createCenterVBoxList(difficultyLabel, buttons);
+        VBox difficultyVBox = UiUtils.createCenterVBoxList(difficultyLabelview, buttons);
+        difficultyVBox.setPadding(new Insets(0, 0, 0, 0));
 
         // Configuration de la VBox au centre du layout principal
         mainLayout.setCenter(difficultyVBox);
