@@ -109,7 +109,7 @@ public class UiUtils {
      * @return La VBox créée.
      */
     public static VBox createCenterVBoxGrid(Label label, Node gridOrComponent) {
-        VBox vbox = new VBox(10); // Ajustez l'espacement selon vos besoins
+        VBox vbox = new VBox(10);
         vbox.getChildren().add(label);
         vbox.getChildren().add(gridOrComponent);
         vbox.setAlignment(Pos.CENTER);

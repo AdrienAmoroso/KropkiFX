@@ -25,7 +25,7 @@ public class Puzzle implements KropkiConstants {
             }
         }
 
-        // Initialise une liste vide de points de bord
+        // Initialise une liste vide de points
         this.edgePoints = new ArrayList<EdgePoint>();
     }
 

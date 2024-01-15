@@ -1,8 +1,8 @@
 package com.kropkigame.model;
 
 /**
- * Représente un point de bord dans le jeu Kropki.
- * Un point de bord relie deux cellules sur le plateau de jeu.
+ * Représente un point dans le jeu Kropki.
+ * Un point relie deux cellules sur le plateau de jeu.
  */
 public class EdgePoint {
     private int sourceRow;
@@ -18,7 +18,7 @@ public class EdgePoint {
      * @param sourceCol l'indice de colonne de la cellule source
      * @param targetRow l'indice de ligne de la cellule cible
      * @param targetCol l'indice de colonne de la cellule cible
-     * @param type      le type du point de bord (noir ou blanc)
+     * @param type      le type du point (noir ou blanc)
      */
     public EdgePoint(int sourceRow, int sourceCol, int targetRow, int targetCol, String type) {
         this.sourceRow = sourceRow;
