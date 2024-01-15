@@ -52,30 +52,27 @@ public class BotSolverImpl implements BotSolver {
         long startTime = System.currentTimeMillis();
     
         try {
-            // Placer ici un chiffre valide automatiquement
-            Platform.runLater(() -> {
-                gameBoardController.resetGame();
-                int correctRow = 0;
-                int correctCol = 0;
-                gameBoardController.getView().getCell(correctRow, correctCol).setNumber(gameBoardController.getModel().getNumber(correctRow, correctCol));
-            });
-            
             Thread.sleep(1000); // Réglable selon la vitesse souhaitée
             Platform.runLater(() -> {
-                if (solveWithBacktracking(0, 0)) {
-                    if (isRunning) { // Vérifier si le bot est toujours en cours d'exécution
-                        if (gameBoardController.getTimeline() != null) { // Arrêt du chrono
-                            gameBoardController.getTimeline().stop();
-                        }
-
-                        long endTime = System.currentTimeMillis();
-                        showBotVictoryMessage(startTime, endTime);
+                gameBoardController.resetGame();
+                boolean solved = false;
+    
+                for (int num = 1; num <= gameBoardController.getView().getGridSize() && !solved; num++) {
+                    gameBoardController.getView().getCell(0, 0).setNumber(num);
+                    solved = solveWithBacktracking(0, 0);
+    
+                    if (!solved) {
+                        gameBoardController.getView().getCell(0, 0).setNumber(0); // Effacer si pas résolu
                     }
-                    stopBot(); // Arrête le bot si une solution est trouvée
+                }
+    
+                if (solved) {
+                    long endTime = System.currentTimeMillis();
+                    showBotVictoryMessage(startTime, endTime);
                 } else {
                     showNoSolutionFoundMessage();
-                    stopBot(); // Arrête le bot si aucune solution n'est trouvée
                 }
+                stopBot(); // Arrête le bot après avoir trouvé une solution ou épuisé toutes les options
             });
         } catch (InterruptedException e) {
             e.printStackTrace();
