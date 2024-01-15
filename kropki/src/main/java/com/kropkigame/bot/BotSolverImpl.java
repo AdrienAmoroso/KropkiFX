@@ -13,7 +13,6 @@ import javafx.scene.control.Alert.AlertType;
  */
 public class BotSolverImpl implements BotSolver {
     private GameBoardController gameBoardController;
-    private boolean isRunning;
 
     /**
      * Constructeur de la classe BotSolverImpl.
@@ -21,7 +20,6 @@ public class BotSolverImpl implements BotSolver {
      */
     public BotSolverImpl(GameBoardController gameBoardController) {
         this.gameBoardController = gameBoardController;
-        this.isRunning = false;
     }
 
     /**
@@ -29,7 +27,6 @@ public class BotSolverImpl implements BotSolver {
      */
     @Override
     public void startBot() {
-        isRunning = true;
         new Thread(this::runBot).start();
     }
 
@@ -38,7 +35,6 @@ public class BotSolverImpl implements BotSolver {
      */
     @Override
     public void stopBot() {
-        isRunning = false;
         gameBoardController.getView().enableUserInteraction();
         gameBoardController.getView().getBotSwitch().setValue(false);
         gameBoardController.getView().getBotSwitch().paintBotSwitch();
