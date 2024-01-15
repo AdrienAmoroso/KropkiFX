@@ -6,6 +6,11 @@ import java.util.Set;
 import com.kropkigame.controller.GameBoardController;
 import com.kropkigame.view.Cell;
 
+/**
+ * Implémentation de l'interface GameHelper.
+ * Cette classe permet de fournir une aide au joueur en remplissant automatiquement
+ * certaines cases de la grille, en fonction des règles de Kropki.
+ */
 public class GameHelperImpl implements GameHelper {
     private GameBoardController gameBoardController;
 
@@ -13,12 +18,11 @@ public class GameHelperImpl implements GameHelper {
         this.gameBoardController = gameBoardController;
     }
 
-    @Override
     /**
      * Fournit une aide en remplissant automatiquement certaines cases de la grille,
      * en fonction des règles de Kropki.
      */
-    public void provideHelp() {
+    /*public void provideHelp() {
         int gridSize = gameBoardController.getModel().getGridSize();
         boolean filledACell;
     
@@ -58,6 +62,35 @@ public class GameHelperImpl implements GameHelper {
                 }
             }
         } while (filledACell); // Continuer tant qu'au moins une case est remplie à chaque itération
+    }*/
+
+    @Override
+    public void provideHelp() {
+        int gridSize = gameBoardController.getModel().getGridSize();
+        
+        // Parcourir toutes les cellules pour la logique de remplissage des lignes / colonnes
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                Cell thisCell = gameBoardController.getView().getCell(row, col);
+        
+                // Si thisCell est vide, vérifier si une valeur manquante peut être déterminée
+                if (thisCell.getNumber() == 0) {
+                    int missingValue = determineMissingValue(row, col);
+                    if (missingValue > 0) {
+                        thisCell.setNumber(missingValue); // Remplir la case avec la valeur manquante
+                    }
+                }
+            }
+        }
+
+        // Aide pour la cellule sélectionnée avec des points noirs et blancs
+        Cell selectedCell = gameBoardController.getCellController().getSelectedCell();
+        if (selectedCell != null && selectedCell.getNumber() != 0) {
+            int selectedRow = selectedCell.getRow();
+            int selectedCol = selectedCell.getCol();
+
+            fillAdjacentCellsBasedOnPoints(selectedRow, selectedCol);
+        }
     }
 
     /**
