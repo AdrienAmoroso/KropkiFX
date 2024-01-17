@@ -1,10 +1,12 @@
 package com.kropkigame.view;
 
+import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.utils.UiUtils;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,26 +17,31 @@ import javafx.scene.layout.VBox;
  */
 public class FirstMenu extends Parent {
 
-    private SceneSwitcher sceneSwitcher;
+    
 
     /**
      * Constructeur de la classe FirstMenu.
      * @param sceneSwitcher Le commutateur de scène utilisé pour changer de scène dans l'interface utilisateur.
      */
     public FirstMenu(SceneSwitcher sceneSwitcher) {
-        this.sceneSwitcher = sceneSwitcher;
+        
 
         BorderPane mainLayout = new BorderPane();
         mainLayout.getStyleClass().add("main-layout");
 
-        Label titleLabel = UiUtils.createTitleLabel("KROPKI");
+        Image titre = new Image("file:" + KropkiConstants.ASSETS_PATH + "\\png\\Titles\\Kropki.png");
+        ImageView titreview = new ImageView(titre);
+        titreview.setFitWidth(500); // Largeur souhaitée
+        titreview.setFitHeight(450); // Hauteur souhaitée
+        titreview.setPreserveRatio(true);
+
         Button playButton = UiUtils.createImageButton("PlayText", 150, 100, e -> sceneSwitcher.switchToDifficultySelection());
 
         Button homeButton = UiUtils.createImageButton("Home", 120, 70, e -> System.exit(0));
         Button starButton = UiUtils.createImageButton("Star", 120, 70, e -> sceneSwitcher.switchToDifficultySelection());
 
         HBox iconsHBox = UiUtils.createIconHBox(homeButton, starButton);
-        VBox centerVBox = UiUtils.createCenterVBox(titleLabel, playButton);
+        VBox centerVBox = UiUtils.createCenterVBox(titreview, playButton);
 
         mainLayout.setBottom(iconsHBox);
         mainLayout.setCenter(centerVBox);

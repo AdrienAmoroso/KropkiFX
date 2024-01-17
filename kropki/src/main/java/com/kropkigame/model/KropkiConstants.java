@@ -9,8 +9,8 @@ public interface KropkiConstants {
 
         /*** Tailles des composants de la vue ***/
         int CELL_SIZE = 80; // Taille d'une cellule
-        int SCENE_WIDTH = 800; // Largeur de la scène
-        int SCENE_HEIGHT = 800; // Hauteur de la scène
+        int SCENE_WIDTH = 790; // Largeur de la scène
+        int SCENE_HEIGHT = 770; // Hauteur de la scène
 
         /*** Styles des composants de la vue ***/
         String GAMEBOARD_STYLE = "-fx-background-color: lightblue;" // Couleur de fond du plateau de jeu
