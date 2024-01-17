@@ -10,8 +10,7 @@ public interface GameBoardActions {
     void resetGame();
 
     /**
-     * Gère l'action du bouton de retour.
-     * Cette méthode doit être implémentée pour définir ce qui se passe lorsque l'utilisateur clique sur le bouton de retour en arrière.
+     * Gère l'action du bouton de retour en arrière.
      */
     void handleBackButton();
 }

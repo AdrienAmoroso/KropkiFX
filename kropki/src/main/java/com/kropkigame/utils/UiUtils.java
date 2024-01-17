@@ -108,8 +108,10 @@ public class UiUtils {
      * @param gridOrComponent Le composant ou la grille à ajouter à la VBox.
      * @return La VBox créée.
      */
+
     public static VBox createCenterVBoxGrid(ImageView label, Node gridOrComponent) {
         VBox vbox = new VBox(10); // Ajustez l'espacement selon vos besoins
+
         vbox.getChildren().add(label);
         vbox.getChildren().add(gridOrComponent);
         vbox.setAlignment(Pos.CENTER);

@@ -324,7 +324,7 @@ public class GameBoardController implements GameBoardActions {
     }
 
     /**
-     * Gère l'événement lorsqu'un bouton de numéro est cliqué.
+     * Gère l'événement lorsque l'on clique sur un bouton de numéro.
      * @param number le numéro du bouton cliqué.
      */
     public void handleNumberButtonClicked(int number) {

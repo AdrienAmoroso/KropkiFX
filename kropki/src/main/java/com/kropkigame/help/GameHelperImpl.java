@@ -4,8 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.kropkigame.controller.GameBoardController;
+import com.kropkigame.utils.Action;
 import com.kropkigame.view.Cell;
 
+/**
+ * Implémentation de l'interface GameHelper.
+ * Cette classe permet de fournir une aide au joueur en remplissant automatiquement
+ * certaines cases de la grille, en fonction des règles de Kropki.
+ */
 public class GameHelperImpl implements GameHelper {
     private GameBoardController gameBoardController;
 
@@ -20,44 +26,31 @@ public class GameHelperImpl implements GameHelper {
      */
     public void provideHelp() {
         int gridSize = gameBoardController.getModel().getGridSize();
-        boolean filledACell;
-    
-        do {
-            filledACell = false; // Réinitialiser pour chaque itération
-    
-            // Obtenir la cellule sélectionnée par le joueur
-            Cell selectedCell = gameBoardController.getCellController().getSelectedCell();
-            if (selectedCell != null && selectedCell.getNumber() != 0) {
-                int selectedRow = selectedCell.getRow();
-                int selectedCol = selectedCell.getCol();
-    
-                // Utiliser la valeur de la cellule sélectionnée pour remplir les cellules adjacentes
-                filledACell = fillAdjacentCellsBasedOnPoints(selectedRow, selectedCol);
-            }
-    
-            // Parcourir toutes les cellules pour la logique de remplissage des lignes / colonnes
-            for (int row = 0; row < gridSize; row++) {
-                for (int col = 0; col < gridSize; col++) {
-                    Cell thisCell = gameBoardController.getView().getCell(row, col);
-    
-                    // Si thisCell est vide, vérifier si une valeur manquante peut être déterminée
-                    if (thisCell.getNumber() == 0) {
-                        if (canDetermineValueFromLineAndColumn(row, col)) {
-                            filledACell = true; // Marquer qu'une cellule a été remplie
-                        }
-                    }
-
-                    // Si thisCell est vide, vérifier si une valeur manquante peut être déterminée
-                    if (thisCell.getNumber() == 0) {
-                        int missingValue = determineMissingValue(row, col);
-                        if (missingValue > 0) {
-                            thisCell.setNumber(missingValue); // Remplir la case avec la valeur manquante
-                            filledACell = true; // Marquer qu'une cellule a été remplie
-                        }
+        
+        // Parcourir toutes les cellules pour la logique de remplissage des lignes / colonnes
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                Cell thisCell = gameBoardController.getView().getCell(row, col);
+        
+                // Si thisCell est vide, vérifier si une valeur manquante peut être déterminée
+                if (thisCell.getNumber() == 0) {
+                    int missingValue = determineMissingValue(row, col);
+                    if (missingValue > 0) {
+                        thisCell.setNumber(missingValue); // Remplir la case avec la valeur manquante
+                        gameBoardController.getActions().add(new Action(row, col, missingValue));
                     }
                 }
             }
-        } while (filledACell); // Continuer tant qu'au moins une case est remplie à chaque itération
+        }
+
+        // Aide pour la cellule sélectionnée avec des points noirs et blancs
+        Cell selectedCell = gameBoardController.getCellController().getSelectedCell();
+        if (selectedCell != null && selectedCell.getNumber() != 0) {
+            int selectedRow = selectedCell.getRow();
+            int selectedCol = selectedCell.getCol();
+
+            fillAdjacentCellsBasedOnPoints(selectedRow, selectedCol);
+        }
     }
 
     /**
@@ -110,6 +103,7 @@ public class GameHelperImpl implements GameHelper {
     
                         if (valueFromPoints > 0 && existingValue != valueFromPoints) {
                             gameBoardController.getView().getCell(adjacentRow, adjacentCol).setNumber(valueFromPoints);
+                            gameBoardController.getActions().add(new Action(adjacentRow, adjacentCol, valueFromPoints));
                             filled = true;
                         }
                     }

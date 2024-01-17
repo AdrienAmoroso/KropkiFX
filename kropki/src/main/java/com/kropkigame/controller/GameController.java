@@ -4,7 +4,7 @@ import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.GameBoardPanel;
 
 /**
- * Représente le contrôleur du jeu, qui contrôle le jeu en général.
+ * Représente le contrôleur global, qui contrôle le jeu en général.
  */
 public class GameController {
     private Puzzle model;
@@ -75,18 +75,6 @@ public class GameController {
     public void setGameBoardController(GameBoardController gameBoardController) {
         this.gameBoardController = gameBoardController;
     }
-
-    /**
-     * Construit un contrôleur de jeu avec la taille de grille spécifiée.
-     * @param gridSize la taille de la grille du jeu.
-     */
-    // public GameController(int gridSize) {
-    //     // Initialise le jeu en créant les instances nécessaires
-    //     this.model = new Puzzle();
-    //     this.view = new GameBoardPanel(gridSize);
-    //     this.cellController = new CellController(model, view);
-    //     this.gameBoardController = new GameBoardController(model, view, cellController);
-    // }
 
     /**
      * Construit un contrôleur de jeu avec le modèle et la vue spécifiés.
