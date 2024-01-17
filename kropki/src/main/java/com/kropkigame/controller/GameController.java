@@ -4,7 +4,7 @@ import com.kropkigame.model.Puzzle;
 import com.kropkigame.view.GameBoardPanel;
 
 /**
- * Représente le contrôleur du jeu, qui contrôle le jeu en général.
+ * Représente le contrôleur global, qui contrôle le jeu en général.
  */
 public class GameController {
     private Puzzle model;
@@ -77,18 +77,6 @@ public class GameController {
     }
 
     /**
-     * Construit un contrôleur de jeu avec la taille de grille spécifiée.
-     * @param gridSize la taille de la grille du jeu.
-     */
-    public GameController(int gridSize) {
-        // Initialise le jeu en créant les instances nécessaires
-        this.model = new Puzzle();
-        this.view = new GameBoardPanel(gridSize);
-        this.cellController = new CellController(model, view);
-        this.gameBoardController = new GameBoardController(model, view, cellController);
-    }
-
-    /**
      * Construit un contrôleur de jeu avec le modèle et la vue spécifiés.
      * @param model le modèle du jeu.
      * @param view la vue du jeu.
@@ -106,28 +94,5 @@ public class GameController {
     public void startGame() {
         // Initialise le plateau de jeu
         this.gameBoardController.initializeGameBoard();
-        // Affiche le plateau de jeu
-        // Autres méthodes pour démarrer le jeu
     }
-
-    /**
-     * Termine le jeu.
-     * @param isVictory vrai si le joueur gagne le jeu, faux sinon.
-     */
-    public void endGame(boolean isVictory) {
-        // Affiche un message en fonction de si le joueur gagne ou perd le jeu
-        if (isVictory) {
-            // Affiche le message de victoire
-            System.out.println("Victoire !");
-        } else {
-            // Affiche le message de défaite
-            System.out.println("Défaite !");
-        }
-
-        // Propose
-        // Réinitialise le jeu si le joueur choisit de jouer à nouveau
-        // Quitte le jeu si le joueur choisit de partir
-    }
-
-    // Autres méthodes...
 }

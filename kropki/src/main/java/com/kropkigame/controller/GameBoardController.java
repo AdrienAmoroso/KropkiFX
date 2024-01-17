@@ -1,7 +1,14 @@
 package com.kropkigame.controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
+import com.kropkigame.bot.BotSolver;
+import com.kropkigame.bot.BotSolverImpl;
+import com.kropkigame.help.GameHelper;
+import com.kropkigame.help.GameHelperImpl;
 import com.kropkigame.model.EdgePoint;
 import com.kropkigame.model.KropkiConstants;
 import com.kropkigame.model.Puzzle;
@@ -28,13 +35,15 @@ import javafx.util.Duration;
  * La classe GameBoardController est responsable de contrôler le plateau de jeu et de gérer les interactions utilisateur.
  * Elle gère le modèle, la vue et le contrôleur de cellule du plateau de jeu, notamment au niveau du respect des règles du jeu.
  */
-public class GameBoardController {
+public class GameBoardController implements GameBoardActions {
     private Puzzle model;
     private GameBoardPanel view;
     private CellController cellController;
     private Stack<Action> actions = new Stack<>();
     private Duration time = Duration.ZERO;
     private Timeline timeline;
+    private BotSolver botSolver;
+    private GameHelper gameHelper;
 
     /**
      * Obtient le modèle du plateau de jeu.
@@ -133,6 +142,38 @@ public class GameBoardController {
     }
 
     /**
+     * Obtient le bot résolveur de jeu.
+     * @return le bot résolveur de jeu.
+     */
+    public BotSolver getBotSolver() {
+        return this.botSolver;
+    }
+
+    /**
+     * Définit le bot résolveur de jeu.
+     * @param botSolver le bot résolveur de jeu.
+     */
+    public void setBotSolver(BotSolver botSolver) {
+        this.botSolver = botSolver;
+    }
+
+    /**
+     * Obtient l'aide de jeu.
+     * @return l'aide de jeu.
+     */
+    public GameHelper getGameHelper() {
+        return this.gameHelper;
+    }
+
+    /**
+     * Définit l'aide de jeu.
+     * @param gameHelper l'aide de jeu.
+     */
+    public void setGameHelper(GameHelper gameHelper) {
+        this.gameHelper = gameHelper;
+    }
+
+    /**
      * Construit un contrôleur de plateau de jeu avec le modèle, la vue et le contrôleur de cellule spécifiés.
      * @param model le modèle du plateau de jeu.
      * @param view la vue du plateau de jeu.
@@ -145,6 +186,8 @@ public class GameBoardController {
         this.actions = new Stack<>();
         this.time = Duration.ZERO;
         this.timeline = null;
+        this.botSolver = new BotSolverImpl(this);
+        this.gameHelper = new GameHelperImpl(this);
     }
 
     /**
@@ -180,204 +223,29 @@ public class GameBoardController {
 
         // Configuration du bouton de réinitialisation
         view.getResetButton().setOnAction(event -> resetGame());
-        view.getResetButton().setOnMouseEntered(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_HOVER_STYLE));
-        view.getResetButton().setOnMouseExited(e -> view.getResetButton().setStyle(KropkiConstants.RESET_BUTTON_STYLE));
 
         // Configuration du bouton de retour
         view.getBackButton().setOnAction(event -> handleBackButton());
-        view.getBackButton().setOnMouseEntered(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_HOVER_STYLE));
-        view.getBackButton().setOnMouseExited(e -> view.getBackButton().setStyle(KropkiConstants.BACK_BUTTON_STYLE));
 
         // Configuration du switch d'aide
         view.getHelpSwitch().setOnMouseClicked(e -> {
-            view.getHelpSwitch().setValue(!(view.getHelpSwitch().getValue()));
-            view.getHelpSwitch().paintSwitch();
+            boolean isHelpActive = view.getHelpSwitch().getValue();
+            view.getHelpSwitch().setValue(!isHelpActive);
+            toggleHelp(!isHelpActive);
+            view.getHelpSwitch().paintHelpSwitch();
         });
         
-        view.getHelpSwitch().paintSwitch();
+        view.getHelpSwitch().paintHelpSwitch();
 
-    }
+        // Configuration du switch du bot
+        view.getBotSwitch().setOnMouseClicked(e -> {
+            boolean isBotActive = view.getBotSwitch().getValue();
+            view.getBotSwitch().setValue(!isBotActive);
+            toggleBot(!isBotActive);
+            view.getBotSwitch().paintBotSwitch();
+        });
 
-    /**
-     * Gère l'événement lorsqu'un bouton de numéro est cliqué.
-     * @param number le numéro du bouton cliqué.
-     */
-    public void handleNumberButtonClicked(int number) {
-        // Délégation du clic sur le bouton de nombre au CellController
-        cellController.handleNumberButtonClicked(number);
-
-        // Vérification des erreurs
-        highlightErrors();
-        
-        if (view.getHelpSwitch().getValue()) {
-            provideHelp();
-        }
-
-        if (isGridFull()) {
-            if (checkGameStatus()) {
-                if (timeline != null) {
-                    timeline.stop();
-                }
-                showVictoryMessage();
-            }
-        }
-
-        // Enregistrement de l'action effectuée par l'utilisateur
-        Cell selectedCell = cellController.getSelectedCell();
-        if (selectedCell != null) {
-            recordAction(selectedCell.getRow(), selectedCell.getCol(), number);
-        }
-    }
-
-    /**
-     * Gère l'événement lorsqu'une cellule est sélectionnée.
-     * @param event l'événement de sélection de la cellule.
-     * @param cell la cellule sélectionnée.
-     */
-    public void handleCellSelection(MouseEvent event, Cell cell) {
-        // Délégation de la sélection de la cellule au CellController
-        cellController.handleCellSelected(event, cell);
-    }
-
-    /**
-     * Fournit une aide en remplissant automatiquement certaines cases de la grille,
-     * en fonction des règles de Kropki.
-     */
-    public void provideHelp() {
-        int gridSize = model.getGridSize();
-        boolean filledACell;
-    
-        do {
-            filledACell = false; // Réinitialiser pour chaque itération
-    
-            // Obtenir la cellule sélectionnée par le joueur
-            Cell selectedCell = cellController.getSelectedCell();
-            if (selectedCell != null && selectedCell.getNumber() != 0) {
-                int selectedRow = selectedCell.getRow();
-                int selectedCol = selectedCell.getCol();
-    
-                // Utiliser la valeur de la cellule sélectionnée pour remplir les cellules adjacentes
-                filledACell = fillAdjacentCellsBasedOnPoints(selectedRow, selectedCol);
-            }
-    
-            // Parcourir toutes les cellules pour la logique de remplissage des lignes / colonnes
-            for (int row = 0; row < gridSize; row++) {
-                for (int col = 0; col < gridSize; col++) {
-                    Cell thisCell = view.getCell(row, col);
-    
-                    // Si thisCell est vide, vérifier si une valeur manquante peut être déterminée
-                    if (thisCell.getNumber() == 0) {
-                        int missingValue = determineMissingValue(row, col);
-                        if (missingValue > 0) {
-                            thisCell.setNumber(missingValue); // Remplir la case avec la valeur manquante
-                            filledACell = true; // Marquer qu'une cellule a été remplie
-                        }
-                    }
-                }
-            }
-        } while (filledACell); // Continuer tant qu'au moins une case est remplie à chaque itération
-    }
-    
-    /**
-     * Remplit les cellules adjacentes à la cellule spécifiée en fonction des points adjacents.
-     * @param row
-     * @param col
-     * @return true si au moins une cellule a été remplie, false sinon
-     */
-    private boolean fillAdjacentCellsBasedOnPoints(int row, int col) {
-        int gridSize = model.getGridSize();
-        boolean filled = false;
-    
-        // Parcourir les cellules adjacentes
-        for (int dRow = -1; dRow <= 1; dRow++) {
-            for (int dCol = -1; dCol <= 1; dCol++) {
-                if ((dRow == 0) != (dCol == 0)) { // Ignorer la cellule elle-même et les diagonales
-                    int adjacentRow = row + dRow;
-                    int adjacentCol = col + dCol;
-    
-                    if (adjacentRow >= 0 && adjacentRow < gridSize && adjacentCol >= 0 && adjacentCol < gridSize) {
-                        int existingValue = view.getCell(adjacentRow, adjacentCol).getNumber();
-                        int valueFromPoints = determineValueFromPoints(row, col, adjacentRow, adjacentCol);
-    
-                        if (valueFromPoints > 0 && existingValue != valueFromPoints) {
-                            view.getCell(adjacentRow, adjacentCol).setNumber(valueFromPoints);
-                            filled = true;
-                        }
-                    }
-                }
-            }
-        }
-    
-        return filled;
-    }
-
-    /**
-     * Détermine la valeur d'une cellule en fonction des points adjacents.
-     * @param row
-     * @param col
-     * @return la valeur de la cellule
-     */
-    private int determineValueFromPoints(int row, int col, int adjacentRow, int adjacentCol) {
-        int gridSize = model.getGridSize();
-        int currentValue = view.getCell(row, col).getNumber();
-        int cellRow = row + 1;
-        int cellCol = col + 1;
-        int adjacentCellRow = adjacentRow + 1;
-        int adjacentCellCol = adjacentCol + 1;
-    
-        // Logique pour un point noir
-        if (model.existsBlackEdgePoint(cellRow, cellCol, adjacentCellRow, adjacentCellCol) || model.existsBlackEdgePoint(adjacentCellRow, adjacentCellCol, cellRow, cellCol)) {
-            if (currentValue == 1) {
-                return 2;
-            } else if (currentValue == gridSize) {
-                return gridSize / 2;
-            }
-        }
-        // Logique pour un point blanc
-        else if (model.existsWhiteEdgePoint(cellRow, cellCol, adjacentCellRow, adjacentCellCol) || model.existsWhiteEdgePoint(adjacentCellRow, adjacentCellCol, cellRow, cellCol)) {
-            if (currentValue == 1) {
-                return 2;
-            } else if (currentValue == gridSize) {
-                return gridSize - 1;
-            }
-        }
-    
-        return 0; // Retourner 0 si aucune valeur déterminée
-    }
-
-    
-    /**
-     * Détermine la valeur d'une cellule en fonction des nombres dans la ligne et la colonne.
-     * @param row
-     * @param col
-     * @return la valeur de la cellule
-     */
-    private int determineMissingValue(int row, int col) {
-        int size = model.getGridSize();
-        int missingValueForRow = size * (size + 1) / 2; // La somme de tous les nombres attendus dans une ligne
-        int missingValueForColumn = missingValueForRow; // La somme de tous les nombres attendus dans une colonne
-        int filledCellsInRow = 0; // Compteur pour le nombre de cellules remplies dans la ligne
-        int filledCellsInColumn = 0; // Compteur pour le nombre de cellules remplies dans la colonne
-
-        for (int i = 0; i < size; i++) {
-            if (view.getCell(row, i).getNumber() != 0) {
-                missingValueForRow -= view.getCell(row, i).getNumber(); // Soustraire les valeurs de la ligne
-                filledCellsInRow++;
-            }
-            if (view.getCell(i, col).getNumber() != 0) {
-                missingValueForColumn -= view.getCell(i, col).getNumber(); // Soustraire les valeurs de la colonne
-                filledCellsInColumn++;
-            }
-        }
-
-        // Compléter la ligne ou la colonne seulement s'il y a "gridSize - 1" chiffres rentrés
-        if (filledCellsInRow == size - 1 && missingValueForRow > 0 && missingValueForRow <= size) {
-            return missingValueForRow;
-        } else if (filledCellsInColumn == size - 1 && missingValueForColumn > 0 && missingValueForColumn <= size) {
-            return missingValueForColumn;
-        }
-
-        return 0; // Retourner 0 si aucune valeur déterminée
+        view.getBotSwitch().paintBotSwitch();
     }
 
     /**
@@ -423,6 +291,77 @@ public class GameBoardController {
                 view.getChildren().add(point);
             }
         });
+    }
+
+    /**
+     * Démarre ou arrête le bot en fonction de l'état du switch.
+     * @param isBotActive vrai si le bot est actif, faux sinon. 
+     */
+    public void toggleBot(boolean isBotActive) {
+        if (isBotActive) {
+            view.disableUserInteraction();
+            botSolver.startBot();
+        } else {
+            view.enableUserInteraction();
+            botSolver.stopBot();
+        }
+        view.getBotSwitch().setValue(isBotActive);
+        view.getBotSwitch().paintBotSwitch();
+    }
+
+    /**
+     * Démarre ou arrête l'aide en fonction de l'état du switch.
+     * @param isBotActive vrai si l'aide est active, faux sinon. 
+     */
+    public void toggleHelp(boolean isHelpActive) {
+        if (isHelpActive) {
+            view.disableBotInteraction();
+        } else {
+            view.enableBotInteraction();
+        }
+        view.getHelpSwitch().setValue(isHelpActive);
+        view.getHelpSwitch().paintHelpSwitch();
+    }
+
+    /**
+     * Gère l'événement lorsque l'on clique sur un bouton de numéro.
+     * @param number le numéro du bouton cliqué.
+     */
+    public void handleNumberButtonClicked(int number) {
+        // Délégation du clic sur le bouton de nombre au CellController
+        cellController.handleNumberButtonClicked(number);
+
+        // Vérification des erreurs
+        highlightErrors();
+
+        if (view.getHelpSwitch().getValue()) {
+            gameHelper.provideHelp();
+        }
+
+        if (isGridFull()) {
+            if (checkGameStatus()) {
+                if (timeline != null) {
+                    timeline.stop();
+                }
+                showVictoryMessage();
+            }
+        }
+
+        // Enregistrement de l'action effectuée par l'utilisateur
+        Cell selectedCell = cellController.getSelectedCell();
+        if (selectedCell != null) {
+            recordAction(selectedCell.getRow(), selectedCell.getCol(), number);
+        }
+    }
+
+    /**
+     * Gère l'événement lorsqu'une cellule est sélectionnée.
+     * @param event l'événement de sélection de la cellule.
+     * @param cell la cellule sélectionnée.
+     */
+    public void handleCellSelection(MouseEvent event, Cell cell) {
+        // Délégation de la sélection de la cellule au CellController
+        cellController.handleCellSelected(event, cell);
     }
 
     /**
@@ -499,45 +438,6 @@ public class GameBoardController {
         alert.setHeaderText(null);
         alert.setContentText("Félicitations ! Vous avez résolu le puzzle en " + formatDuration(time) + ".");
         alert.showAndWait();
-    }
-    
-    /**
-     * Réinitialise le jeu.
-     */
-    private void resetGame() {
-        int gridSize = model.getGridSize();
-
-        for (int row = 0; row < gridSize; row++) {
-            for (int col = 0; col < gridSize; col++) {
-                Cell cell = view.getCell(row, col);
-                cell.setNumber(0);
-                cell.getTextDisplay().setText("");
-            }
-        }
-
-        // Réinitialise les styles et états des cellules
-        resetCellStyles();
-        resetErrorState();
-
-        // Réinitialise le chronomètre
-        time = Duration.ZERO;
-        view.getTimerLabel().setText(formatDuration(time));
-        if (timeline != null) {
-            timeline.playFromStart();
-        }
-    }
-
-    /**
-     * Gère l'évènement qui permet d'effacer le dernier chiffre entré par l'utilisateur.
-     */
-    public void handleBackButton() {
-        if (!actions.isEmpty()) {
-            Action lastAction = actions.pop(); // Récupère la dernière action effectuée par l'utilisateur
-            Cell cell = view.getCell(lastAction.getRow(), lastAction.getCol());
-            cell.setNumber(0);
-            cell.getTextDisplay().setText("");
-            highlightErrors();
-        }
     }
 
     /**
@@ -822,6 +722,47 @@ public class GameBoardController {
                 }
                 cell.setIsError(false);
             }
+        }
+    }
+
+    /**
+     * Réinitialise le jeu.
+     */
+    @Override
+    public void resetGame() {
+        int gridSize = model.getGridSize();
+
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                Cell cell = view.getCell(row, col);
+                cell.setNumber(0);
+                cell.getTextDisplay().setText("");
+            }
+        }
+
+        // Réinitialise les styles et états des cellules
+        resetCellStyles();
+        resetErrorState();
+
+        // Réinitialise le chronomètre
+        time = Duration.ZERO;
+        view.getTimerLabel().setText(formatDuration(time));
+        if (timeline != null) {
+            timeline.playFromStart();
+        }
+    }
+
+     /**
+     * Gère l'évènement qui permet d'effacer le dernier chiffre entré par l'utilisateur.
+     */
+    @Override
+    public void handleBackButton() {
+        if (!actions.isEmpty()) {
+            Action lastAction = actions.pop(); // Récupère la dernière action effectuée par l'utilisateur
+            Cell cell = view.getCell(lastAction.getRow(), lastAction.getCol());
+            cell.setNumber(0);
+            cell.getTextDisplay().setText("");
+            highlightErrors();
         }
     }
 }

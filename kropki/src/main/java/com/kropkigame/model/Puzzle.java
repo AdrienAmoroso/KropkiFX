@@ -25,7 +25,7 @@ public class Puzzle implements KropkiConstants {
             }
         }
 
-        // Initialise une liste vide de points de bord
+        // Initialise une liste vide de points
         this.edgePoints = new ArrayList<EdgePoint>();
     }
 
@@ -128,7 +128,7 @@ public class Puzzle implements KropkiConstants {
     /**
      * Ajoute un point au puzzle.
      * 
-     * @param edgePoint Le point de bord à ajouter.
+     * @param edgePoint Le point à ajouter.
      */
     public void addEdgePoint(EdgePoint edgePoint) {
         if (!edgePoints.contains(edgePoint)) {

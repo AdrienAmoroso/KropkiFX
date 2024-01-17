@@ -1,16 +1,15 @@
 package com.kropkigame.view;
 
 import com.kropkigame.model.KropkiConstants;
+import com.kropkigame.utils.UiUtils;
 
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -22,31 +21,45 @@ public class GameBoardPanel extends BorderPane {
     private HBox numberBar;
     private GridPane gridPane;
     private HelpSwitch helpSwitch;
+    private BotSwitch botSwitch;
     private Button resetButton;
     private Button backButton;
     private Label timerLabel;
+    
 
     /**
      * Construit la fenêtre de jeu avec la taille de grille spécifiée.
      * @param gridSize la taille de la grille.
      */
-    public GameBoardPanel(int gridSize) {
+    public GameBoardPanel(int gridSize, SceneSwitcher sceneSwitcher) {
         this.gridSize = gridSize;
         this.cells = new Cell[gridSize][gridSize];
         this.gridPane = createGridPane(gridSize);
-        this.numberBar = createNumberBar(gridSize);
+        this.numberBar = UiUtils.createNumberBar(gridSize);
         this.helpSwitch = new HelpSwitch();
-        this.resetButton = createResetButton();
-        this.backButton = createBackButton();
-        this.timerLabel = createTimer();
+
+        this.botSwitch = new BotSwitch();
+        
+        this.resetButton = UiUtils.createImageButton("repeat", 40, 40, e -> {});
+        this.backButton = UiUtils.createImageButton("Back", 40, 40, e -> {});
+        this.timerLabel = UiUtils.createTimer();
 
         HBox contentHbox = new HBox(50); // Boutons utilitaires
         VBox contentVBox = new VBox(10); // Contenu principal (grille + Hbox)
+        HBox botSwitchHBox = new HBox(10); // Contient le bouton du bot
+
         contentHbox.setAlignment(Pos.CENTER);
         contentVBox.setAlignment(Pos.CENTER);
+        botSwitchHBox.setAlignment(Pos.CENTER);
 
+        Button homeButton = UiUtils.createImageButton("Home", 120, 70, e -> sceneSwitcher.switchToDifficultySelection());
+        VBox homeBox = new VBox(homeButton);
+        homeBox.setPadding(new Insets(20, 0, 0, 0));
         contentHbox.getChildren().addAll(resetButton, helpSwitch, backButton);
-        contentVBox.getChildren().addAll(timerLabel, contentHbox, gridPane);
+        botSwitchHBox.getChildren().add(botSwitch);
+        contentVBox.getChildren().addAll(timerLabel, contentHbox, gridPane, botSwitchHBox);
+
+        this.setTop(homeBox);
 
         this.setStyle(KropkiConstants.GAMEBOARD_STYLE);
         this.setCenter(contentVBox);
@@ -59,7 +72,7 @@ public class GameBoardPanel extends BorderPane {
      * @return la grille de jeu (sans les points).
      */
     private GridPane createGridPane(int gridSize) {
-        this.gridPane = new GridPane();
+        GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
 
         for (int row = 0; row < gridSize; row++) {
@@ -69,84 +82,8 @@ public class GameBoardPanel extends BorderPane {
             }
         }
         return gridPane;
-    }
-
-    /**
-     * Crée la barre de sélection des nombres.
-     * @param gridSize la taille de la grille.
-     * @return la barre de sélection des nombres.
-     */
-    private HBox createNumberBar(int gridSize) {
-        this.numberBar = new HBox(10);
-
-        // Crée un bouton pour chaque nombre
-        for (int j = 1; j <= gridSize; j++) {
-            final int number = j;
-            Button numberButton = new Button(String.valueOf(number));
-            numberButton.setId("numberButton" + number);
-            numberButton.setStyle(KropkiConstants.NUMBER_BUTTON_STYLE);
-            numberButton.setMaxWidth(Double.MAX_VALUE);
-
-            // Ajoute le bouton à la barre de sélection des nombres
-            numberBar.getChildren().add(numberButton);
-
-            HBox.setHgrow(numberButton, Priority.ALWAYS);           
-        }
-
-        // Définit l'espacement entre les boutons
-        numberBar.setSpacing(10);
-
-        // Définit une bordure autour de la barre de sélection des nombres 
-        numberBar.setStyle(KropkiConstants.NUMBER_BAR_STYLE);
-
-        return numberBar;
-    }
-
-    /**
-     * Crée le bouton de réinitialisation.
-     * @return le bouton de réinitialisation.
-     */
-    private Button createResetButton() {
-        ImageView imageView = new ImageView();
-        imageView.setImage(new Image(getClass().getResourceAsStream(KropkiConstants.RESET_ICON_PATH)));
-        imageView.setFitWidth(30); 
-        imageView.setFitHeight(30);
-        imageView.setPreserveRatio(false);
-    
-        Button resetBtn = new Button();
-        resetBtn.setGraphic(imageView);
-        resetBtn.setStyle(KropkiConstants.RESET_BUTTON_STYLE);
-    
-        return resetBtn;
-    }
-    
-    /**
-     * Crée le bouton de retour.
-     * @return le bouton de retour.
-     */
-    private Button createBackButton() {
-        ImageView imageView = new ImageView();
-        imageView.setImage(new Image(getClass().getResourceAsStream(KropkiConstants.BACK_ICON_PATH)));
-        imageView.setFitWidth(30); 
-        imageView.setFitHeight(30);
-        imageView.setPreserveRatio(false);
-    
-        Button backBtn = new Button();
-        backBtn.setGraphic(imageView);
-        backBtn.setStyle(KropkiConstants.BACK_BUTTON_STYLE);
-    
-        return backBtn;
     }   
 
-    /**
-     * Crée le chronomètre.
-     */
-    private Label createTimer() {
-        timerLabel = new Label("00:00:00");
-        timerLabel.setStyle(KropkiConstants.TIMER_LABEL_STYLE);
-        return timerLabel;
-    }
-    
     /**
      * Renvoie la cellule à la ligne et à la colonne spécifiées.
      * @param row la ligne de la cellule.
@@ -167,6 +104,48 @@ public class GameBoardPanel extends BorderPane {
         }
         
         return null;
+    }
+
+    /**
+     * Désactive les interactions utilisateurs avec la grille et la barre de sélection des nombres.
+     */
+    public void disableUserInteraction() {
+        resetButton.setDisable(true);
+        backButton.setDisable(true);
+        helpSwitch.setDisable(true);
+
+        // Désactiver les interactions avec numberBar et les cellules
+        for (javafx.scene.Node node : numberBar.getChildren()) {
+            node.setDisable(true);
+        }
+    }
+
+    /**
+     * Active les interactions utilisateurs avec la grille et la barre de sélection des nombres.
+     */
+    public void enableUserInteraction() {
+        resetButton.setDisable(false);
+        backButton.setDisable(false);
+        helpSwitch.setDisable(false);
+
+        // Activer les interactions avec numberBar et les cellules
+        for (javafx.scene.Node node : numberBar.getChildren()) {
+            node.setDisable(false);
+        }
+    }
+
+    /**
+     * Désactive les interactions utilisateurs avec le bouton du bot.
+     */
+    public void disableBotInteraction() {
+        botSwitch.setDisable(true);
+    }
+
+    /**
+     * Active les interactions utilisateurs avec le bouton du bot.
+     */
+    public void enableBotInteraction() {
+        botSwitch.setDisable(false);
     }
 
     /**
@@ -199,6 +178,14 @@ public class GameBoardPanel extends BorderPane {
      */
     public HelpSwitch getHelpSwitch() {
         return this.helpSwitch;
+    }
+
+    /**
+     * Renvoie le bouton du bot.
+     * @return le bouton du bot.
+     */
+    public BotSwitch getBotSwitch() {
+        return this.botSwitch;
     }
 
     /**
