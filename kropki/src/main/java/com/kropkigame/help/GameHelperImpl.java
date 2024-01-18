@@ -93,18 +93,23 @@ public class GameHelperImpl implements GameHelper {
         // Parcourir les cellules adjacentes
         for (int dRow = -1; dRow <= 1; dRow++) {
             for (int dCol = -1; dCol <= 1; dCol++) {
-                if ((dRow == 0) != (dCol == 0)) { // Ignorer la cellule elle-même et les diagonales
+                // Ignorer la cellule elle-même et les diagonales
+                if ((dRow == 0) != (dCol == 0)) { 
                     int adjacentRow = row + dRow;
                     int adjacentCol = col + dCol;
     
+                    // Vérifier si la cellule adjacente est dans la grille
                     if (adjacentRow >= 0 && adjacentRow < gridSize && adjacentCol >= 0 && adjacentCol < gridSize) {
                         int existingValue = gameBoardController.getView().getCell(adjacentRow, adjacentCol).getNumber();
                         int valueFromPoints = determineValueFromPoints(row, col, adjacentRow, adjacentCol);
     
+                        // Remplir la cellule adjacente si la valeur déterminée ne crée pas de conflit
                         if (valueFromPoints > 0 && existingValue != valueFromPoints) {
-                            gameBoardController.getView().getCell(adjacentRow, adjacentCol).setNumber(valueFromPoints);
-                            gameBoardController.getActions().add(new Action(adjacentRow, adjacentCol, valueFromPoints));
-                            filled = true;
+                            if (!createsConflict(adjacentRow, adjacentCol, valueFromPoints)) {
+                                gameBoardController.getView().getCell(adjacentRow, adjacentCol).setNumber(valueFromPoints);
+                                gameBoardController.getActions().add(new Action(adjacentRow, adjacentCol, valueFromPoints));
+                                filled = true;
+                            }
                         }
                     }
                 }
@@ -112,7 +117,7 @@ public class GameHelperImpl implements GameHelper {
         }
     
         return filled;
-    }
+    }    
 
     /**
      * Détermine la valeur d'une cellule en fonction des points adjacents.
@@ -181,4 +186,29 @@ public class GameHelperImpl implements GameHelper {
 
         return 0; // Retourner 0 si aucune valeur déterminée
     }
+
+    /**
+     * Vérifie si le chiffre spécifié crée un conflit dans la ligne ou la colonne.
+     * @param row
+     * @param col
+     * @param number
+     * @return true si le chiffre crée un conflit, false sinon
+     */
+    private boolean createsConflict(int row, int col, int number) {
+        // Vérifie si le chiffre est déjà présent dans la même ligne
+        for (int i = 0; i < gameBoardController.getModel().getGridSize(); i++) {
+            if (gameBoardController.getView().getCell(row, i).getNumber() == number && i != col) {
+                return true;
+            }
+        }
+        
+        // Vérifie si le chiffre est déjà présent dans la même colonne
+        for (int i = 0; i < gameBoardController.getModel().getGridSize(); i++) {
+            if (gameBoardController.getView().getCell(i, col).getNumber() == number && i != row) {
+                return true;
+            }
+        }
+        
+        return false;
+    }    
 }

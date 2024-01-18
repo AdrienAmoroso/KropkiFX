@@ -13,7 +13,7 @@ public interface KropkiConstants {
         int SCENE_HEIGHT = 770; // Hauteur de la scène
 
         /*** Styles des composants de la vue ***/
-        String GAMEBOARD_STYLE = "-fx-background-color: lightblue;" // Couleur de fond du plateau de jeu
+        String GAMEBOARD_STYLE = "-fx-background-color: black;" // Couleur de fond du plateau de jeu
                 + "-fx-border-color: white;" // Couleur de bordure du plateau de jeu
                 + "-fx-border-width: 2px;"; // Largeur de bordure du plateau de jeu
 
