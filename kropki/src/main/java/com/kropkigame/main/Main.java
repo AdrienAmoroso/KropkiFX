@@ -64,6 +64,7 @@ public class Main extends Application implements SceneSwitcher {
 
         Scene gameScene = new Scene(view, KropkiConstants.SCENE_WIDTH, KropkiConstants.SCENE_HEIGHT);
         gameScene.getStylesheets().add(getClass().getResource("/com/kropkigame/main/style.css").toExternalForm());
+        gameController.getGameBoardController().getView().setStyle(KropkiConstants.GAMEBOARD_STYLE);
         gameController.getGameBoardController().addResizeListener(primaryStage);
         primaryStage.setScene(gameScene);
         primaryStage.show();

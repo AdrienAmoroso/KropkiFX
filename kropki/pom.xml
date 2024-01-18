@@ -66,18 +66,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <!-- Uncomment and configure if you need to deploy to a Maven repository -->
-    <!--
-    <distributionManagement>
-        <repository>
-            <id>your-repo-id</id>
-            <url>your-repository-url</url>
-        </repository>
-        <snapshotRepository>
-            <id>your-snapshot-repo-id</id>
-            <url>your-snapshot-repository-url</url>
-        </snapshotRepository>
-    </distributionManagement>
-    -->
 </project>
